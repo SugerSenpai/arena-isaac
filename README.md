@@ -24,3 +24,5 @@ run colcon build for start working.
 ```
 ./colcon build
 ```
+
+*NOTE: the installation just long, do not interupt.
