@@ -22,7 +22,7 @@ create the environment and install dependencies.
 
 run colcon build for start working.
 ```
-./colcon build
+./colcon_build
 ```
 
 *NOTE: the installation just long, do not interupt.
