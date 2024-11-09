@@ -1,5 +1,12 @@
 # Arena4-IsaacSim
 
+## Tasks
+Working on:
+ - [ ] IsaacSim launch file.
+ - [ ] Service add usd file to environment.
+ - [ ] Service convert urdf to usd.
+ - [ ] Servoce convert sdf to usd.
+
 ## How to run.
 
 clone the project.
@@ -17,10 +24,3 @@ run colcon build for start working.
 ```
 ./colcon build
 ```
-
-## Tasks
-Working on:
- - [ ] IsaacSim launch file.
- - [ ] Service add usd file to environment.
- - [ ] Service convert urdf to usd.
- - [ ] Servoce convert sdf to usd.
