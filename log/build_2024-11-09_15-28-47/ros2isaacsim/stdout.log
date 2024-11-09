@@ -1,0 +1,19 @@
+running egg_info
+writing ../../build/ros2isaacsim/ros2isaacsim.egg-info/PKG-INFO
+writing dependency_links to ../../build/ros2isaacsim/ros2isaacsim.egg-info/dependency_links.txt
+writing entry points to ../../build/ros2isaacsim/ros2isaacsim.egg-info/entry_points.txt
+writing requirements to ../../build/ros2isaacsim/ros2isaacsim.egg-info/requires.txt
+writing top-level names to ../../build/ros2isaacsim/ros2isaacsim.egg-info/top_level.txt
+reading manifest file '../../build/ros2isaacsim/ros2isaacsim.egg-info/SOURCES.txt'
+writing manifest file '../../build/ros2isaacsim/ros2isaacsim.egg-info/SOURCES.txt'
+running build
+running build_py
+running install
+running install_lib
+running install_data
+running install_egg_info
+removing '/home/brainfucker/Arena4-IsaacSim/install/ros2isaacsim/lib/python3.10/site-packages/ros2isaacsim-0.0.0-py3.10.egg-info' (and everything under it)
+Copying ../../build/ros2isaacsim/ros2isaacsim.egg-info to /home/brainfucker/Arena4-IsaacSim/install/ros2isaacsim/lib/python3.10/site-packages/ros2isaacsim-0.0.0-py3.10.egg-info
+running install_scripts
+Installing run_isaacsim script to /home/brainfucker/Arena4-IsaacSim/install/ros2isaacsim/lib/ros2isaacsim
+writing list of installed files to '/home/brainfucker/Arena4-IsaacSim/build/ros2isaacsim/install.log'
