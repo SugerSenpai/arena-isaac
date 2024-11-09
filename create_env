@@ -6,6 +6,10 @@ virtualenv venv
 source venv/bin/activate
 
 # install dependencies.
+export ISAACSIM_PATH="${HOME}/.local/share/ov/pkg/isaac-sim-4.2.0"
+export ISAACSIM_PYTHON_EXE="${ISAACSIM_PATH}/python.sh"
+${ISAACSIM_PYTHON_EXE} -c "print('Isaac Sim configuration is now complete.')"
+
 pip install --upgrade pip
 pip install torch==2.4.0 --index-url https://download.pytorch.org/whl/cu121
 pip install isaacsim-rl isaacsim-replicator isaacsim-extscache-physics isaacsim-extscache-kit-sdk isaacsim-extscache-kit isaacsim-app --extra-index-url https://pypi.nvidia.com
@@ -13,7 +17,7 @@ pip install -r requirements.txt
 mkdir venv/COLCON_IGNORE
 
 # install isaac lab.
-git clone git@github.com:isaac-sim/IsaacLab.git
+git clone https://github.com/isaac-sim/IsaacLab.git
 cd IsaacLab
 mkdir COLCON_IGNORE
 sudo apt install cmake build-essential
