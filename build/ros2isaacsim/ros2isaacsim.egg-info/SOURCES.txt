@@ -8,6 +8,7 @@ setup.py
 ../../build/ros2isaacsim/ros2isaacsim.egg-info/requires.txt
 ../../build/ros2isaacsim/ros2isaacsim.egg-info/top_level.txt
 ../../build/ros2isaacsim/ros2isaacsim.egg-info/zip-safe
+launch/run_isaacsim.launch.py
 resource/ros2isaacsim
 ros2isaacsim/__init__.py
 ros2isaacsim/run_isaacsim.py
