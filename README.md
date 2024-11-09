@@ -2,6 +2,12 @@
 
 ## How to run.
 
+clone the project.
+```
+git clone https://github.com/Bigkatoan/Arena4-IsaacSim.git
+cd Arena4-IsaacSim
+```
+
 create the environment and install dependencies.
 ```
 ./ create_env
