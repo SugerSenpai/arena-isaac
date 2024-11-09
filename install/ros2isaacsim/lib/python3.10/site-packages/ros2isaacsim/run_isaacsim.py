@@ -12,6 +12,12 @@ class run_isaacsim(Node):
         })
         from omni.isaac.core import World
         self.world = World()
+        self.world.scene.add_default_ground_plane()
+        self.fps = 500
+        self.timer_ = self.create_timer(1/self.fps, self.run)
+
+    def run(self):
+        self.world.step()
                 
 def main(arg=None):
     rclpy.init()
