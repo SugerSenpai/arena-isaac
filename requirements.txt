@@ -279,7 +279,7 @@ theora-image-transport==2.5.2
 tinycss2==1.4.0
 tomli==2.0.2
 topic-monitor==0.20.5
-torch==2.4.0+cu121
+torch==2.4.0 --index-url https://download.pytorch.org/whl/cu121
 tornado==6.4.1
 traitlets==5.14.3
 trajectory-msgs==4.2.4
