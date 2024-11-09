@@ -1,6 +1,6 @@
-# Arena4-IsaacSim
+# Arena4-IsaacSim.
 
-## Tasks
+## Tasks.
 Working on:
  - [ ] IsaacSim launch file.
  - [ ] Service add usd file to environment.
@@ -17,7 +17,7 @@ cd Arena4-IsaacSim
 
 create the environment and install dependencies.
 ```
-./ create_env
+./create_env
 ```
 
 run colcon build for start working.
