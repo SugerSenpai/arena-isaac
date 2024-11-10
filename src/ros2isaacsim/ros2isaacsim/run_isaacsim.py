@@ -10,6 +10,8 @@ class run_isaacsim(Node):
         self.simulation_app = SimulationApp({
             "headless": False
         })
+        from omni.isaac.core.utils.extensions import enable_extension
+        enable_extension("omni.isaac.ros2_bridge")
         from omni.isaac.core import World
         self.world = World()
         self.world.scene.add_default_ground_plane()
