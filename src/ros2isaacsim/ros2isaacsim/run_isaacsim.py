@@ -1,4 +1,4 @@
-from isaacsim import SimulationApp
+from omni.isaac.kit import SimulationApp
 import argparse
 import rclpy
 from rclpy.node import Node

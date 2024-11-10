@@ -20,3 +20,5 @@ sudo apt install cmake build-essential
 ./isaaclab.sh -i
 cd ..
 cp venv/.gitignore IsaacLab/
+cp ~/Arena4-IsaacSim/setup.bash ~/.local/share/ov/pkg/isaac-sim-4.2.0/setup.bash
+rm setup.bash
