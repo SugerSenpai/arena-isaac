@@ -9,6 +9,10 @@ Working on:
 
 ## How to run.
 
+You need to install ros2 before run this scripts 
+```
+https://docs.ros.org/en/humble/index.html
+```
 clone the project.
 ```
 git clone https://github.com/Bigkatoan/Arena4-IsaacSim.git
