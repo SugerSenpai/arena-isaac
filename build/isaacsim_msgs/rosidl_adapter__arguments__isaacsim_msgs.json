@@ -1,0 +1,9 @@
+{
+  "package_name": "isaacsim_msgs",
+  "non_idl_tuples": [
+    "/home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs:msg/PrimPath.msg",
+    "/home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs:msg/Quat.msg",
+    "/home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs:msg/Euler.msg",
+    "/home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUsd.srv"
+  ]
+}
