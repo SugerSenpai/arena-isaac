@@ -9,11 +9,19 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 
-rosidl_generate_interfaces(${PROJECT_NAME}
+set(msg_files
   "msg/PrimPath.msg"
   "msg/Quat.msg"
-  "msg/Euler.msg"
+  )
+
+set(srv_files
   "srv/ImportUsd.srv"
+  "UrdfToUsd.srv"
+  )
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${msg_files}
+  ${srv_files}
  )
 # uncomment the following section in order to fill in
 # further dependencies manually.

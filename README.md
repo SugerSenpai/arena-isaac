@@ -4,7 +4,7 @@
 Working on:
  - [x] IsaacSim launch file.
  - [x] Service add usd file to environment.
- - [ ] Service convert urdf to usd.
+ - [x] Service convert urdf to usd.
  - [ ] Servoce convert sdf to usd.
 
 ## How to run.
