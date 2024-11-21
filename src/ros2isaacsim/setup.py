@@ -23,7 +23,8 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            "run_isaacsim=ros2isaacsim.run_isaacsim:main"
+            "run_isaacsim=ros2isaacsim.run_isaacsim:main",
+            "convert_urdf_usd=ros2isaacsim.convert_urdf_usd:main"
         ],
     },
 )

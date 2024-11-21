@@ -1,2 +1,0 @@
-[console_scripts]
-run_isaacsim = ros2isaacsim.run_isaacsim:main
