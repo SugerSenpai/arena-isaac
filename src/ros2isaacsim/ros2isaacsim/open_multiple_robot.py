@@ -39,9 +39,9 @@ xform_api.SetRotate(Gf.Vec3f(0, 0, 90))
 xform_api_2.SetTranslate((18.9,-9.5,14.67))
 xform_api_2.SetRotate(Gf.Vec3f(56, 0, 60))
 
-add_reference_to_stage(usd_path="/home/giang/Ominiverse/isaac-sim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
-add_reference_to_stage(usd_path="/home/giang/Ominiverse/isaac-sim/robot_models/Arena_rosnav/jackal.usd", prim_path="/World/jackal")
-add_reference_to_stage(usd_path="/home/giang/Ominiverse/isaac-sim/robot_models/Arena_rosnav/turtlebot3_burger.usd", prim_path="/World/turtlebot3_burger")
+add_reference_to_stage(usd_path="//home/giang/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
+add_reference_to_stage(usd_path="/home/giang/Arena4-IsaacSim/robot_models/Arena_rosnav/jackal.usd", prim_path="/World/jackal")
+add_reference_to_stage(usd_path="/home/giang/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_burger.usd", prim_path="/World/turtlebot3_burger")
 
 world.scene.add(XFormPrim(prim_path="/World/turtlebot3_waffle", name="robot1", position=[0.5,1,0]))
 world.scene.add(XFormPrim(prim_path="/World/jackal", name="robot2", position=[0.5,0,0]))
