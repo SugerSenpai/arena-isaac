@@ -1,0 +1,3 @@
+ros2 service call /import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'jackal', 'usd_path': '~/Arena4-IsaacSim/robot_models/Arena_rosnav/jackal.usd', 'prim_path': '/World', 'control': True}"
+
+ros2 service call /import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': '~/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd', 'prim_path': '/World', 'control': True}"

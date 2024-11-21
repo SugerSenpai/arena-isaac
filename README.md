@@ -3,8 +3,8 @@
 ## Tasks.
 Working on:
  - [x] IsaacSim launch file.
- - [ ] Service add usd file to environment.
- - [ ] Service convert urdf to usd.
+ - [x] Service add usd file to environment.
+ - [x] Service convert urdf to usd.
  - [ ] Servoce convert sdf to usd.
 
 ## How to run.
