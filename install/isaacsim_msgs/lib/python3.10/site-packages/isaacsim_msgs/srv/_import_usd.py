@@ -55,26 +55,34 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
     """Message class 'ImportUsd_Request'."""
 
     __slots__ = [
+        '_name',
         '_usd_path',
         '_prim_path',
+        '_control',
     ]
 
     _fields_and_field_types = {
+        'name': 'string',
         'usd_path': 'string',
         'prim_path': 'string',
+        'control': 'boolean',
     }
 
     SLOT_TYPES = (
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
+        rosidl_parser.definition.UnboundedString(),  # noqa: E501
+        rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
     )
 
     def __init__(self, **kwargs):
         assert all('_' + key in self.__slots__ for key in kwargs.keys()), \
             'Invalid arguments passed to constructor: %s' % \
             ', '.join(sorted(k for k in kwargs.keys() if '_' + k not in self.__slots__))
+        self.name = kwargs.get('name', str())
         self.usd_path = kwargs.get('usd_path', str())
         self.prim_path = kwargs.get('prim_path', str())
+        self.control = kwargs.get('control', bool())
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -105,9 +113,13 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
             return False
+        if self.name != other.name:
+            return False
         if self.usd_path != other.usd_path:
             return False
         if self.prim_path != other.prim_path:
+            return False
+        if self.control != other.control:
             return False
         return True
 
@@ -115,6 +127,19 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
     def get_fields_and_field_types(cls):
         from copy import copy
         return copy(cls._fields_and_field_types)
+
+    @builtins.property
+    def name(self):
+        """Message field 'name'."""
+        return self._name
+
+    @name.setter
+    def name(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, str), \
+                "The 'name' field must be of type 'str'"
+        self._name = value
 
     @builtins.property
     def usd_path(self):
@@ -141,6 +166,19 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
                 isinstance(value, str), \
                 "The 'prim_path' field must be of type 'str'"
         self._prim_path = value
+
+    @builtins.property
+    def control(self):
+        """Message field 'control'."""
+        return self._control
+
+    @control.setter
+    def control(self, value):
+        if __debug__:
+            assert \
+                isinstance(value, bool), \
+                "The 'control' field must be of type 'bool'"
+        self._control = value
 
 
 # Import statements for member types

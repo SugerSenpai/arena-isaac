@@ -372,6 +372,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/msg" TYPE FILE FILES "/home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs/msg/PrimPath.msg")
 endif()
 
@@ -393,6 +397,18 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportUsd_Response.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs/srv/UrdfToUsd.srv")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/UrdfToUsd_Request.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/UrdfToUsd_Response.msg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

@@ -13,6 +13,7 @@ launch/run_isaacsim.launch.py
 launch/.ipynb_checkpoints/run_isaacsim.launch-checkpoint.py
 resource/ros2isaacsim
 ros2isaacsim/__init__.py
+ros2isaacsim/convert_urdf_usd.py
 ros2isaacsim/main.ipynb
 ros2isaacsim/run_isaacsim.py
 ros2isaacsim/.ipynb_checkpoints/main-checkpoint.ipynb

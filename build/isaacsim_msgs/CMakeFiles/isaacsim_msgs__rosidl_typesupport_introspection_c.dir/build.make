@@ -81,6 +81,7 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_ty
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h: rosidl_adapter/isaacsim_msgs/msg/Quat.idl
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h: rosidl_adapter/isaacsim_msgs/msg/Euler.idl
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
+rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C introspection for ROS interfaces"
 	/home/brainfucker/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/lib/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c --generator-arguments-file /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c__arguments.json
 
@@ -93,6 +94,9 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/euler__rosidl_typesu
 rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesupport_introspection_c.h
 
+rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__rosidl_typesupport_introspection_c.h: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__rosidl_typesupport_introspection_c.h
+
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c
 
@@ -104,6 +108,9 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/euler__type_support.
 
 rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c
+
+rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__rosidl_typesupport_introspection_c.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c
 
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c.o: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c
@@ -161,12 +168,27 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c -o CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c.s
 
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/flags.make
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o -c /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c
+
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c > CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.i
+
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c -o CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.s
+
 # Object files for target isaacsim_msgs__rosidl_typesupport_introspection_c
 isaacsim_msgs__rosidl_typesupport_introspection_c_OBJECTS = \
 "CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c.o" \
 "CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/quat__type_support.c.o" \
 "CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/euler__type_support.c.o" \
-"CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c.o"
+"CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c.o" \
+"CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o"
 
 # External object files for target isaacsim_msgs__rosidl_typesupport_introspection_c
 isaacsim_msgs__rosidl_typesupport_introspection_c_EXTERNAL_OBJECTS =
@@ -175,13 +197,14 @@ libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msg
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/quat__type_support.c.o
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/euler__type_support.c.o
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c.o
+libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/build.make
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: libisaacsim_msgs__rosidl_generator_c.so
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib/librosidl_typesupport_introspection_c.so
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: /opt/ros/humble/lib/librcutils.so
 libisaacsim_msgs__rosidl_typesupport_introspection_c.so: CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C shared library libisaacsim_msgs__rosidl_typesupport_introspection_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C shared library libisaacsim_msgs__rosidl_typesupport_introspection_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -200,6 +223,8 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend: rosidl_
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/quat__type_support.c
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesupport_introspection_c.h
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__rosidl_typesupport_introspection_c.h
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c
 	cd /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/depend
 

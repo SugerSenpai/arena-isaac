@@ -25,6 +25,13 @@ inline void to_flow_style_yaml(
   std::ostream & out)
 {
   out << "{";
+  // member: name
+  {
+    out << "name: ";
+    rosidl_generator_traits::value_to_yaml(msg.name, out);
+    out << ", ";
+  }
+
   // member: usd_path
   {
     out << "usd_path: ";
@@ -36,6 +43,13 @@ inline void to_flow_style_yaml(
   {
     out << "prim_path: ";
     rosidl_generator_traits::value_to_yaml(msg.prim_path, out);
+    out << ", ";
+  }
+
+  // member: control
+  {
+    out << "control: ";
+    rosidl_generator_traits::value_to_yaml(msg.control, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -44,6 +58,16 @@ inline void to_block_style_yaml(
   const ImportUsd_Request & msg,
   std::ostream & out, size_t indentation = 0)
 {
+  // member: name
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "name: ";
+    rosidl_generator_traits::value_to_yaml(msg.name, out);
+    out << "\n";
+  }
+
   // member: usd_path
   {
     if (indentation > 0) {
@@ -61,6 +85,16 @@ inline void to_block_style_yaml(
     }
     out << "prim_path: ";
     rosidl_generator_traits::value_to_yaml(msg.prim_path, out);
+    out << "\n";
+  }
+
+  // member: control
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "control: ";
+    rosidl_generator_traits::value_to_yaml(msg.control, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

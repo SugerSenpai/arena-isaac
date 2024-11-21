@@ -18,6 +18,7 @@ extern "C"
 // Constants defined in the message
 
 // Include directives for member types
+// Member 'name'
 // Member 'usd_path'
 // Member 'prim_path'
 #include "rosidl_runtime_c/string.h"
@@ -25,8 +26,10 @@ extern "C"
 /// Struct defined in srv/ImportUsd in the package isaacsim_msgs.
 typedef struct isaacsim_msgs__srv__ImportUsd_Request
 {
+  rosidl_runtime_c__String name;
   rosidl_runtime_c__String usd_path;
   rosidl_runtime_c__String prim_path;
+  bool control;
 } isaacsim_msgs__srv__ImportUsd_Request;
 
 // Struct for a sequence of isaacsim_msgs__srv__ImportUsd_Request.

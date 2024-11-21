@@ -12,6 +12,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/isaacsim_msgs/srv/__init__.py"
   "../rosidl_generator_py/isaacsim_msgs/srv/_import_usd.py"
   "../rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c"
+  "../rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py"
+  "../rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c"
   "CMakeFiles/isaacsim_msgs__py"
 )
 

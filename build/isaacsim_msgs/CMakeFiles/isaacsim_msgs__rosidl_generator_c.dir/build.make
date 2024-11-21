@@ -86,6 +86,7 @@ rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/m
 rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/msg/Quat.idl
 rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/msg/Euler.idl
 rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
+rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C code for ROS interfaces"
 	/home/brainfucker/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_c/cmake/../../../lib/rosidl_generator_c/rosidl_generator_c --generator-arguments-file /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c__arguments.json
 
@@ -134,6 +135,18 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h: rosidl_generat
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h
 
+rosidl_generator_c/isaacsim_msgs/srv/urdf_to_usd.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/urdf_to_usd.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h
+
 rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c
 
@@ -145,6 +158,9 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c: rosidl_generator
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o: rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c
@@ -202,12 +218,27 @@ CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msg
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.s"
 	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.s
 
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o -c /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s
+
 # Object files for target isaacsim_msgs__rosidl_generator_c
 isaacsim_msgs__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o" \
 "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o" \
 "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o" \
-"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o"
+"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o" \
+"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o"
 
 # External object files for target isaacsim_msgs__rosidl_generator_c
 isaacsim_msgs__rosidl_generator_c_EXTERNAL_OBJECTS =
@@ -216,11 +247,12 @@ libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_genera
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o
+libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/build.make
 libisaacsim_msgs__rosidl_generator_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libisaacsim_msgs__rosidl_generator_c.so: /opt/ros/humble/lib/librcutils.so
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking C shared library libisaacsim_msgs__rosidl_generator_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C shared library libisaacsim_msgs__rosidl_generator_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -250,7 +282,12 @@ CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaa
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/import_usd.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/urdf_to_usd.h
 	cd /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend
 

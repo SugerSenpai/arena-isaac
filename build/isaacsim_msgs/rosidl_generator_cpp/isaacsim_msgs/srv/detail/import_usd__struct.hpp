@@ -38,32 +38,49 @@ struct ImportUsd_Request_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
+      this->name = "";
       this->usd_path = "";
       this->prim_path = "";
+      this->control = false;
     }
   }
 
   explicit ImportUsd_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : usd_path(_alloc),
+  : name(_alloc),
+    usd_path(_alloc),
     prim_path(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
+      this->name = "";
       this->usd_path = "";
       this->prim_path = "";
+      this->control = false;
     }
   }
 
   // field types and members
+  using _name_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _name_type name;
   using _usd_path_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _usd_path_type usd_path;
   using _prim_path_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _prim_path_type prim_path;
+  using _control_type =
+    bool;
+  _control_type control;
 
   // setters for named parameter idiom
+  Type & set__name(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->name = _arg;
+    return *this;
+  }
   Type & set__usd_path(
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
@@ -74,6 +91,12 @@ struct ImportUsd_Request_
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
     this->prim_path = _arg;
+    return *this;
+  }
+  Type & set__control(
+    const bool & _arg)
+  {
+    this->control = _arg;
     return *this;
   }
 
@@ -119,10 +142,16 @@ struct ImportUsd_Request_
   // comparison operators
   bool operator==(const ImportUsd_Request_ & other) const
   {
+    if (this->name != other.name) {
+      return false;
+    }
     if (this->usd_path != other.usd_path) {
       return false;
     }
     if (this->prim_path != other.prim_path) {
+      return false;
+    }
+    if (this->control != other.control) {
       return false;
     }
     return true;

@@ -32,10 +32,14 @@ cdr_serialize(
   const isaacsim_msgs::srv::ImportUsd_Request & ros_message,
   eprosima::fastcdr::Cdr & cdr)
 {
+  // Member: name
+  cdr << ros_message.name;
   // Member: usd_path
   cdr << ros_message.usd_path;
   // Member: prim_path
   cdr << ros_message.prim_path;
+  // Member: control
+  cdr << (ros_message.control ? true : false);
   return true;
 }
 
@@ -45,11 +49,21 @@ cdr_deserialize(
   eprosima::fastcdr::Cdr & cdr,
   isaacsim_msgs::srv::ImportUsd_Request & ros_message)
 {
+  // Member: name
+  cdr >> ros_message.name;
+
   // Member: usd_path
   cdr >> ros_message.usd_path;
 
   // Member: prim_path
   cdr >> ros_message.prim_path;
+
+  // Member: control
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message.control = tmp ? true : false;
+  }
 
   return true;
 }
@@ -67,6 +81,10 @@ get_serialized_size(
   (void)padding;
   (void)wchar_size;
 
+  // Member: name
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message.name.size() + 1);
   // Member: usd_path
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
@@ -75,6 +93,12 @@ get_serialized_size(
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
     (ros_message.prim_path.size() + 1);
+  // Member: control
+  {
+    size_t item_size = sizeof(ros_message.control);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
 
   return current_alignment - initial_alignment;
 }
@@ -99,6 +123,19 @@ max_serialized_size_ImportUsd_Request(
   is_plain = true;
 
 
+  // Member: name
+  {
+    size_t array_size = 1;
+
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
+  }
+
   // Member: usd_path
   {
     size_t array_size = 1;
@@ -125,6 +162,14 @@ max_serialized_size_ImportUsd_Request(
     }
   }
 
+  // Member: control
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
+
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -133,7 +178,7 @@ max_serialized_size_ImportUsd_Request(
     using DataType = isaacsim_msgs::srv::ImportUsd_Request;
     is_plain =
       (
-      offsetof(DataType, prim_path) +
+      offsetof(DataType, control) +
       last_member_size
       ) == ret_val;
   }

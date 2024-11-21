@@ -24,6 +24,8 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/srv/__init__.py" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/srv/_import_usd.py" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c"
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c"
+  "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c"
   )
 
 

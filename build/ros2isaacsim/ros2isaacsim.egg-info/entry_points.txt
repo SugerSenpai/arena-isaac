@@ -1,2 +1,3 @@
 [console_scripts]
+convert_urdf_usd = ros2isaacsim.convert_urdf_usd:main
 run_isaacsim = ros2isaacsim.run_isaacsim:main

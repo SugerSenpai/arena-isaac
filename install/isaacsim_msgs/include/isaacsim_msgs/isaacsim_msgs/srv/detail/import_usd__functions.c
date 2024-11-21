@@ -11,6 +11,7 @@
 #include "rcutils/allocator.h"
 
 // Include directives for member types
+// Member `name`
 // Member `usd_path`
 // Member `prim_path`
 #include "rosidl_runtime_c/string_functions.h"
@@ -19,6 +20,11 @@ bool
 isaacsim_msgs__srv__ImportUsd_Request__init(isaacsim_msgs__srv__ImportUsd_Request * msg)
 {
   if (!msg) {
+    return false;
+  }
+  // name
+  if (!rosidl_runtime_c__String__init(&msg->name)) {
+    isaacsim_msgs__srv__ImportUsd_Request__fini(msg);
     return false;
   }
   // usd_path
@@ -31,6 +37,7 @@ isaacsim_msgs__srv__ImportUsd_Request__init(isaacsim_msgs__srv__ImportUsd_Reques
     isaacsim_msgs__srv__ImportUsd_Request__fini(msg);
     return false;
   }
+  // control
   return true;
 }
 
@@ -40,16 +47,25 @@ isaacsim_msgs__srv__ImportUsd_Request__fini(isaacsim_msgs__srv__ImportUsd_Reques
   if (!msg) {
     return;
   }
+  // name
+  rosidl_runtime_c__String__fini(&msg->name);
   // usd_path
   rosidl_runtime_c__String__fini(&msg->usd_path);
   // prim_path
   rosidl_runtime_c__String__fini(&msg->prim_path);
+  // control
 }
 
 bool
 isaacsim_msgs__srv__ImportUsd_Request__are_equal(const isaacsim_msgs__srv__ImportUsd_Request * lhs, const isaacsim_msgs__srv__ImportUsd_Request * rhs)
 {
   if (!lhs || !rhs) {
+    return false;
+  }
+  // name
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->name), &(rhs->name)))
+  {
     return false;
   }
   // usd_path
@@ -64,6 +80,10 @@ isaacsim_msgs__srv__ImportUsd_Request__are_equal(const isaacsim_msgs__srv__Impor
   {
     return false;
   }
+  // control
+  if (lhs->control != rhs->control) {
+    return false;
+  }
   return true;
 }
 
@@ -73,6 +93,12 @@ isaacsim_msgs__srv__ImportUsd_Request__copy(
   isaacsim_msgs__srv__ImportUsd_Request * output)
 {
   if (!input || !output) {
+    return false;
+  }
+  // name
+  if (!rosidl_runtime_c__String__copy(
+      &(input->name), &(output->name)))
+  {
     return false;
   }
   // usd_path
@@ -87,6 +113,8 @@ isaacsim_msgs__srv__ImportUsd_Request__copy(
   {
     return false;
   }
+  // control
+  output->control = input->control;
   return true;
 }
 

@@ -53,6 +53,21 @@ bool isaacsim_msgs__srv__import_usd__request__convert_from_py(PyObject * _pymsg,
     assert(strncmp("isaacsim_msgs.srv._import_usd.ImportUsd_Request", full_classname_dest, 47) == 0);
   }
   isaacsim_msgs__srv__ImportUsd_Request * ros_message = _ros_message;
+  {  // name
+    PyObject * field = PyObject_GetAttrString(_pymsg, "name");
+    if (!field) {
+      return false;
+    }
+    assert(PyUnicode_Check(field));
+    PyObject * encoded_field = PyUnicode_AsUTF8String(field);
+    if (!encoded_field) {
+      Py_DECREF(field);
+      return false;
+    }
+    rosidl_runtime_c__String__assign(&ros_message->name, PyBytes_AS_STRING(encoded_field));
+    Py_DECREF(encoded_field);
+    Py_DECREF(field);
+  }
   {  // usd_path
     PyObject * field = PyObject_GetAttrString(_pymsg, "usd_path");
     if (!field) {
@@ -83,6 +98,15 @@ bool isaacsim_msgs__srv__import_usd__request__convert_from_py(PyObject * _pymsg,
     Py_DECREF(encoded_field);
     Py_DECREF(field);
   }
+  {  // control
+    PyObject * field = PyObject_GetAttrString(_pymsg, "control");
+    if (!field) {
+      return false;
+    }
+    assert(PyBool_Check(field));
+    ros_message->control = (Py_True == field);
+    Py_DECREF(field);
+  }
 
   return true;
 }
@@ -105,6 +129,23 @@ PyObject * isaacsim_msgs__srv__import_usd__request__convert_to_py(void * raw_ros
     }
   }
   isaacsim_msgs__srv__ImportUsd_Request * ros_message = (isaacsim_msgs__srv__ImportUsd_Request *)raw_ros_message;
+  {  // name
+    PyObject * field = NULL;
+    field = PyUnicode_DecodeUTF8(
+      ros_message->name.data,
+      strlen(ros_message->name.data),
+      "replace");
+    if (!field) {
+      return NULL;
+    }
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "name", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
   {  // usd_path
     PyObject * field = NULL;
     field = PyUnicode_DecodeUTF8(
@@ -133,6 +174,17 @@ PyObject * isaacsim_msgs__srv__import_usd__request__convert_to_py(void * raw_ros
     }
     {
       int rc = PyObject_SetAttrString(_pymessage, "prim_path", field);
+      Py_DECREF(field);
+      if (rc) {
+        return NULL;
+      }
+    }
+  }
+  {  // control
+    PyObject * field = NULL;
+    field = PyBool_FromLong(ros_message->control ? 1 : 0);
+    {
+      int rc = PyObject_SetAttrString(_pymessage, "control", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

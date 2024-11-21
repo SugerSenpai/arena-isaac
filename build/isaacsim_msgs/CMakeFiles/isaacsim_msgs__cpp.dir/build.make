@@ -82,6 +82,10 @@ CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_usd
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp
 
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: /opt/ros/humble/lib/rosidl_generator_cpp/rosidl_generator_cpp
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: /opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_generator_cpp/__init__.py
@@ -102,6 +106,7 @@ rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_ms
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Quat.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Euler.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
+rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code for ROS interfaces"
 	/home/brainfucker/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_cpp/cmake/../../../lib/rosidl_generator_cpp/rosidl_generator_cpp --generator-arguments-file /home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp__arguments.json
 
@@ -150,6 +155,18 @@ rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp: rosidl_gen
 rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp
 
+rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp
+
 isaacsim_msgs__cpp: CMakeFiles/isaacsim_msgs__cpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__struct.hpp
@@ -166,7 +183,11 @@ isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/quat.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp
 isaacsim_msgs__cpp: CMakeFiles/isaacsim_msgs__cpp.dir/build.make
 .PHONY : isaacsim_msgs__cpp
 

@@ -21,16 +21,32 @@ namespace srv
 namespace builder
 {
 
+class Init_ImportUsd_Request_control
+{
+public:
+  explicit Init_ImportUsd_Request_control(::isaacsim_msgs::srv::ImportUsd_Request & msg)
+  : msg_(msg)
+  {}
+  ::isaacsim_msgs::srv::ImportUsd_Request control(::isaacsim_msgs::srv::ImportUsd_Request::_control_type arg)
+  {
+    msg_.control = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::isaacsim_msgs::srv::ImportUsd_Request msg_;
+};
+
 class Init_ImportUsd_Request_prim_path
 {
 public:
   explicit Init_ImportUsd_Request_prim_path(::isaacsim_msgs::srv::ImportUsd_Request & msg)
   : msg_(msg)
   {}
-  ::isaacsim_msgs::srv::ImportUsd_Request prim_path(::isaacsim_msgs::srv::ImportUsd_Request::_prim_path_type arg)
+  Init_ImportUsd_Request_control prim_path(::isaacsim_msgs::srv::ImportUsd_Request::_prim_path_type arg)
   {
     msg_.prim_path = std::move(arg);
-    return std::move(msg_);
+    return Init_ImportUsd_Request_control(msg_);
   }
 
 private:
@@ -40,13 +56,29 @@ private:
 class Init_ImportUsd_Request_usd_path
 {
 public:
-  Init_ImportUsd_Request_usd_path()
-  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  explicit Init_ImportUsd_Request_usd_path(::isaacsim_msgs::srv::ImportUsd_Request & msg)
+  : msg_(msg)
   {}
   Init_ImportUsd_Request_prim_path usd_path(::isaacsim_msgs::srv::ImportUsd_Request::_usd_path_type arg)
   {
     msg_.usd_path = std::move(arg);
     return Init_ImportUsd_Request_prim_path(msg_);
+  }
+
+private:
+  ::isaacsim_msgs::srv::ImportUsd_Request msg_;
+};
+
+class Init_ImportUsd_Request_name
+{
+public:
+  Init_ImportUsd_Request_name()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_ImportUsd_Request_usd_path name(::isaacsim_msgs::srv::ImportUsd_Request::_name_type arg)
+  {
+    msg_.name = std::move(arg);
+    return Init_ImportUsd_Request_usd_path(msg_);
   }
 
 private:
@@ -64,7 +96,7 @@ template<>
 inline
 auto build<::isaacsim_msgs::srv::ImportUsd_Request>()
 {
-  return isaacsim_msgs::srv::builder::Init_ImportUsd_Request_usd_path();
+  return isaacsim_msgs::srv::builder::Init_ImportUsd_Request_name();
 }
 
 }  // namespace isaacsim_msgs

@@ -12,11 +12,12 @@ find_package(rosidl_default_generators REQUIRED)
 set(msg_files
   "msg/PrimPath.msg"
   "msg/Quat.msg"
+  "msg/Euler.msg"
   )
 
 set(srv_files
   "srv/ImportUsd.srv"
-  "UrdfToUsd.srv"
+  "srv/UrdfToUsd.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

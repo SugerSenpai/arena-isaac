@@ -72,6 +72,9 @@ CMakeFiles/isaacsim_msgs: /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs/ms
 CMakeFiles/isaacsim_msgs: /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUsd.srv
 CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUsd_Request.msg
 CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUsd_Response.msg
+CMakeFiles/isaacsim_msgs: /home/brainfucker/Arena4-IsaacSim/src/isaacsim_msgs/srv/UrdfToUsd.srv
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/UrdfToUsd_Request.msg
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/UrdfToUsd_Response.msg
 
 isaacsim_msgs: CMakeFiles/isaacsim_msgs
 isaacsim_msgs: CMakeFiles/isaacsim_msgs.dir/build.make

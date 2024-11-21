@@ -6,7 +6,8 @@
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/PrimPath.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Quat.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Euler.idl",
-    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl"
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl",
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/UrdfToUsd.idl"
   ],
   "target_dependencies": [
     "/opt/ros/humble/lib/rosidl_typesupport_fastrtps_c/rosidl_typesupport_fastrtps_c",
@@ -20,6 +21,7 @@
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/PrimPath.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Quat.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl",
-    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl"
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl",
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl"
   ]
 }

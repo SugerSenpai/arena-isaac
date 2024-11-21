@@ -7,6 +7,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o.d"
   "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o"
   "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o.d"
+  "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o"
+  "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o.d"
   "libisaacsim_msgs__rosidl_generator_c.pdb"
   "libisaacsim_msgs__rosidl_generator_c.so"
   "rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c"
@@ -28,7 +30,12 @@ file(REMOVE_RECURSE
   "rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h"
   "rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h"
   "rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h"
+  "rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c"
+  "rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h"
+  "rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h"
+  "rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h"
   "rosidl_generator_c/isaacsim_msgs/srv/import_usd.h"
+  "rosidl_generator_c/isaacsim_msgs/srv/urdf_to_usd.h"
 )
 
 # Per-language clean rules from dependency scanning.

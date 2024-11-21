@@ -26,7 +26,11 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp" "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   )
 
 

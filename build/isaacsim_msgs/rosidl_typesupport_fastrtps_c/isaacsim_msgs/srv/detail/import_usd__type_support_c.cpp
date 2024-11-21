@@ -34,8 +34,8 @@ extern "C"
 {
 #endif
 
-#include "rosidl_runtime_c/string.h"  // prim_path, usd_path
-#include "rosidl_runtime_c/string_functions.h"  // prim_path, usd_path
+#include "rosidl_runtime_c/string.h"  // name, prim_path, usd_path
+#include "rosidl_runtime_c/string_functions.h"  // name, prim_path, usd_path
 
 // forward declare type support functions
 
@@ -51,6 +51,20 @@ static bool _ImportUsd_Request__cdr_serialize(
     return false;
   }
   const _ImportUsd_Request__ros_msg_type * ros_message = static_cast<const _ImportUsd_Request__ros_msg_type *>(untyped_ros_message);
+  // Field name: name
+  {
+    const rosidl_runtime_c__String * str = &ros_message->name;
+    if (str->capacity == 0 || str->capacity <= str->size) {
+      fprintf(stderr, "string capacity not greater than size\n");
+      return false;
+    }
+    if (str->data[str->size] != '\0') {
+      fprintf(stderr, "string not null-terminated\n");
+      return false;
+    }
+    cdr << str->data;
+  }
+
   // Field name: usd_path
   {
     const rosidl_runtime_c__String * str = &ros_message->usd_path;
@@ -79,6 +93,11 @@ static bool _ImportUsd_Request__cdr_serialize(
     cdr << str->data;
   }
 
+  // Field name: control
+  {
+    cdr << (ros_message->control ? true : false);
+  }
+
   return true;
 }
 
@@ -91,6 +110,22 @@ static bool _ImportUsd_Request__cdr_deserialize(
     return false;
   }
   _ImportUsd_Request__ros_msg_type * ros_message = static_cast<_ImportUsd_Request__ros_msg_type *>(untyped_ros_message);
+  // Field name: name
+  {
+    std::string tmp;
+    cdr >> tmp;
+    if (!ros_message->name.data) {
+      rosidl_runtime_c__String__init(&ros_message->name);
+    }
+    bool succeeded = rosidl_runtime_c__String__assign(
+      &ros_message->name,
+      tmp.c_str());
+    if (!succeeded) {
+      fprintf(stderr, "failed to assign string into field 'name'\n");
+      return false;
+    }
+  }
+
   // Field name: usd_path
   {
     std::string tmp;
@@ -123,6 +158,13 @@ static bool _ImportUsd_Request__cdr_deserialize(
     }
   }
 
+  // Field name: control
+  {
+    uint8_t tmp;
+    cdr >> tmp;
+    ros_message->control = tmp ? true : false;
+  }
+
   return true;
 }  // NOLINT(readability/fn_size)
 
@@ -140,6 +182,10 @@ size_t get_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
   (void)padding;
   (void)wchar_size;
 
+  // field.name name
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message->name.size + 1);
   // field.name usd_path
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
@@ -148,6 +194,12 @@ size_t get_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
     (ros_message->prim_path.size + 1);
+  // field.name control
+  {
+    size_t item_size = sizeof(ros_message->control);
+    current_alignment += item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
 
   return current_alignment - initial_alignment;
 }
@@ -177,6 +229,18 @@ size_t max_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
   full_bounded = true;
   is_plain = true;
 
+  // member: name
+  {
+    size_t array_size = 1;
+
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
+  }
   // member: usd_path
   {
     size_t array_size = 1;
@@ -201,6 +265,13 @@ size_t max_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
         1;
     }
   }
+  // member: control
+  {
+    size_t array_size = 1;
+
+    last_member_size = array_size * sizeof(uint8_t);
+    current_alignment += array_size * sizeof(uint8_t);
+  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -210,7 +281,7 @@ size_t max_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
     using DataType = isaacsim_msgs__srv__ImportUsd_Request;
     is_plain =
       (
-      offsetof(DataType, prim_path) +
+      offsetof(DataType, control) +
       last_member_size
       ) == ret_val;
   }

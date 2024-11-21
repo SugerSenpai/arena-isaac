@@ -8,3 +8,7 @@ srv/ImportUsd.idl
 srv/ImportUsd.srv
 srv/ImportUsd_Request.msg
 srv/ImportUsd_Response.msg
+srv/UrdfToUsd.idl
+srv/UrdfToUsd.srv
+srv/UrdfToUsd_Request.msg
+srv/UrdfToUsd_Response.msg

@@ -6,9 +6,13 @@
 module isaacsim_msgs {
   module srv {
     struct ImportUsd_Request {
+      string name;
+
       string usd_path;
 
       string prim_path;
+
+      boolean control;
     };
     struct ImportUsd_Response {
       boolean ret;

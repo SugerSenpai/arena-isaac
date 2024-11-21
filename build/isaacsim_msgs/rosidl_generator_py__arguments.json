@@ -6,7 +6,8 @@
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/PrimPath.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Quat.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Euler.idl",
-    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl"
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl",
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/UrdfToUsd.idl"
   ],
   "target_dependencies": [
     "/opt/ros/humble/share/rosidl_generator_py/cmake/../../../lib/rosidl_generator_py/rosidl_generator_py",
@@ -25,6 +26,7 @@
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/PrimPath.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Quat.idl",
     "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl",
-    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl"
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl",
+    "/home/brainfucker/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl"
   ]
 }
