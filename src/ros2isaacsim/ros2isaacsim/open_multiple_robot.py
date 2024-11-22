@@ -43,7 +43,7 @@ xform_api.SetRotate(Gf.Vec3f(0, 0, 90))
 xform_api_2.SetTranslate((18.9,-9.5,14.67))
 xform_api_2.SetRotate(Gf.Vec3f(56, 0, 60))
 
-add_reference_to_stage(usd_path="//home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
+add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
 add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/jackal.usd", prim_path="/World/jackal")
 # add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_burger.usd", prim_path="/World/turtlebot3_burger")
 
