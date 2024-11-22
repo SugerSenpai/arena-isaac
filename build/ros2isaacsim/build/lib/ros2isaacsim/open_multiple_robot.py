@@ -6,7 +6,6 @@ simulation_app = SimulationApp({"headless": False}) # we can also run as headles
 from omni.isaac.cortex.cortex_world import CortexWorld
 from omni.isaac.core.prims import XFormPrim
 import omni.isaac.core.utils.stage as stage_utils
-from omni.isaac.core.utils.prims import delete_prim
 from omni.isaac.core.robots import Robot
 from omni.isaac.core.utils.stage import add_reference_to_stage
 from omni.isaac.core.articulations import Articulation
@@ -17,6 +16,7 @@ from omni.isaac.dynamic_control import _dynamic_control
 import omni.kit.commands
 import numpy as np
 import omni
+from omni.isaac.core.utils.prims import get_prim_at_path, set_prim_pose
 
 
 world = CortexWorld()
@@ -148,18 +148,8 @@ front_right_wheel_drive_jackal.GetStiffnessAttr().Set(0)
 # Start simulation
 omni.timeline.get_timeline_interface().play()
 
-# Create a simple step function to handle the deletion
-def step():
-    world.step()
-    current_time = world.current_time
-    print(current_time)
-    if current_time >= 5.0:
-        delete_prim("/World/turtlebot3_waffle")
-        return False
-    return True
+world.run(simulation_app)
+import time
+time.sleep(10)
 
-# Run the simulation with the step function
-while simulation_app.is_running():
-    world.step(step)
-
-simulation_app.close()
+simulation_app.close() 
