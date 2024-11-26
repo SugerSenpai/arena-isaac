@@ -6,6 +6,7 @@ simulation_app = SimulationApp({"headless": False}) # we can also run as headles
 from omni.isaac.cortex.cortex_world import CortexWorld
 from omni.isaac.core.prims import XFormPrim
 import omni.isaac.core.utils.stage as stage_utils
+from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.robots import Robot
 from omni.isaac.core.utils.stage import add_reference_to_stage
 from omni.isaac.core.articulations import Articulation
@@ -16,7 +17,6 @@ from omni.isaac.dynamic_control import _dynamic_control
 import omni.kit.commands
 import numpy as np
 import omni
-from omni.isaac.core.utils.prims import get_prim_at_path, set_prim_pose
 
 
 world = CortexWorld()
@@ -43,7 +43,7 @@ xform_api.SetRotate(Gf.Vec3f(0, 0, 90))
 xform_api_2.SetTranslate((18.9,-9.5,14.67))
 xform_api_2.SetRotate(Gf.Vec3f(56, 0, 60))
 
-add_reference_to_stage(usd_path="//home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
+add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
 add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/jackal.usd", prim_path="/World/jackal")
 # add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_burger.usd", prim_path="/World/turtlebot3_burger")
 
@@ -67,7 +67,7 @@ world.scene.add(DynamicCuboid(prim_path="/World/cube_2",
     position=np.array([-2, 3, 0.25]),
     scale=np.array([0.5, 1.0, 0.5]),
     color=np.array([.2,.4,0.])))
-
+    
 world.scene.add(DynamicCuboid(prim_path="/World/cube_3",
     name = "cube_3",
     position=np.array([-1, -1, 0.25]),
@@ -147,9 +147,22 @@ front_right_wheel_drive_jackal.GetStiffnessAttr().Set(0)
 
 # Start simulation
 omni.timeline.get_timeline_interface().play()
-
-world.run(simulation_app)
-import time
-time.sleep(10)
-
-simulation_app.close() 
+i = 0
+j = 0
+print(get_prim_attribute_names(f"/World/turtlebot3_waffle"))
+while i>-1:
+    world.step()
+    i+=1
+    if i%100 == 0:
+        if j < 7:
+            delete_prim(f"/World/cube_{j}")
+        j+=1
+    if j ==6:
+        if get_prim_at_path("/World/jackal"):
+            delete_prim(f"/World/jackal")
+    if j==7:
+    # print(get_prim_attribute_value(f"/World/turtlebot3_waffle", attribute_name="xformOp:translate"))
+        set_prim_attribute_value(f"/World/turtlebot3_waffle", attribute_name="xformOp:translate", value=np.array([0,0,0]))
+    if j == 10:
+        break
+simulation_app.close()

@@ -6,7 +6,7 @@ simulation_app = SimulationApp({"headless": False}) # we can also run as headles
 from omni.isaac.cortex.cortex_world import CortexWorld
 from omni.isaac.core.prims import XFormPrim
 import omni.isaac.core.utils.stage as stage_utils
-from omni.isaac.core.utils.prims import delete_prim
+from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.robots import Robot
 from omni.isaac.core.utils.stage import add_reference_to_stage
 from omni.isaac.core.articulations import Articulation
@@ -67,7 +67,7 @@ world.scene.add(DynamicCuboid(prim_path="/World/cube_2",
     position=np.array([-2, 3, 0.25]),
     scale=np.array([0.5, 1.0, 0.5]),
     color=np.array([.2,.4,0.])))
-
+    
 world.scene.add(DynamicCuboid(prim_path="/World/cube_3",
     name = "cube_3",
     position=np.array([-1, -1, 0.25]),
@@ -147,19 +147,22 @@ front_right_wheel_drive_jackal.GetStiffnessAttr().Set(0)
 
 # Start simulation
 omni.timeline.get_timeline_interface().play()
-
-# Create a simple step function to handle the deletion
-def step():
+i = 0
+j = 0
+print(get_prim_attribute_names(f"/World/turtlebot3_waffle"))
+while i>-1:
     world.step()
-    current_time = world.current_time
-    print(current_time)
-    if current_time >= 5.0:
-        delete_prim("/World/turtlebot3_waffle")
-        return False
-    return True
-
-# Run the simulation with the step function
-while simulation_app.is_running():
-    world.step(step)
-
+    i+=1
+    if i%100 == 0:
+        if j < 7:
+            delete_prim(f"/World/cube_{j}")
+        j+=1
+    if j ==6:
+        if get_prim_at_path("/World/jackal"):
+            delete_prim(f"/World/jackal")
+    if j==7:
+    # print(get_prim_attribute_value(f"/World/turtlebot3_waffle", attribute_name="xformOp:translate"))
+        set_prim_attribute_value(f"/World/turtlebot3_waffle", attribute_name="xformOp:translate", value=np.array([0,0,0]))
+    if j == 10:
+        break
 simulation_app.close()
