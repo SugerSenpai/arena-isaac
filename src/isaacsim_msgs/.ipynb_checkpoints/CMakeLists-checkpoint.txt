@@ -18,6 +18,7 @@ set(msg_files
 set(srv_files
   "srv/ImportUsd.srv"
   "srv/UrdfToUsd.srv"
+  "srv/ImportUrdf.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
