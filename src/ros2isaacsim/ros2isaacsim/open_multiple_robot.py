@@ -43,12 +43,12 @@ xform_api.SetRotate(Gf.Vec3f(0, 0, 90))
 xform_api_2.SetTranslate((18.9,-9.5,14.67))
 xform_api_2.SetRotate(Gf.Vec3f(56, 0, 60))
 
-add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_waffle.usd", prim_path="/World/turtlebot3_waffle")
-add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/jackal.usd", prim_path="/World/jackal")
+add_reference_to_stage(usd_path="/home/sora/Arena4-IsaacSim/robot_models/Arena_rosnav/User/burger.usd", prim_path="/World/waffle")
+add_reference_to_stage(usd_path="/home/sora/Arena4-IsaacSim/robot_models/Arena_rosnav/User/burger.usd", prim_path="/World/burger")
 # add_reference_to_stage(usd_path="/home/ducanh/Arena4-IsaacSim/robot_models/Arena_rosnav/turtlebot3_burger.usd", prim_path="/World/turtlebot3_burger")
 
-world.scene.add(XFormPrim(prim_path="/World/turtlebot3_waffle", name="robot1", position=[0.5,1,0]))
-world.scene.add(XFormPrim(prim_path="/World/jackal", name="robot2", position=[0.5,0,0]))
+world.scene.add(XFormPrim(prim_path="/World/waffle", name="robot1", position=[0.5,1,0]))
+world.scene.add(XFormPrim(prim_path="/World/burger", name="robot2", position=[0.5,0,0]))
 # world.scene.add(XFormPrim(prim_path="/World/turtlebot3_burger", name="robot3", position=[0.5,-1,0]))
 world.scene.add(DynamicCuboid(prim_path="/World/cube_0",
     name = "cube_0",
@@ -96,60 +96,60 @@ world.scene.add(DynamicCuboid(prim_path="/World/cube_6",
 stage = omni.usd.get_context().get_stage()
 
 # Get handle to the Drive API for both wheels
-left_wheel_drive_waffle = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/turtlebot3_waffle/base_link/wheel_left_joint"), "angular")
-right_wheel_drive_waffle = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/turtlebot3_waffle/base_link/wheel_right_joint"), "angular")
+left_wheel_drive_waffle = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/waffle/base_link/wheel_left_joint"), "angular")
+right_wheel_drive_waffle = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/waffle/base_link/wheel_right_joint"), "angular")
 
-front_left_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/front_left_wheel_joint"), "angular")
-front_right_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/front_right_wheel_joint"), "angular")
-rear_left_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/rear_left_wheel_joint"), "angular")
-rear_right_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/rear_right_wheel_joint"), "angular")
+# front_left_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/front_left_wheel_joint"), "angular")
+# front_right_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/front_right_wheel_joint"), "angular")
+# rear_left_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/rear_left_wheel_joint"), "angular")
+# rear_right_wheel_drive_jackal = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/jackal/chassis_link/rear_right_wheel_joint"), "angular")
 
-# left_wheel_drive_burger = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/turtlebot3_burger/base_link/wheel_left_joint"), "angular")
-# right_wheel_drive_burger = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/turtlebot3_burger/base_link/wheel_right_joint"), "angular")
+left_wheel_drive_burger = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/burger/base_link/wheel_left_joint"), "angular")
+right_wheel_drive_burger = UsdPhysics.DriveAPI.Get(stage.GetPrimAtPath("/World/burger/base_link/wheel_right_joint"), "angular")
 
 # Set the velocity drive target in degrees/second
 left_wheel_drive_waffle.GetTargetVelocityAttr().Set(150)
 right_wheel_drive_waffle.GetTargetVelocityAttr().Set(200)
 
-front_left_wheel_drive_jackal.GetTargetVelocityAttr().Set(200)
-front_right_wheel_drive_jackal.GetTargetVelocityAttr().Set(150)
+# front_left_wheel_drive_jackal.GetTargetVelocityAttr().Set(200)
+# front_right_wheel_drive_jackal.GetTargetVelocityAttr().Set(150)
 # rear_left_wheel_drive_jackal.GetTargetVelocityAttr().Set(150)
 # rear_right_wheel_drive_jackal.GetTargetVelocityAttr().Set(150)
 
-# left_wheel_drive_burger.GetTargetVelocityAttr().Set(150)
-# right_wheel_drive_burger.GetTargetVelocityAttr().Set(200)
+left_wheel_drive_burger.GetTargetVelocityAttr().Set(150)
+right_wheel_drive_burger.GetTargetVelocityAttr().Set(200)
 
 # Set the drive damping, which controls the strength of the velocity drive
 left_wheel_drive_waffle.GetDampingAttr().Set(20000)
 right_wheel_drive_waffle.GetDampingAttr().Set(20000)
 
-front_left_wheel_drive_jackal.GetDampingAttr().Set(100000000)
-front_right_wheel_drive_jackal.GetDampingAttr().Set(100000000)
+# front_left_wheel_drive_jackal.GetDampingAttr().Set(100000000)
+# front_right_wheel_drive_jackal.GetDampingAttr().Set(100000000)
 # rear_left_wheel_drive_jackal.GetDampingAttr().Set(20000)
 # rear_right_wheel_drive_jackal.GetDampingAttr().Set(20000)
 
-# left_wheel_drive_burger.GetDampingAttr().Set(20000)
-# right_wheel_drive_burger.GetDampingAttr().Set(20000)
+left_wheel_drive_burger.GetDampingAttr().Set(20000)
+right_wheel_drive_burger.GetDampingAttr().Set(20000)
 
 # Set the drive stiffness, which controls the strength of the position drive
 # In this case because we want to do velocity control this should be set to zero
 left_wheel_drive_waffle.GetStiffnessAttr().Set(0)
 right_wheel_drive_waffle.GetStiffnessAttr().Set(0)
 
-front_left_wheel_drive_jackal.GetStiffnessAttr().Set(0)
-front_right_wheel_drive_jackal.GetStiffnessAttr().Set(0)
-# rear_left_wheel_drive_jackal.GetStiffnessAttr().Set(0)
+# front_left_wheel_drive_jackal.GetStiffnessAttr().Set(0)
+# front_right_wheel_drive_jackal.GetStiffnessAttr().Set(0)
+# # rear_left_wheel_drive_jackal.GetStiffnessAttr().Set(0)
 # rear_right_wheel_drive_jackal.GetStiffnessAttr().Set(0)
 
-# left_wheel_drive_burger.GetStiffnessAttr().Set(0)
-# right_wheel_drive_burger.GetStiffnessAttr().Set(0)
+left_wheel_drive_burger.GetStiffnessAttr().Set(0)
+right_wheel_drive_burger.GetStiffnessAttr().Set(0)
 
 
 # Start simulation
 omni.timeline.get_timeline_interface().play()
 i = 0
 j = 0
-print(get_prim_attribute_names(f"/World/turtlebot3_waffle"))
+print(get_prim_attribute_names(f"/World/waffle"))
 while i>-1:
     world.step()
     i+=1
@@ -158,11 +158,12 @@ while i>-1:
             delete_prim(f"/World/cube_{j}")
         j+=1
     if j ==6:
-        if get_prim_at_path("/World/jackal"):
-            delete_prim(f"/World/jackal")
+        if get_prim_at_path("/World/burger"):
+            delete_prim(f"/World/burger")
     if j==7:
-    # print(get_prim_attribute_value(f"/World/turtlebot3_waffle", attribute_name="xformOp:translate"))
-        set_prim_attribute_value(f"/World/turtlebot3_waffle", attribute_name="xformOp:translate", value=np.array([0,0,0]))
+        print(get_prim_attribute_names(f"/World/waffle"))
+        print(get_prim_attribute_value(f"/World/waffle", attribute_name="xformOp:translate"))
+        set_prim_attribute_value(f"/World/waffle", attribute_name="xformOp:translate", value=np.array([0,0,0]))
     if j == 10:
         break
 simulation_app.close()

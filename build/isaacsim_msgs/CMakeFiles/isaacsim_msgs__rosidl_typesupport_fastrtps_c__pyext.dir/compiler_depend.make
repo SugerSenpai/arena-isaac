@@ -262,8 +262,25 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_genera
   rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h \
-  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__type_support.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__struct.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__struct.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h
 
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__struct.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__struct.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__type_support.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h:
 
@@ -306,6 +323,8 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.h:
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/iscanonical.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls-narrow.h:
 
@@ -361,6 +380,10 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__type_support.h:
 
 /usr/include/x86_64-linux-gnu/bits/mathcalls.h:
 
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h:
+
 /usr/include/python3.10/cpython/compile.h:
 
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
@@ -386,6 +409,8 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h:
 /usr/include/python3.10/cpython/pythonrun.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
@@ -530,6 +555,8 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/euler__type_support.h:
 /usr/include/x86_64-linux-gnu/bits/pthread_stack_min-dynamic.h:
 
 /usr/include/linux/errno.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h:
 
 /usr/include/x86_64-linux-gnu/bits/confname.h:
 

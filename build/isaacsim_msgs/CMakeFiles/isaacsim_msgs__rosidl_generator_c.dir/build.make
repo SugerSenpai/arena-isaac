@@ -53,10 +53,10 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs
+CMAKE_SOURCE_DIR = /home/sora/Arena4-IsaacSim/src/isaacsim_msgs
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs
+CMAKE_BINARY_DIR = /home/sora/Arena4-IsaacSim/build/isaacsim_msgs
 
 # Include any dependencies generated for this target.
 include CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend.make
@@ -88,8 +88,11 @@ rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/m
 rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
 rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
 rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C code for ROS interfaces"
-	/home/ducanh/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_c/cmake/../../../lib/rosidl_generator_c/rosidl_generator_c --generator-arguments-file /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c__arguments.json
+rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/DeletePrim.idl
+rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/GetPrimAttributes.idl
+rosidl_generator_c/isaacsim_msgs/msg/prim_path.h: rosidl_adapter/isaacsim_msgs/srv/MovePrim.idl
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C code for ROS interfaces"
+	/home/sora/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_c/cmake/../../../lib/rosidl_generator_c/rosidl_generator_c --generator-arguments-file /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c__arguments.json
 
 rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.h
@@ -160,6 +163,42 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h: rosidl_genera
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h
 
+rosidl_generator_c/isaacsim_msgs/srv/delete_prim.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/delete_prim.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__struct.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__struct.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__type_support.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__type_support.h
+
+rosidl_generator_c/isaacsim_msgs/srv/get_prim_attributes.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/get_prim_attributes.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__struct.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__struct.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h
+
+rosidl_generator_c/isaacsim_msgs/srv/move_prim.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/move_prim.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h
+
 rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c
 
@@ -178,89 +217,140 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c: rosidl_gen
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c
 
+rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c
+
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o: rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o -c /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.i
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.c.s
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o: rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o -c /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.i
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.c.s
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o: rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o -c /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.i
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.s
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o -c /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.i
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.s
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o -c /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.i
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.s
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o -c /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.i
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.i
 
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.s
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.s
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.i
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.s
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.i
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.s
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/flags.make
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o: rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building C object CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o -MF CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o.d -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o -c /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c > CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.i
+
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c -o CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.s
 
 # Object files for target isaacsim_msgs__rosidl_generator_c
 isaacsim_msgs__rosidl_generator_c_OBJECTS = \
@@ -269,7 +359,10 @@ isaacsim_msgs__rosidl_generator_c_OBJECTS = \
 "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.c.o" \
 "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o" \
 "CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o" \
-"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o"
+"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o" \
+"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o" \
+"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o" \
+"CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o"
 
 # External object files for target isaacsim_msgs__rosidl_generator_c
 isaacsim_msgs__rosidl_generator_c_EXTERNAL_OBJECTS =
@@ -280,11 +373,14 @@ libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_genera
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c.o
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c.o
+libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c.o
+libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c.o
+libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c.o
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/build.make
 libisaacsim_msgs__rosidl_generator_c.so: /opt/ros/humble/lib/librosidl_runtime_c.so
 libisaacsim_msgs__rosidl_generator_c.so: /opt/ros/humble/lib/librcutils.so
 libisaacsim_msgs__rosidl_generator_c.so: CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking C shared library libisaacsim_msgs__rosidl_generator_c.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Linking C shared library libisaacsim_msgs__rosidl_generator_c.so"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -310,6 +406,15 @@ CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaa
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/msg/euler.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/msg/prim_path.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/msg/quat.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/delete_prim.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__struct.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__type_support.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__struct.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h
@@ -318,13 +423,19 @@ CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaa
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.c
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.c
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/get_prim_attributes.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/import_urdf.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/import_usd.h
+CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/move_prim.h
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend: rosidl_generator_c/isaacsim_msgs/srv/urdf_to_usd.h
-	cd /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs /home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/sora/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/depend
 

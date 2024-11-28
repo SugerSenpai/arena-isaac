@@ -1,11 +1,14 @@
 {
   "package_name": "isaacsim_msgs",
   "non_idl_tuples": [
-    "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs:msg/PrimPath.msg",
-    "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs:msg/Quat.msg",
-    "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs:msg/Euler.msg",
-    "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUsd.srv",
-    "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs:srv/UrdfToUsd.srv",
-    "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUrdf.srv"
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/PrimPath.msg",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/Quat.msg",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/Euler.msg",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUsd.srv",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/UrdfToUsd.srv",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUrdf.srv",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/DeletePrim.srv",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/GetPrimAttributes.srv",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/MovePrim.srv"
   ]
 }

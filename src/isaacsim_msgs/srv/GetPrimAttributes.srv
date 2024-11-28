@@ -1,0 +1,5 @@
+string name
+string prim_path
+---
+string[] attributes_name
+float32[] translate

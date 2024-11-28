@@ -19,6 +19,9 @@ set(srv_files
   "srv/ImportUsd.srv"
   "srv/UrdfToUsd.srv"
   "srv/ImportUrdf.srv"
+  "srv/DeletePrim.srv"
+  "srv/GetPrimAttributes.srv"
+  "srv/MovePrim.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

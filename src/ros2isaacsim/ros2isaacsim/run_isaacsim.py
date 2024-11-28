@@ -15,13 +15,15 @@ from omni.isaac.core.utils import extensions, stage
 from omni.isaac.nucleus import get_assets_root_path
 from omni.kit.viewport.utility import get_active_viewport
 from omni.isaac.core.utils.extensions import get_extension_path_from_name
+from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
 from pxr import Gf, Usd, UsdGeom
+import numpy as np
 import rclpy
 from rclpy.node import Node
 from isaacsim_msgs.msg import Euler, Quat
-from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd
+from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim
 from sensor_msgs.msg import JointState
 
 #======================================Base======================================
@@ -44,6 +46,7 @@ import_config.default_drive_type = (_urdf.UrdfJointTargetType.JOINT_DRIVE_VELOCI
 extension_path = _urdf.ImportConfig()
 
 #================================================================================
+
 #============================urdf importer service===============================
 def urdf_to_usd(request, response):
     name = request.name
@@ -68,6 +71,53 @@ def convert_urdf_to_usd(controller):
                         callback=urdf_to_usd)
     return service
 #================================================================================
+
+#=========================Get Prims attribute service============================
+def get_prim_attributes(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    response.attributes_name = get_prim_attribute_names(prim_path)
+    response.translate = get_prim_attribute_value(prim_path,attribute_name="xformOp:translate")
+    return response
+
+def get_prim_attr(controller):
+    service = controller.create_service(srv_type=GetPrimAttributes, 
+                        srv_name='get_prim_attributes', 
+                        callback=get_prim_attributes)
+    return service
+#================================================================================
+
+#============================Move Prims service================================
+def prim_mover(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    target = request.target
+    set_prim_attribute_value(prim_path,attribute_name="xformOp:translate", value=np.array(target))
+    response.ret = True
+    return response
+
+def move_prim(controller):
+    service = controller.create_service(srv_type=MovePrim, 
+                        srv_name='move_prim', 
+                        callback=prim_mover)
+    return service
+#================================================================================
+
+#============================Delete Prims service================================
+def prim_deleter(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    delete_prim(prim_path)
+    response.ret = True
+    return response
+
+def _delete_prim(controller):
+    service = controller.create_service(srv_type=DeletePrim, 
+                        srv_name='_delete_prim', 
+                        callback=prim_deleter)
+    return service
+#================================================================================
+
 #============================usd importer service================================
 # Usd importer (service) -> bool.
 def usd_importer(request, response):
@@ -120,6 +170,7 @@ def import_usd(controller):
                         callback=usd_importer)
     return service
 #=================================================================================
+
 #===================================controller====================================
 def create_controller(time=120):
     # init controller.
@@ -127,6 +178,9 @@ def create_controller(time=120):
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
+    delete_prim_service = _delete_prim(controller)
+    get_prim_attributes_service = get_prim_attr(controller)
+    move_prim_service = move_prim(controller)
     ##
     return controller
 
@@ -135,6 +189,7 @@ def run():
     simulation_app.update()
     simulation_context.play()
 #=================================================================================
+
 #======================================main=======================================
 def main(arg=None):
     rclpy.init()

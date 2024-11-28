@@ -1,1 +1,1 @@
-/home/ducanh/Arena4-IsaacSim/build/ros2isaacsim/launch/run_isaacsim.launch.py
+/home/sora/Arena4-IsaacSim/build/ros2isaacsim/launch/run_isaacsim.launch.py

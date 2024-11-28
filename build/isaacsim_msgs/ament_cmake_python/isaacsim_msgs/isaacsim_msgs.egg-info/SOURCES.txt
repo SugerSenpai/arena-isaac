@@ -19,8 +19,11 @@ isaacsim_msgs/msg/_prim_path_s.c
 isaacsim_msgs/msg/_quat.py
 isaacsim_msgs/msg/_quat_s.c
 isaacsim_msgs/srv/__init__.py
+isaacsim_msgs/srv/_delete_prim.py
+isaacsim_msgs/srv/_get_prim_attributes.py
 isaacsim_msgs/srv/_import_urdf.py
 isaacsim_msgs/srv/_import_usd.py
 isaacsim_msgs/srv/_import_usd_s.c
+isaacsim_msgs/srv/_move_prim.py
 isaacsim_msgs/srv/_urdf_to_usd.py
 isaacsim_msgs/srv/_urdf_to_usd_s.c

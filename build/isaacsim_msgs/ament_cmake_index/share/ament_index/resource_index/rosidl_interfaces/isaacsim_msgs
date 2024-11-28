@@ -4,6 +4,14 @@ msg/PrimPath.idl
 msg/PrimPath.msg
 msg/Quat.idl
 msg/Quat.msg
+srv/DeletePrim.idl
+srv/DeletePrim.srv
+srv/DeletePrim_Request.msg
+srv/DeletePrim_Response.msg
+srv/GetPrimAttributes.idl
+srv/GetPrimAttributes.srv
+srv/GetPrimAttributes_Request.msg
+srv/GetPrimAttributes_Response.msg
 srv/ImportUrdf.idl
 srv/ImportUrdf.srv
 srv/ImportUrdf_Request.msg
@@ -12,6 +20,10 @@ srv/ImportUsd.idl
 srv/ImportUsd.srv
 srv/ImportUsd_Request.msg
 srv/ImportUsd_Response.msg
+srv/MovePrim.idl
+srv/MovePrim.srv
+srv/MovePrim_Request.msg
+srv/MovePrim_Response.msg
 srv/UrdfToUsd.idl
 srv/UrdfToUsd.srv
 srv/UrdfToUsd_Request.msg

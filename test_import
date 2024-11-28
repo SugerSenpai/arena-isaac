@@ -3,3 +3,9 @@ xacro ~/arena4_ws/src/arena/simulation-setup/entities/robots/waffle/urdf/waffle.
 ros2 service call /urdf_to_usd isaacsim_msgs/srv/UrdfToUsd '{"name": "waffle", "urdf_path": "/home/brainfucker/arena4_ws/src/arena/simulation-setup/entities/robots/waffle/urdf/waffle.urdf"}'
 
 ros2 service call /import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': 'robot_models/Arena_rosnav/User/waffle.usd', 'prim_path': '/World', 'control': True}"
+
+ros2 service call /_delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waffle', 'prim_path': '/World/waffle'}"
+
+ros2 service call /get_prim_attributes isaacsim_msgs/srv/GetPrimAttributes "{'name': 'waffle', 'prim_path': '/World/waffle'}"
+
+ros2 service call /move_prim isaacsim_msgs/srv/MovePrim "{'name': 'waffle', 'prim_path': '/World/waffle', 'target': [2.0,3.0,0]}"
