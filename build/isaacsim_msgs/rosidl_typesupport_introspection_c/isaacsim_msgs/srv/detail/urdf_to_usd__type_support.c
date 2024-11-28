@@ -13,8 +13,8 @@
 
 
 // Include directives for member types
+// Member `name`
 // Member `urdf_path`
-// Member `robot_name`
 #include "rosidl_runtime_c/string_functions.h"
 
 #ifdef __cplusplus
@@ -36,16 +36,16 @@ void isaacsim_msgs__srv__UrdfToUsd_Request__rosidl_typesupport_introspection_c__
   isaacsim_msgs__srv__UrdfToUsd_Request__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__UrdfToUsd_Request__rosidl_typesupport_introspection_c__UrdfToUsd_Request_message_member_array[4] = {
+static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__UrdfToUsd_Request__rosidl_typesupport_introspection_c__UrdfToUsd_Request_message_member_array[2] = {
   {
-    "using_arena_robot",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_BOOLEAN,  // type
+    "name",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(isaacsim_msgs__srv__UrdfToUsd_Request, using_arena_robot),  // bytes offset in struct
+    offsetof(isaacsim_msgs__srv__UrdfToUsd_Request, name),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -70,47 +70,13 @@ static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__Urd
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
-  },
-  {
-    "robot_name",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(isaacsim_msgs__srv__UrdfToUsd_Request, robot_name),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
-  },
-  {
-    "number_robot",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_INT64,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(isaacsim_msgs__srv__UrdfToUsd_Request, number_robot),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers isaacsim_msgs__srv__UrdfToUsd_Request__rosidl_typesupport_introspection_c__UrdfToUsd_Request_message_members = {
   "isaacsim_msgs__srv",  // message namespace
   "UrdfToUsd_Request",  // message name
-  4,  // number of fields
+  2,  // number of fields
   sizeof(isaacsim_msgs__srv__UrdfToUsd_Request),
   isaacsim_msgs__srv__UrdfToUsd_Request__rosidl_typesupport_introspection_c__UrdfToUsd_Request_message_member_array,  // message members
   isaacsim_msgs__srv__UrdfToUsd_Request__rosidl_typesupport_introspection_c__UrdfToUsd_Request_init_function,  // function to initialize message memory (memory has to be allocated)
@@ -158,7 +124,6 @@ ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspecti
 
 // Include directives for member types
 // Member `usd_path`
-// Member `prim_path`
 // already included above
 // #include "rosidl_runtime_c/string_functions.h"
 
@@ -181,7 +146,7 @@ void isaacsim_msgs__srv__UrdfToUsd_Response__rosidl_typesupport_introspection_c_
   isaacsim_msgs__srv__UrdfToUsd_Response__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__UrdfToUsd_Response__rosidl_typesupport_introspection_c__UrdfToUsd_Response_message_member_array[2] = {
+static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__UrdfToUsd_Response__rosidl_typesupport_introspection_c__UrdfToUsd_Response_message_member_array[1] = {
   {
     "usd_path",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -198,30 +163,13 @@ static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__Urd
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
-  },
-  {
-    "prim_path",  // name
-    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
-    0,  // upper bound of string
-    NULL,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(isaacsim_msgs__srv__UrdfToUsd_Response, prim_path),  // bytes offset in struct
-    NULL,  // default value
-    NULL,  // size() function pointer
-    NULL,  // get_const(index) function pointer
-    NULL,  // get(index) function pointer
-    NULL,  // fetch(index, &value) function pointer
-    NULL,  // assign(index, value) function pointer
-    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers isaacsim_msgs__srv__UrdfToUsd_Response__rosidl_typesupport_introspection_c__UrdfToUsd_Response_message_members = {
   "isaacsim_msgs__srv",  // message namespace
   "UrdfToUsd_Response",  // message name
-  2,  // number of fields
+  1,  // number of fields
   sizeof(isaacsim_msgs__srv__UrdfToUsd_Response),
   isaacsim_msgs__srv__UrdfToUsd_Response__rosidl_typesupport_introspection_c__UrdfToUsd_Response_message_member_array,  // message members
   isaacsim_msgs__srv__UrdfToUsd_Response__rosidl_typesupport_introspection_c__UrdfToUsd_Response_init_function,  // function to initialize message memory (memory has to be allocated)

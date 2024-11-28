@@ -6,18 +6,12 @@
 module isaacsim_msgs {
   module srv {
     struct UrdfToUsd_Request {
-      boolean using_arena_robot;
+      string name;
 
       string urdf_path;
-
-      string robot_name;
-
-      int64 number_robot;
     };
     struct UrdfToUsd_Response {
       string usd_path;
-
-      string prim_path;
     };
   };
 };

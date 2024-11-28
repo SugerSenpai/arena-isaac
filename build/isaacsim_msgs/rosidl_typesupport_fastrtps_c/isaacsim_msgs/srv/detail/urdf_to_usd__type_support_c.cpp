@@ -34,8 +34,8 @@ extern "C"
 {
 #endif
 
-#include "rosidl_runtime_c/string.h"  // robot_name, urdf_path
-#include "rosidl_runtime_c/string_functions.h"  // robot_name, urdf_path
+#include "rosidl_runtime_c/string.h"  // name, urdf_path
+#include "rosidl_runtime_c/string_functions.h"  // name, urdf_path
 
 // forward declare type support functions
 
@@ -51,9 +51,18 @@ static bool _UrdfToUsd_Request__cdr_serialize(
     return false;
   }
   const _UrdfToUsd_Request__ros_msg_type * ros_message = static_cast<const _UrdfToUsd_Request__ros_msg_type *>(untyped_ros_message);
-  // Field name: using_arena_robot
+  // Field name: name
   {
-    cdr << (ros_message->using_arena_robot ? true : false);
+    const rosidl_runtime_c__String * str = &ros_message->name;
+    if (str->capacity == 0 || str->capacity <= str->size) {
+      fprintf(stderr, "string capacity not greater than size\n");
+      return false;
+    }
+    if (str->data[str->size] != '\0') {
+      fprintf(stderr, "string not null-terminated\n");
+      return false;
+    }
+    cdr << str->data;
   }
 
   // Field name: urdf_path
@@ -70,25 +79,6 @@ static bool _UrdfToUsd_Request__cdr_serialize(
     cdr << str->data;
   }
 
-  // Field name: robot_name
-  {
-    const rosidl_runtime_c__String * str = &ros_message->robot_name;
-    if (str->capacity == 0 || str->capacity <= str->size) {
-      fprintf(stderr, "string capacity not greater than size\n");
-      return false;
-    }
-    if (str->data[str->size] != '\0') {
-      fprintf(stderr, "string not null-terminated\n");
-      return false;
-    }
-    cdr << str->data;
-  }
-
-  // Field name: number_robot
-  {
-    cdr << ros_message->number_robot;
-  }
-
   return true;
 }
 
@@ -101,11 +91,20 @@ static bool _UrdfToUsd_Request__cdr_deserialize(
     return false;
   }
   _UrdfToUsd_Request__ros_msg_type * ros_message = static_cast<_UrdfToUsd_Request__ros_msg_type *>(untyped_ros_message);
-  // Field name: using_arena_robot
+  // Field name: name
   {
-    uint8_t tmp;
+    std::string tmp;
     cdr >> tmp;
-    ros_message->using_arena_robot = tmp ? true : false;
+    if (!ros_message->name.data) {
+      rosidl_runtime_c__String__init(&ros_message->name);
+    }
+    bool succeeded = rosidl_runtime_c__String__assign(
+      &ros_message->name,
+      tmp.c_str());
+    if (!succeeded) {
+      fprintf(stderr, "failed to assign string into field 'name'\n");
+      return false;
+    }
   }
 
   // Field name: urdf_path
@@ -122,27 +121,6 @@ static bool _UrdfToUsd_Request__cdr_deserialize(
       fprintf(stderr, "failed to assign string into field 'urdf_path'\n");
       return false;
     }
-  }
-
-  // Field name: robot_name
-  {
-    std::string tmp;
-    cdr >> tmp;
-    if (!ros_message->robot_name.data) {
-      rosidl_runtime_c__String__init(&ros_message->robot_name);
-    }
-    bool succeeded = rosidl_runtime_c__String__assign(
-      &ros_message->robot_name,
-      tmp.c_str());
-    if (!succeeded) {
-      fprintf(stderr, "failed to assign string into field 'robot_name'\n");
-      return false;
-    }
-  }
-
-  // Field name: number_robot
-  {
-    cdr >> ros_message->number_robot;
   }
 
   return true;
@@ -162,26 +140,14 @@ size_t get_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Request(
   (void)padding;
   (void)wchar_size;
 
-  // field.name using_arena_robot
-  {
-    size_t item_size = sizeof(ros_message->using_arena_robot);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
+  // field.name name
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message->name.size + 1);
   // field.name urdf_path
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
     (ros_message->urdf_path.size + 1);
-  // field.name robot_name
-  current_alignment += padding +
-    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-    (ros_message->robot_name.size + 1);
-  // field.name number_robot
-  {
-    size_t item_size = sizeof(ros_message->number_robot);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
 
   return current_alignment - initial_alignment;
 }
@@ -211,12 +177,17 @@ size_t max_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Request(
   full_bounded = true;
   is_plain = true;
 
-  // member: using_arena_robot
+  // member: name
   {
     size_t array_size = 1;
 
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
   }
   // member: urdf_path
   {
@@ -230,26 +201,6 @@ size_t max_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Request(
         1;
     }
   }
-  // member: robot_name
-  {
-    size_t array_size = 1;
-
-    full_bounded = false;
-    is_plain = false;
-    for (size_t index = 0; index < array_size; ++index) {
-      current_alignment += padding +
-        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-        1;
-    }
-  }
-  // member: number_robot
-  {
-    size_t array_size = 1;
-
-    last_member_size = array_size * sizeof(uint64_t);
-    current_alignment += array_size * sizeof(uint64_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
-  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -259,7 +210,7 @@ size_t max_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Request(
     using DataType = isaacsim_msgs__srv__UrdfToUsd_Request;
     is_plain =
       (
-      offsetof(DataType, number_robot) +
+      offsetof(DataType, urdf_path) +
       last_member_size
       ) == ret_val;
   }
@@ -348,9 +299,9 @@ extern "C"
 #endif
 
 // already included above
-// #include "rosidl_runtime_c/string.h"  // prim_path, usd_path
+// #include "rosidl_runtime_c/string.h"  // usd_path
 // already included above
-// #include "rosidl_runtime_c/string_functions.h"  // prim_path, usd_path
+// #include "rosidl_runtime_c/string_functions.h"  // usd_path
 
 // forward declare type support functions
 
@@ -369,20 +320,6 @@ static bool _UrdfToUsd_Response__cdr_serialize(
   // Field name: usd_path
   {
     const rosidl_runtime_c__String * str = &ros_message->usd_path;
-    if (str->capacity == 0 || str->capacity <= str->size) {
-      fprintf(stderr, "string capacity not greater than size\n");
-      return false;
-    }
-    if (str->data[str->size] != '\0') {
-      fprintf(stderr, "string not null-terminated\n");
-      return false;
-    }
-    cdr << str->data;
-  }
-
-  // Field name: prim_path
-  {
-    const rosidl_runtime_c__String * str = &ros_message->prim_path;
     if (str->capacity == 0 || str->capacity <= str->size) {
       fprintf(stderr, "string capacity not greater than size\n");
       return false;
@@ -422,22 +359,6 @@ static bool _UrdfToUsd_Response__cdr_deserialize(
     }
   }
 
-  // Field name: prim_path
-  {
-    std::string tmp;
-    cdr >> tmp;
-    if (!ros_message->prim_path.data) {
-      rosidl_runtime_c__String__init(&ros_message->prim_path);
-    }
-    bool succeeded = rosidl_runtime_c__String__assign(
-      &ros_message->prim_path,
-      tmp.c_str());
-    if (!succeeded) {
-      fprintf(stderr, "failed to assign string into field 'prim_path'\n");
-      return false;
-    }
-  }
-
   return true;
 }  // NOLINT(readability/fn_size)
 
@@ -459,10 +380,6 @@ size_t get_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Response(
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
     (ros_message->usd_path.size + 1);
-  // field.name prim_path
-  current_alignment += padding +
-    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-    (ros_message->prim_path.size + 1);
 
   return current_alignment - initial_alignment;
 }
@@ -504,18 +421,6 @@ size_t max_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Response(
         1;
     }
   }
-  // member: prim_path
-  {
-    size_t array_size = 1;
-
-    full_bounded = false;
-    is_plain = false;
-    for (size_t index = 0; index < array_size; ++index) {
-      current_alignment += padding +
-        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-        1;
-    }
-  }
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -525,7 +430,7 @@ size_t max_serialized_size_isaacsim_msgs__srv__UrdfToUsd_Response(
     using DataType = isaacsim_msgs__srv__UrdfToUsd_Response;
     is_plain =
       (
-      offsetof(DataType, prim_path) +
+      offsetof(DataType, usd_path) +
       last_member_size
       ) == ret_val;
   }

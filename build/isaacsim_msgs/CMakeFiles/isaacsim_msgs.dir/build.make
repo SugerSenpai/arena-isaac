@@ -75,6 +75,9 @@ CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUsd_Response.msg
 CMakeFiles/isaacsim_msgs: /home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs/srv/UrdfToUsd.srv
 CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/UrdfToUsd_Request.msg
 CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/UrdfToUsd_Response.msg
+CMakeFiles/isaacsim_msgs: /home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUrdf.srv
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUrdf_Request.msg
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUrdf_Response.msg
 
 isaacsim_msgs: CMakeFiles/isaacsim_msgs
 isaacsim_msgs: CMakeFiles/isaacsim_msgs.dir/build.make

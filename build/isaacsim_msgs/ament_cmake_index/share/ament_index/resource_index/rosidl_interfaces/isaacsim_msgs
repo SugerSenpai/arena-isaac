@@ -4,6 +4,10 @@ msg/PrimPath.idl
 msg/PrimPath.msg
 msg/Quat.idl
 msg/Quat.msg
+srv/ImportUrdf.idl
+srv/ImportUrdf.srv
+srv/ImportUrdf_Request.msg
+srv/ImportUrdf_Response.msg
 srv/ImportUsd.idl
 srv/ImportUsd.srv
 srv/ImportUsd_Request.msg

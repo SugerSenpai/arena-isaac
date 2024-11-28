@@ -259,8 +259,15 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_c__pyext.dir/rosidl_generator_py/is
   rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h \
-  rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h
+  rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h
 
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h:
 
@@ -599,6 +606,8 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h:
 /usr/include/python3.10/warnings.h:
 
 /usr/include/python3.10/pymath.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h:
 
 /usr/include/python3.10/cpython/object.h:
 

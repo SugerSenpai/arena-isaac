@@ -38,64 +38,42 @@ struct UrdfToUsd_Request_
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->using_arena_robot = false;
+      this->name = "";
       this->urdf_path = "";
-      this->robot_name = "";
-      this->number_robot = 0ll;
     }
   }
 
   explicit UrdfToUsd_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : urdf_path(_alloc),
-    robot_name(_alloc)
+  : name(_alloc),
+    urdf_path(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-      this->using_arena_robot = false;
+      this->name = "";
       this->urdf_path = "";
-      this->robot_name = "";
-      this->number_robot = 0ll;
     }
   }
 
   // field types and members
-  using _using_arena_robot_type =
-    bool;
-  _using_arena_robot_type using_arena_robot;
+  using _name_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _name_type name;
   using _urdf_path_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _urdf_path_type urdf_path;
-  using _robot_name_type =
-    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
-  _robot_name_type robot_name;
-  using _number_robot_type =
-    int64_t;
-  _number_robot_type number_robot;
 
   // setters for named parameter idiom
-  Type & set__using_arena_robot(
-    const bool & _arg)
+  Type & set__name(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
-    this->using_arena_robot = _arg;
+    this->name = _arg;
     return *this;
   }
   Type & set__urdf_path(
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
     this->urdf_path = _arg;
-    return *this;
-  }
-  Type & set__robot_name(
-    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
-  {
-    this->robot_name = _arg;
-    return *this;
-  }
-  Type & set__number_robot(
-    const int64_t & _arg)
-  {
-    this->number_robot = _arg;
     return *this;
   }
 
@@ -141,16 +119,10 @@ struct UrdfToUsd_Request_
   // comparison operators
   bool operator==(const UrdfToUsd_Request_ & other) const
   {
-    if (this->using_arena_robot != other.using_arena_robot) {
+    if (this->name != other.name) {
       return false;
     }
     if (this->urdf_path != other.urdf_path) {
-      return false;
-    }
-    if (this->robot_name != other.robot_name) {
-      return false;
-    }
-    if (this->number_robot != other.number_robot) {
       return false;
     }
     return true;
@@ -196,19 +168,16 @@ struct UrdfToUsd_Response_
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->usd_path = "";
-      this->prim_path = "";
     }
   }
 
   explicit UrdfToUsd_Response_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : usd_path(_alloc),
-    prim_path(_alloc)
+  : usd_path(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->usd_path = "";
-      this->prim_path = "";
     }
   }
 
@@ -216,21 +185,12 @@ struct UrdfToUsd_Response_
   using _usd_path_type =
     std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
   _usd_path_type usd_path;
-  using _prim_path_type =
-    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
-  _prim_path_type prim_path;
 
   // setters for named parameter idiom
   Type & set__usd_path(
     const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
   {
     this->usd_path = _arg;
-    return *this;
-  }
-  Type & set__prim_path(
-    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
-  {
-    this->prim_path = _arg;
     return *this;
   }
 
@@ -277,9 +237,6 @@ struct UrdfToUsd_Response_
   bool operator==(const UrdfToUsd_Response_ & other) const
   {
     if (this->usd_path != other.usd_path) {
-      return false;
-    }
-    if (this->prim_path != other.prim_path) {
       return false;
     }
     return true;

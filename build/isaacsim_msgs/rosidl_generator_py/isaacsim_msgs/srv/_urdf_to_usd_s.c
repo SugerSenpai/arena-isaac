@@ -53,13 +53,19 @@ bool isaacsim_msgs__srv__urdf_to_usd__request__convert_from_py(PyObject * _pymsg
     assert(strncmp("isaacsim_msgs.srv._urdf_to_usd.UrdfToUsd_Request", full_classname_dest, 48) == 0);
   }
   isaacsim_msgs__srv__UrdfToUsd_Request * ros_message = _ros_message;
-  {  // using_arena_robot
-    PyObject * field = PyObject_GetAttrString(_pymsg, "using_arena_robot");
+  {  // name
+    PyObject * field = PyObject_GetAttrString(_pymsg, "name");
     if (!field) {
       return false;
     }
-    assert(PyBool_Check(field));
-    ros_message->using_arena_robot = (Py_True == field);
+    assert(PyUnicode_Check(field));
+    PyObject * encoded_field = PyUnicode_AsUTF8String(field);
+    if (!encoded_field) {
+      Py_DECREF(field);
+      return false;
+    }
+    rosidl_runtime_c__String__assign(&ros_message->name, PyBytes_AS_STRING(encoded_field));
+    Py_DECREF(encoded_field);
     Py_DECREF(field);
   }
   {  // urdf_path
@@ -75,30 +81,6 @@ bool isaacsim_msgs__srv__urdf_to_usd__request__convert_from_py(PyObject * _pymsg
     }
     rosidl_runtime_c__String__assign(&ros_message->urdf_path, PyBytes_AS_STRING(encoded_field));
     Py_DECREF(encoded_field);
-    Py_DECREF(field);
-  }
-  {  // robot_name
-    PyObject * field = PyObject_GetAttrString(_pymsg, "robot_name");
-    if (!field) {
-      return false;
-    }
-    assert(PyUnicode_Check(field));
-    PyObject * encoded_field = PyUnicode_AsUTF8String(field);
-    if (!encoded_field) {
-      Py_DECREF(field);
-      return false;
-    }
-    rosidl_runtime_c__String__assign(&ros_message->robot_name, PyBytes_AS_STRING(encoded_field));
-    Py_DECREF(encoded_field);
-    Py_DECREF(field);
-  }
-  {  // number_robot
-    PyObject * field = PyObject_GetAttrString(_pymsg, "number_robot");
-    if (!field) {
-      return false;
-    }
-    assert(PyLong_Check(field));
-    ros_message->number_robot = PyLong_AsLongLong(field);
     Py_DECREF(field);
   }
 
@@ -123,11 +105,17 @@ PyObject * isaacsim_msgs__srv__urdf_to_usd__request__convert_to_py(void * raw_ro
     }
   }
   isaacsim_msgs__srv__UrdfToUsd_Request * ros_message = (isaacsim_msgs__srv__UrdfToUsd_Request *)raw_ros_message;
-  {  // using_arena_robot
+  {  // name
     PyObject * field = NULL;
-    field = PyBool_FromLong(ros_message->using_arena_robot ? 1 : 0);
+    field = PyUnicode_DecodeUTF8(
+      ros_message->name.data,
+      strlen(ros_message->name.data),
+      "replace");
+    if (!field) {
+      return NULL;
+    }
     {
-      int rc = PyObject_SetAttrString(_pymessage, "using_arena_robot", field);
+      int rc = PyObject_SetAttrString(_pymessage, "name", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;
@@ -145,34 +133,6 @@ PyObject * isaacsim_msgs__srv__urdf_to_usd__request__convert_to_py(void * raw_ro
     }
     {
       int rc = PyObject_SetAttrString(_pymessage, "urdf_path", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // robot_name
-    PyObject * field = NULL;
-    field = PyUnicode_DecodeUTF8(
-      ros_message->robot_name.data,
-      strlen(ros_message->robot_name.data),
-      "replace");
-    if (!field) {
-      return NULL;
-    }
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "robot_name", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // number_robot
-    PyObject * field = NULL;
-    field = PyLong_FromLongLong(ros_message->number_robot);
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "number_robot", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;
@@ -252,21 +212,6 @@ bool isaacsim_msgs__srv__urdf_to_usd__response__convert_from_py(PyObject * _pyms
     Py_DECREF(encoded_field);
     Py_DECREF(field);
   }
-  {  // prim_path
-    PyObject * field = PyObject_GetAttrString(_pymsg, "prim_path");
-    if (!field) {
-      return false;
-    }
-    assert(PyUnicode_Check(field));
-    PyObject * encoded_field = PyUnicode_AsUTF8String(field);
-    if (!encoded_field) {
-      Py_DECREF(field);
-      return false;
-    }
-    rosidl_runtime_c__String__assign(&ros_message->prim_path, PyBytes_AS_STRING(encoded_field));
-    Py_DECREF(encoded_field);
-    Py_DECREF(field);
-  }
 
   return true;
 }
@@ -300,23 +245,6 @@ PyObject * isaacsim_msgs__srv__urdf_to_usd__response__convert_to_py(void * raw_r
     }
     {
       int rc = PyObject_SetAttrString(_pymessage, "usd_path", field);
-      Py_DECREF(field);
-      if (rc) {
-        return NULL;
-      }
-    }
-  }
-  {  // prim_path
-    PyObject * field = NULL;
-    field = PyUnicode_DecodeUTF8(
-      ros_message->prim_path.data,
-      strlen(ros_message->prim_path.data),
-      "replace");
-    if (!field) {
-      return NULL;
-    }
-    {
-      int rc = PyObject_SetAttrString(_pymessage, "prim_path", field);
       Py_DECREF(field);
       if (rc) {
         return NULL;

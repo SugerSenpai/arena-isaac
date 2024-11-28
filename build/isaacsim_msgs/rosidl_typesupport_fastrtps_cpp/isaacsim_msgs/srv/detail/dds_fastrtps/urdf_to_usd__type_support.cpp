@@ -32,14 +32,10 @@ cdr_serialize(
   const isaacsim_msgs::srv::UrdfToUsd_Request & ros_message,
   eprosima::fastcdr::Cdr & cdr)
 {
-  // Member: using_arena_robot
-  cdr << (ros_message.using_arena_robot ? true : false);
+  // Member: name
+  cdr << ros_message.name;
   // Member: urdf_path
   cdr << ros_message.urdf_path;
-  // Member: robot_name
-  cdr << ros_message.robot_name;
-  // Member: number_robot
-  cdr << ros_message.number_robot;
   return true;
 }
 
@@ -49,21 +45,11 @@ cdr_deserialize(
   eprosima::fastcdr::Cdr & cdr,
   isaacsim_msgs::srv::UrdfToUsd_Request & ros_message)
 {
-  // Member: using_arena_robot
-  {
-    uint8_t tmp;
-    cdr >> tmp;
-    ros_message.using_arena_robot = tmp ? true : false;
-  }
+  // Member: name
+  cdr >> ros_message.name;
 
   // Member: urdf_path
   cdr >> ros_message.urdf_path;
-
-  // Member: robot_name
-  cdr >> ros_message.robot_name;
-
-  // Member: number_robot
-  cdr >> ros_message.number_robot;
 
   return true;
 }
@@ -81,26 +67,14 @@ get_serialized_size(
   (void)padding;
   (void)wchar_size;
 
-  // Member: using_arena_robot
-  {
-    size_t item_size = sizeof(ros_message.using_arena_robot);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
+  // Member: name
+  current_alignment += padding +
+    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+    (ros_message.name.size() + 1);
   // Member: urdf_path
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
     (ros_message.urdf_path.size() + 1);
-  // Member: robot_name
-  current_alignment += padding +
-    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-    (ros_message.robot_name.size() + 1);
-  // Member: number_robot
-  {
-    size_t item_size = sizeof(ros_message.number_robot);
-    current_alignment += item_size +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
-  }
 
   return current_alignment - initial_alignment;
 }
@@ -125,12 +99,17 @@ max_serialized_size_UrdfToUsd_Request(
   is_plain = true;
 
 
-  // Member: using_arena_robot
+  // Member: name
   {
     size_t array_size = 1;
 
-    last_member_size = array_size * sizeof(uint8_t);
-    current_alignment += array_size * sizeof(uint8_t);
+    full_bounded = false;
+    is_plain = false;
+    for (size_t index = 0; index < array_size; ++index) {
+      current_alignment += padding +
+        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
+        1;
+    }
   }
 
   // Member: urdf_path
@@ -146,28 +125,6 @@ max_serialized_size_UrdfToUsd_Request(
     }
   }
 
-  // Member: robot_name
-  {
-    size_t array_size = 1;
-
-    full_bounded = false;
-    is_plain = false;
-    for (size_t index = 0; index < array_size; ++index) {
-      current_alignment += padding +
-        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-        1;
-    }
-  }
-
-  // Member: number_robot
-  {
-    size_t array_size = 1;
-
-    last_member_size = array_size * sizeof(uint64_t);
-    current_alignment += array_size * sizeof(uint64_t) +
-      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint64_t));
-  }
-
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -176,7 +133,7 @@ max_serialized_size_UrdfToUsd_Request(
     using DataType = isaacsim_msgs::srv::UrdfToUsd_Request;
     is_plain =
       (
-      offsetof(DataType, number_robot) +
+      offsetof(DataType, urdf_path) +
       last_member_size
       ) == ret_val;
   }
@@ -314,8 +271,6 @@ cdr_serialize(
 {
   // Member: usd_path
   cdr << ros_message.usd_path;
-  // Member: prim_path
-  cdr << ros_message.prim_path;
   return true;
 }
 
@@ -327,9 +282,6 @@ cdr_deserialize(
 {
   // Member: usd_path
   cdr >> ros_message.usd_path;
-
-  // Member: prim_path
-  cdr >> ros_message.prim_path;
 
   return true;
 }
@@ -351,10 +303,6 @@ get_serialized_size(
   current_alignment += padding +
     eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
     (ros_message.usd_path.size() + 1);
-  // Member: prim_path
-  current_alignment += padding +
-    eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-    (ros_message.prim_path.size() + 1);
 
   return current_alignment - initial_alignment;
 }
@@ -392,19 +340,6 @@ max_serialized_size_UrdfToUsd_Response(
     }
   }
 
-  // Member: prim_path
-  {
-    size_t array_size = 1;
-
-    full_bounded = false;
-    is_plain = false;
-    for (size_t index = 0; index < array_size; ++index) {
-      current_alignment += padding +
-        eprosima::fastcdr::Cdr::alignment(current_alignment, padding) +
-        1;
-    }
-  }
-
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -413,7 +348,7 @@ max_serialized_size_UrdfToUsd_Response(
     using DataType = isaacsim_msgs::srv::UrdfToUsd_Response;
     is_plain =
       (
-      offsetof(DataType, prim_path) +
+      offsetof(DataType, usd_path) +
       last_member_size
       ) == ret_val;
   }

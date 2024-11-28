@@ -373,6 +373,9 @@ ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msg
 # install(FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl" "DESTINATION" "share/isaacsim_msgs/srv")
 ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl" "DESTINATION" "share/isaacsim_msgs/srv")
 
+# install(FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl" "DESTINATION" "share/isaacsim_msgs/srv")
+ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl" "DESTINATION" "share/isaacsim_msgs/srv")
+
 # install(FILES "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs/msg/PrimPath.msg" "DESTINATION" "share/isaacsim_msgs/msg")
 ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs/msg/PrimPath.msg" "DESTINATION" "share/isaacsim_msgs/msg")
 
@@ -399,6 +402,15 @@ ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msg
 
 # install(FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/UrdfToUsd_Response.msg" "DESTINATION" "share/isaacsim_msgs/srv")
 ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/UrdfToUsd_Response.msg" "DESTINATION" "share/isaacsim_msgs/srv")
+
+# install(FILES "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUrdf.srv" "DESTINATION" "share/isaacsim_msgs/srv")
+ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUrdf.srv" "DESTINATION" "share/isaacsim_msgs/srv")
+
+# install(FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportUrdf_Request.msg" "DESTINATION" "share/isaacsim_msgs/srv")
+ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportUrdf_Request.msg" "DESTINATION" "share/isaacsim_msgs/srv")
+
+# install(FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportUrdf_Response.msg" "DESTINATION" "share/isaacsim_msgs/srv")
+ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportUrdf_Response.msg" "DESTINATION" "share/isaacsim_msgs/srv")
 
 # install(FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/isaacsim_msgs" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")
 ament_cmake_symlink_install_files("/home/ducanh/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/ament_cmake_index/share/ament_index/resource_index/package_run_dependencies/isaacsim_msgs" "DESTINATION" "share/ament_index/resource_index/package_run_dependencies")

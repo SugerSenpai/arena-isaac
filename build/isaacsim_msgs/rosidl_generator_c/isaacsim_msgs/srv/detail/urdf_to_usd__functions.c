@@ -11,8 +11,8 @@
 #include "rcutils/allocator.h"
 
 // Include directives for member types
+// Member `name`
 // Member `urdf_path`
-// Member `robot_name`
 #include "rosidl_runtime_c/string_functions.h"
 
 bool
@@ -21,18 +21,16 @@ isaacsim_msgs__srv__UrdfToUsd_Request__init(isaacsim_msgs__srv__UrdfToUsd_Reques
   if (!msg) {
     return false;
   }
-  // using_arena_robot
+  // name
+  if (!rosidl_runtime_c__String__init(&msg->name)) {
+    isaacsim_msgs__srv__UrdfToUsd_Request__fini(msg);
+    return false;
+  }
   // urdf_path
   if (!rosidl_runtime_c__String__init(&msg->urdf_path)) {
     isaacsim_msgs__srv__UrdfToUsd_Request__fini(msg);
     return false;
   }
-  // robot_name
-  if (!rosidl_runtime_c__String__init(&msg->robot_name)) {
-    isaacsim_msgs__srv__UrdfToUsd_Request__fini(msg);
-    return false;
-  }
-  // number_robot
   return true;
 }
 
@@ -42,12 +40,10 @@ isaacsim_msgs__srv__UrdfToUsd_Request__fini(isaacsim_msgs__srv__UrdfToUsd_Reques
   if (!msg) {
     return;
   }
-  // using_arena_robot
+  // name
+  rosidl_runtime_c__String__fini(&msg->name);
   // urdf_path
   rosidl_runtime_c__String__fini(&msg->urdf_path);
-  // robot_name
-  rosidl_runtime_c__String__fini(&msg->robot_name);
-  // number_robot
 }
 
 bool
@@ -56,24 +52,16 @@ isaacsim_msgs__srv__UrdfToUsd_Request__are_equal(const isaacsim_msgs__srv__UrdfT
   if (!lhs || !rhs) {
     return false;
   }
-  // using_arena_robot
-  if (lhs->using_arena_robot != rhs->using_arena_robot) {
+  // name
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->name), &(rhs->name)))
+  {
     return false;
   }
   // urdf_path
   if (!rosidl_runtime_c__String__are_equal(
       &(lhs->urdf_path), &(rhs->urdf_path)))
   {
-    return false;
-  }
-  // robot_name
-  if (!rosidl_runtime_c__String__are_equal(
-      &(lhs->robot_name), &(rhs->robot_name)))
-  {
-    return false;
-  }
-  // number_robot
-  if (lhs->number_robot != rhs->number_robot) {
     return false;
   }
   return true;
@@ -87,22 +75,18 @@ isaacsim_msgs__srv__UrdfToUsd_Request__copy(
   if (!input || !output) {
     return false;
   }
-  // using_arena_robot
-  output->using_arena_robot = input->using_arena_robot;
+  // name
+  if (!rosidl_runtime_c__String__copy(
+      &(input->name), &(output->name)))
+  {
+    return false;
+  }
   // urdf_path
   if (!rosidl_runtime_c__String__copy(
       &(input->urdf_path), &(output->urdf_path)))
   {
     return false;
   }
-  // robot_name
-  if (!rosidl_runtime_c__String__copy(
-      &(input->robot_name), &(output->robot_name)))
-  {
-    return false;
-  }
-  // number_robot
-  output->number_robot = input->number_robot;
   return true;
 }
 
@@ -288,7 +272,6 @@ isaacsim_msgs__srv__UrdfToUsd_Request__Sequence__copy(
 
 // Include directives for member types
 // Member `usd_path`
-// Member `prim_path`
 // already included above
 // #include "rosidl_runtime_c/string_functions.h"
 
@@ -303,11 +286,6 @@ isaacsim_msgs__srv__UrdfToUsd_Response__init(isaacsim_msgs__srv__UrdfToUsd_Respo
     isaacsim_msgs__srv__UrdfToUsd_Response__fini(msg);
     return false;
   }
-  // prim_path
-  if (!rosidl_runtime_c__String__init(&msg->prim_path)) {
-    isaacsim_msgs__srv__UrdfToUsd_Response__fini(msg);
-    return false;
-  }
   return true;
 }
 
@@ -319,8 +297,6 @@ isaacsim_msgs__srv__UrdfToUsd_Response__fini(isaacsim_msgs__srv__UrdfToUsd_Respo
   }
   // usd_path
   rosidl_runtime_c__String__fini(&msg->usd_path);
-  // prim_path
-  rosidl_runtime_c__String__fini(&msg->prim_path);
 }
 
 bool
@@ -332,12 +308,6 @@ isaacsim_msgs__srv__UrdfToUsd_Response__are_equal(const isaacsim_msgs__srv__Urdf
   // usd_path
   if (!rosidl_runtime_c__String__are_equal(
       &(lhs->usd_path), &(rhs->usd_path)))
-  {
-    return false;
-  }
-  // prim_path
-  if (!rosidl_runtime_c__String__are_equal(
-      &(lhs->prim_path), &(rhs->prim_path)))
   {
     return false;
   }
@@ -355,12 +325,6 @@ isaacsim_msgs__srv__UrdfToUsd_Response__copy(
   // usd_path
   if (!rosidl_runtime_c__String__copy(
       &(input->usd_path), &(output->usd_path)))
-  {
-    return false;
-  }
-  // prim_path
-  if (!rosidl_runtime_c__String__copy(
-      &(input->prim_path), &(output->prim_path)))
   {
     return false;
   }

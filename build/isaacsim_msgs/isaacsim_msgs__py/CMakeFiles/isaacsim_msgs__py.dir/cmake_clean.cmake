@@ -10,6 +10,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/isaacsim_msgs/msg/_quat.py"
   "../rosidl_generator_py/isaacsim_msgs/msg/_quat_s.c"
   "../rosidl_generator_py/isaacsim_msgs/srv/__init__.py"
+  "../rosidl_generator_py/isaacsim_msgs/srv/_import_urdf.py"
+  "../rosidl_generator_py/isaacsim_msgs/srv/_import_urdf_s.c"
   "../rosidl_generator_py/isaacsim_msgs/srv/_import_usd.py"
   "../rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c"
   "../rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py"

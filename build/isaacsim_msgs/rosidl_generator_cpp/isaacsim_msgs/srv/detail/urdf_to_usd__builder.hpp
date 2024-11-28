@@ -21,15 +21,15 @@ namespace srv
 namespace builder
 {
 
-class Init_UrdfToUsd_Request_number_robot
+class Init_UrdfToUsd_Request_urdf_path
 {
 public:
-  explicit Init_UrdfToUsd_Request_number_robot(::isaacsim_msgs::srv::UrdfToUsd_Request & msg)
+  explicit Init_UrdfToUsd_Request_urdf_path(::isaacsim_msgs::srv::UrdfToUsd_Request & msg)
   : msg_(msg)
   {}
-  ::isaacsim_msgs::srv::UrdfToUsd_Request number_robot(::isaacsim_msgs::srv::UrdfToUsd_Request::_number_robot_type arg)
+  ::isaacsim_msgs::srv::UrdfToUsd_Request urdf_path(::isaacsim_msgs::srv::UrdfToUsd_Request::_urdf_path_type arg)
   {
-    msg_.number_robot = std::move(arg);
+    msg_.urdf_path = std::move(arg);
     return std::move(msg_);
   }
 
@@ -37,47 +37,15 @@ private:
   ::isaacsim_msgs::srv::UrdfToUsd_Request msg_;
 };
 
-class Init_UrdfToUsd_Request_robot_name
+class Init_UrdfToUsd_Request_name
 {
 public:
-  explicit Init_UrdfToUsd_Request_robot_name(::isaacsim_msgs::srv::UrdfToUsd_Request & msg)
-  : msg_(msg)
-  {}
-  Init_UrdfToUsd_Request_number_robot robot_name(::isaacsim_msgs::srv::UrdfToUsd_Request::_robot_name_type arg)
-  {
-    msg_.robot_name = std::move(arg);
-    return Init_UrdfToUsd_Request_number_robot(msg_);
-  }
-
-private:
-  ::isaacsim_msgs::srv::UrdfToUsd_Request msg_;
-};
-
-class Init_UrdfToUsd_Request_urdf_path
-{
-public:
-  explicit Init_UrdfToUsd_Request_urdf_path(::isaacsim_msgs::srv::UrdfToUsd_Request & msg)
-  : msg_(msg)
-  {}
-  Init_UrdfToUsd_Request_robot_name urdf_path(::isaacsim_msgs::srv::UrdfToUsd_Request::_urdf_path_type arg)
-  {
-    msg_.urdf_path = std::move(arg);
-    return Init_UrdfToUsd_Request_robot_name(msg_);
-  }
-
-private:
-  ::isaacsim_msgs::srv::UrdfToUsd_Request msg_;
-};
-
-class Init_UrdfToUsd_Request_using_arena_robot
-{
-public:
-  Init_UrdfToUsd_Request_using_arena_robot()
+  Init_UrdfToUsd_Request_name()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_UrdfToUsd_Request_urdf_path using_arena_robot(::isaacsim_msgs::srv::UrdfToUsd_Request::_using_arena_robot_type arg)
+  Init_UrdfToUsd_Request_urdf_path name(::isaacsim_msgs::srv::UrdfToUsd_Request::_name_type arg)
   {
-    msg_.using_arena_robot = std::move(arg);
+    msg_.name = std::move(arg);
     return Init_UrdfToUsd_Request_urdf_path(msg_);
   }
 
@@ -96,7 +64,7 @@ template<>
 inline
 auto build<::isaacsim_msgs::srv::UrdfToUsd_Request>()
 {
-  return isaacsim_msgs::srv::builder::Init_UrdfToUsd_Request_using_arena_robot();
+  return isaacsim_msgs::srv::builder::Init_UrdfToUsd_Request_name();
 }
 
 }  // namespace isaacsim_msgs
@@ -111,32 +79,16 @@ namespace srv
 namespace builder
 {
 
-class Init_UrdfToUsd_Response_prim_path
-{
-public:
-  explicit Init_UrdfToUsd_Response_prim_path(::isaacsim_msgs::srv::UrdfToUsd_Response & msg)
-  : msg_(msg)
-  {}
-  ::isaacsim_msgs::srv::UrdfToUsd_Response prim_path(::isaacsim_msgs::srv::UrdfToUsd_Response::_prim_path_type arg)
-  {
-    msg_.prim_path = std::move(arg);
-    return std::move(msg_);
-  }
-
-private:
-  ::isaacsim_msgs::srv::UrdfToUsd_Response msg_;
-};
-
 class Init_UrdfToUsd_Response_usd_path
 {
 public:
   Init_UrdfToUsd_Response_usd_path()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_UrdfToUsd_Response_prim_path usd_path(::isaacsim_msgs::srv::UrdfToUsd_Response::_usd_path_type arg)
+  ::isaacsim_msgs::srv::UrdfToUsd_Response usd_path(::isaacsim_msgs::srv::UrdfToUsd_Response::_usd_path_type arg)
   {
     msg_.usd_path = std::move(arg);
-    return Init_UrdfToUsd_Response_prim_path(msg_);
+    return std::move(msg_);
   }
 
 private:

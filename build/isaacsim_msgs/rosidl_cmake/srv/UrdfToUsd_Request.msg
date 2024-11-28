@@ -1,4 +1,2 @@
-bool using_arena_robot
+string name
 string urdf_path
-string robot_name
-int64 number_robot

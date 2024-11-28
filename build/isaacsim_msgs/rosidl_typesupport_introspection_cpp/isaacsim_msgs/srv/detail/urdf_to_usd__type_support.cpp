@@ -37,16 +37,16 @@ void UrdfToUsd_Request_fini_function(void * message_memory)
   typed_message->~UrdfToUsd_Request();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember UrdfToUsd_Request_message_member_array[4] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember UrdfToUsd_Request_message_member_array[2] = {
   {
-    "using_arena_robot",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_BOOLEAN,  // type
+    "name",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
     0,  // upper bound of string
     nullptr,  // members of sub message
     false,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(isaacsim_msgs::srv::UrdfToUsd_Request, using_arena_robot),  // bytes offset in struct
+    offsetof(isaacsim_msgs::srv::UrdfToUsd_Request, name),  // bytes offset in struct
     nullptr,  // default value
     nullptr,  // size() function pointer
     nullptr,  // get_const(index) function pointer
@@ -71,47 +71,13 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember UrdfToUsd_Req
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
-  },
-  {
-    "robot_name",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(isaacsim_msgs::srv::UrdfToUsd_Request, robot_name),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
-  },
-  {
-    "number_robot",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_INT64,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(isaacsim_msgs::srv::UrdfToUsd_Request, number_robot),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers UrdfToUsd_Request_message_members = {
   "isaacsim_msgs::srv",  // message namespace
   "UrdfToUsd_Request",  // message name
-  4,  // number of fields
+  2,  // number of fields
   sizeof(isaacsim_msgs::srv::UrdfToUsd_Request),
   UrdfToUsd_Request_message_member_array,  // message members
   UrdfToUsd_Request_init_function,  // function to initialize message memory (memory has to be allocated)
@@ -207,7 +173,7 @@ void UrdfToUsd_Response_fini_function(void * message_memory)
   typed_message->~UrdfToUsd_Response();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember UrdfToUsd_Response_message_member_array[2] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember UrdfToUsd_Response_message_member_array[1] = {
   {
     "usd_path",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
@@ -224,30 +190,13 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember UrdfToUsd_Res
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
-  },
-  {
-    "prim_path",  // name
-    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
-    0,  // upper bound of string
-    nullptr,  // members of sub message
-    false,  // is array
-    0,  // array size
-    false,  // is upper bound
-    offsetof(isaacsim_msgs::srv::UrdfToUsd_Response, prim_path),  // bytes offset in struct
-    nullptr,  // default value
-    nullptr,  // size() function pointer
-    nullptr,  // get_const(index) function pointer
-    nullptr,  // get(index) function pointer
-    nullptr,  // fetch(index, &value) function pointer
-    nullptr,  // assign(index, value) function pointer
-    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers UrdfToUsd_Response_message_members = {
   "isaacsim_msgs::srv",  // message namespace
   "UrdfToUsd_Response",  // message name
-  2,  // number of fields
+  1,  // number of fields
   sizeof(isaacsim_msgs::srv::UrdfToUsd_Response),
   UrdfToUsd_Response_message_member_array,  // message members
   UrdfToUsd_Response_init_function,  // function to initialize message memory (memory has to be allocated)

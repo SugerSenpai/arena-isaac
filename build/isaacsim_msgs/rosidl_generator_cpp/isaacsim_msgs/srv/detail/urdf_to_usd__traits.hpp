@@ -25,10 +25,10 @@ inline void to_flow_style_yaml(
   std::ostream & out)
 {
   out << "{";
-  // member: using_arena_robot
+  // member: name
   {
-    out << "using_arena_robot: ";
-    rosidl_generator_traits::value_to_yaml(msg.using_arena_robot, out);
+    out << "name: ";
+    rosidl_generator_traits::value_to_yaml(msg.name, out);
     out << ", ";
   }
 
@@ -36,20 +36,6 @@ inline void to_flow_style_yaml(
   {
     out << "urdf_path: ";
     rosidl_generator_traits::value_to_yaml(msg.urdf_path, out);
-    out << ", ";
-  }
-
-  // member: robot_name
-  {
-    out << "robot_name: ";
-    rosidl_generator_traits::value_to_yaml(msg.robot_name, out);
-    out << ", ";
-  }
-
-  // member: number_robot
-  {
-    out << "number_robot: ";
-    rosidl_generator_traits::value_to_yaml(msg.number_robot, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -58,13 +44,13 @@ inline void to_block_style_yaml(
   const UrdfToUsd_Request & msg,
   std::ostream & out, size_t indentation = 0)
 {
-  // member: using_arena_robot
+  // member: name
   {
     if (indentation > 0) {
       out << std::string(indentation, ' ');
     }
-    out << "using_arena_robot: ";
-    rosidl_generator_traits::value_to_yaml(msg.using_arena_robot, out);
+    out << "name: ";
+    rosidl_generator_traits::value_to_yaml(msg.name, out);
     out << "\n";
   }
 
@@ -75,26 +61,6 @@ inline void to_block_style_yaml(
     }
     out << "urdf_path: ";
     rosidl_generator_traits::value_to_yaml(msg.urdf_path, out);
-    out << "\n";
-  }
-
-  // member: robot_name
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "robot_name: ";
-    rosidl_generator_traits::value_to_yaml(msg.robot_name, out);
-    out << "\n";
-  }
-
-  // member: number_robot
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "number_robot: ";
-    rosidl_generator_traits::value_to_yaml(msg.number_robot, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)
@@ -172,13 +138,6 @@ inline void to_flow_style_yaml(
   {
     out << "usd_path: ";
     rosidl_generator_traits::value_to_yaml(msg.usd_path, out);
-    out << ", ";
-  }
-
-  // member: prim_path
-  {
-    out << "prim_path: ";
-    rosidl_generator_traits::value_to_yaml(msg.prim_path, out);
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -194,16 +153,6 @@ inline void to_block_style_yaml(
     }
     out << "usd_path: ";
     rosidl_generator_traits::value_to_yaml(msg.usd_path, out);
-    out << "\n";
-  }
-
-  // member: prim_path
-  {
-    if (indentation > 0) {
-      out << std::string(indentation, ' ');
-    }
-    out << "prim_path: ";
-    rosidl_generator_traits::value_to_yaml(msg.prim_path, out);
     out << "\n";
   }
 }  // NOLINT(readability/fn_size)

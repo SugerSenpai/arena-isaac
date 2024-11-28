@@ -24,7 +24,8 @@ setup(
     entry_points={
         'console_scripts': [
             "run_isaacsim=ros2isaacsim.run_isaacsim:main",
-            "convert_urdf_usd=ros2isaacsim.convert_urdf_usd:main"
+            "convert_urdf_usd=ros2isaacsim.convert_urdf_usd:main",
+            "open_multiple_robot=ros2isaacsim.open_multiple_robot:main",
         ],
     },
 )

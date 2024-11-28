@@ -74,6 +74,7 @@ isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msg
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/_euler.py
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_usd.py
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py
+isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_urdf.py
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/__init__.py
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/__init__.py
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/_prim_path_s.c
@@ -81,6 +82,7 @@ isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msg
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/_euler_s.c
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c
 isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c
+isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_urdf_s.c
 
 rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/lib/rosidl_generator_py/rosidl_generator_py
 rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: /opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_generator_py/__init__.py
@@ -100,6 +102,7 @@ rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtp
 rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/isaacsim_msgs/msg/Euler.idl
 rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
 rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
+rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c: rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating Python code for ROS interfaces"
 	cd /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/isaacsim_msgs__py && /home/ducanh/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_py/cmake/../../../lib/rosidl_generator_py/rosidl_generator_py --generator-arguments-file /home/ducanh/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py__arguments.json --typesupport-impls "rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c;rosidl_typesupport_c"
 
@@ -124,6 +127,9 @@ rosidl_generator_py/isaacsim_msgs/srv/_import_usd.py: rosidl_generator_py/isaacs
 rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py
 
+rosidl_generator_py/isaacsim_msgs/srv/_import_urdf.py: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/isaacsim_msgs/srv/_import_urdf.py
+
 rosidl_generator_py/isaacsim_msgs/msg/__init__.py: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/isaacsim_msgs/msg/__init__.py
 
@@ -145,6 +151,9 @@ rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c: rosidl_generator_py/isaac
 rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c
 
+rosidl_generator_py/isaacsim_msgs/srv/_import_urdf_s.c: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_py/isaacsim_msgs/srv/_import_urdf_s.c
+
 isaacsim_msgs__py: isaacsim_msgs__py/CMakeFiles/isaacsim_msgs__py
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_c.c
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c
@@ -157,6 +166,8 @@ isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/_prim_path_s.c
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/_quat.py
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/msg/_quat_s.c
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/__init__.py
+isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_urdf.py
+isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_urdf_s.c
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_usd.py
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c
 isaacsim_msgs__py: rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd.py

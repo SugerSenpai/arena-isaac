@@ -18,17 +18,15 @@ extern "C"
 // Constants defined in the message
 
 // Include directives for member types
+// Member 'name'
 // Member 'urdf_path'
-// Member 'robot_name'
 #include "rosidl_runtime_c/string.h"
 
 /// Struct defined in srv/UrdfToUsd in the package isaacsim_msgs.
 typedef struct isaacsim_msgs__srv__UrdfToUsd_Request
 {
-  bool using_arena_robot;
+  rosidl_runtime_c__String name;
   rosidl_runtime_c__String urdf_path;
-  rosidl_runtime_c__String robot_name;
-  int64_t number_robot;
 } isaacsim_msgs__srv__UrdfToUsd_Request;
 
 // Struct for a sequence of isaacsim_msgs__srv__UrdfToUsd_Request.
@@ -46,7 +44,6 @@ typedef struct isaacsim_msgs__srv__UrdfToUsd_Request__Sequence
 
 // Include directives for member types
 // Member 'usd_path'
-// Member 'prim_path'
 // already included above
 // #include "rosidl_runtime_c/string.h"
 
@@ -54,7 +51,6 @@ typedef struct isaacsim_msgs__srv__UrdfToUsd_Request__Sequence
 typedef struct isaacsim_msgs__srv__UrdfToUsd_Response
 {
   rosidl_runtime_c__String usd_path;
-  rosidl_runtime_c__String prim_path;
 } isaacsim_msgs__srv__UrdfToUsd_Response;
 
 // Struct for a sequence of isaacsim_msgs__srv__UrdfToUsd_Response.
