@@ -1,0 +1,36 @@
+{
+  "package_name": "isaacsim_msgs",
+  "output_dir": "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs",
+  "template_dir": "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource",
+  "idl_tuples": [
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/PrimPath.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Quat.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Euler.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Env.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/UrdfToUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUrdf.idl"
+  ],
+  "target_dependencies": [
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../../../lib/rosidl_generator_c/rosidl_generator_c",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../../../local/lib/python3.10/dist-packages/rosidl_generator_c/__init__.py",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/action__type_support.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/idl.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/idl__functions.c.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/idl__functions.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/idl__struct.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/idl__type_support.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/msg__functions.c.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/msg__functions.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/msg__struct.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/msg__type_support.h.em",
+    "/opt/ros/humble/share/rosidl_generator_c/cmake/../resource/srv__type_support.h.em",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/PrimPath.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Quat.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Env.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl"
+  ]
+}

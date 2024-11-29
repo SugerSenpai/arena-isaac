@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from isaacsim_msgs/srv/UrdfToUsd.srv
+// generated code does not contain a copyright notice
+
+
+module isaacsim_msgs {
+  module srv {
+    struct UrdfToUsd_Request {
+      string name;
+
+      string urdf_path;
+    };
+    struct UrdfToUsd_Response {
+      string usd_path;
+    };
+  };
+};

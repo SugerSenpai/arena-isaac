@@ -1,0 +1,12 @@
+source;share/ros2isaacsim/hook/path.ps1
+source;share/ros2isaacsim/hook/path.dsv
+source;share/ros2isaacsim/hook/path.sh
+source;share/ros2isaacsim/hook/pythonpath.ps1
+source;share/ros2isaacsim/hook/pythonpath.dsv
+source;share/ros2isaacsim/hook/pythonpath.sh
+source;share/ros2isaacsim/hook/pythonscriptspath.ps1
+source;share/ros2isaacsim/hook/pythonscriptspath.dsv
+source;share/ros2isaacsim/hook/pythonscriptspath.sh
+source;share/ros2isaacsim/hook/ament_prefix_path.ps1
+source;share/ros2isaacsim/hook/ament_prefix_path.dsv
+source;share/ros2isaacsim/hook/ament_prefix_path.sh

@@ -1,0 +1,12 @@
+{
+  "package_name": "isaacsim_msgs",
+  "non_idl_tuples": [
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:msg/PrimPath.msg",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:msg/Quat.msg",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:msg/Euler.msg",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:msg/Env.msg",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUsd.srv",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/UrdfToUsd.srv",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUrdf.srv"
+  ]
+}
