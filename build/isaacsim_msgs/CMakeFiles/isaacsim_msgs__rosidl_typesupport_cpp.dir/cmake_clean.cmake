@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/import_urdf__type_support.cpp.o.d"
   "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/import_usd__type_support.cpp.o"
   "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/import_usd__type_support.cpp.o.d"
+  "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/import_yaml__type_support.cpp.o"
+  "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/import_yaml__type_support.cpp.o.d"
   "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/urdf_to_usd__type_support.cpp.o"
   "CMakeFiles/isaacsim_msgs__rosidl_typesupport_cpp.dir/rosidl_typesupport_cpp/isaacsim_msgs/srv/urdf_to_usd__type_support.cpp.o.d"
   "libisaacsim_msgs__rosidl_typesupport_cpp.pdb"
@@ -21,6 +23,7 @@ file(REMOVE_RECURSE
   "rosidl_typesupport_cpp/isaacsim_msgs/msg/quat__type_support.cpp"
   "rosidl_typesupport_cpp/isaacsim_msgs/srv/import_urdf__type_support.cpp"
   "rosidl_typesupport_cpp/isaacsim_msgs/srv/import_usd__type_support.cpp"
+  "rosidl_typesupport_cpp/isaacsim_msgs/srv/import_yaml__type_support.cpp"
   "rosidl_typesupport_cpp/isaacsim_msgs/srv/urdf_to_usd__type_support.cpp"
 )
 

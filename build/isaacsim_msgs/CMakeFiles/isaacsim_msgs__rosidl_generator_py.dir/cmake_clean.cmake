@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_import_urdf_s.c.o.d"
   "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c.o"
   "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_import_usd_s.c.o.d"
+  "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_import_yaml_s.c.o"
+  "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_import_yaml_s.c.o.d"
   "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c.o"
   "CMakeFiles/isaacsim_msgs__rosidl_generator_py.dir/rosidl_generator_py/isaacsim_msgs/srv/_urdf_to_usd_s.c.o.d"
   "rosidl_generator_py/isaacsim_msgs/libisaacsim_msgs__rosidl_generator_py.pdb"

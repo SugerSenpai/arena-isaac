@@ -14,6 +14,10 @@ srv/ImportUsd.idl
 srv/ImportUsd.srv
 srv/ImportUsd_Request.msg
 srv/ImportUsd_Response.msg
+srv/ImportYaml.idl
+srv/ImportYaml.srv
+srv/ImportYaml_Request.msg
+srv/ImportYaml_Response.msg
 srv/UrdfToUsd.idl
 srv/UrdfToUsd.srv
 srv/UrdfToUsd_Request.msg

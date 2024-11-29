@@ -265,8 +265,15 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c__pyext.dir/rosidl_genera
   rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h \
-  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__type_support.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h
 
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__type_support.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h:
 
@@ -529,6 +536,8 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/euler__type_support.h:
 /usr/include/python3.10/cpython/pymem.h:
 
 /usr/include/python3.10/setobject.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/syslimits.h:
 

@@ -9,7 +9,8 @@
     "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Env.idl",
     "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl",
     "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/UrdfToUsd.idl",
-    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUrdf.idl"
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUrdf.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportYaml.idl"
   ],
   "target_dependencies": [
     "/opt/ros/humble/lib/rosidl_typesupport_fastrtps_cpp/rosidl_typesupport_fastrtps_cpp",
@@ -26,6 +27,7 @@
     "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Env.idl",
     "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl",
     "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl",
-    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl"
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportYaml.idl"
   ]
 }

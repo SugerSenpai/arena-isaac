@@ -22,11 +22,15 @@ file(REMOVE_RECURSE
   "rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__builder.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__struct.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__traits.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/import_urdf.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/srv/import_yaml.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp"
 )
 

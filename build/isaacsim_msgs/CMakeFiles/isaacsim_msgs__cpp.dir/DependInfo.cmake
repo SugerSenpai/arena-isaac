@@ -33,11 +33,15 @@ set(CMAKE_MULTIPLE_OUTPUT_PAIRS
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__builder.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__struct.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__traits.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/import_urdf.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
+  "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/import_yaml.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp" "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   )
 

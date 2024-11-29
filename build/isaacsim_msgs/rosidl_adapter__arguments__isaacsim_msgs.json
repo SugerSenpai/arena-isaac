@@ -7,6 +7,7 @@
     "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:msg/Env.msg",
     "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUsd.srv",
     "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/UrdfToUsd.srv",
-    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUrdf.srv"
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUrdf.srv",
+    "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportYaml.srv"
   ]
 }

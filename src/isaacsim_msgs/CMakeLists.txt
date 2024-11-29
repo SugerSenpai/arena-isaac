@@ -20,6 +20,7 @@ set(srv_files
   "srv/ImportUsd.srv"
   "srv/UrdfToUsd.srv"
   "srv/ImportUrdf.srv"
+  "srv/ImportYaml.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

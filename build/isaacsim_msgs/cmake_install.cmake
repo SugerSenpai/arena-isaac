@@ -384,6 +384,10 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportYaml.idl")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/msg" TYPE FILE FILES "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/msg/PrimPath.msg")
 endif()
 
@@ -433,6 +437,18 @@ endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportUrdf_Response.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportYaml.srv")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportYaml_Request.msg")
+endif()
+
+if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/isaacsim_msgs/srv" TYPE FILE FILES "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_cmake/srv/ImportYaml_Response.msg")
 endif()
 
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)

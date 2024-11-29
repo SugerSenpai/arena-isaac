@@ -1,0 +1,15 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from isaacsim_msgs/srv/ImportYaml.srv
+// generated code does not contain a copyright notice
+
+
+module isaacsim_msgs {
+  module srv {
+    struct ImportYaml_Request {
+      string yaml_path;
+    };
+    struct ImportYaml_Response {
+      boolean ret;
+    };
+  };
+};

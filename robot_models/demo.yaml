@@ -1,0 +1,7 @@
+robot:
+  name: "waffle"
+  usd_path: "robot_models/Arena_rosnav/User/waffle.usd"
+  prim_path: "/World"
+  control: false
+  position: [2, 1, 0]
+  orientation: [1, 1, -1, 0]
