@@ -1,5 +1,6 @@
 string name
 string prim_path
 ---
-string[] attributes_name
-float32[] translate
+float32[3] translate
+float32[4] orient
+float32[3] scale

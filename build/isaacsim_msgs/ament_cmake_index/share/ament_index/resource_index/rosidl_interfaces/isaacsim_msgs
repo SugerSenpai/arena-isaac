@@ -1,3 +1,5 @@
+msg/Env.idl
+msg/Env.msg
 msg/Euler.idl
 msg/Euler.msg
 msg/PrimPath.idl

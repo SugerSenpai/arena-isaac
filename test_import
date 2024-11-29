@@ -8,4 +8,4 @@ ros2 service call /_delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waffle',
 
 ros2 service call /get_prim_attributes isaacsim_msgs/srv/GetPrimAttributes "{'name': 'waffle', 'prim_path': '/World/waffle'}"
 
-ros2 service call /move_prim isaacsim_msgs/srv/MovePrim "{'name': 'waffle', 'prim_path': '/World/waffle', 'target': [2.0,3.0,0]}"
+ros2 service call /move_prim isaacsim_msgs/srv/MovePrim "{'name': 'waffle', 'prim_path': '/World/waffle', 'target': [0.0,3.0,5]}"

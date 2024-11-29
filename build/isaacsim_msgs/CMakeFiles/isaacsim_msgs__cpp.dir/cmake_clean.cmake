@@ -1,5 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/isaacsim_msgs__cpp"
+  "rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__builder.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__struct.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__builder.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__struct.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__traits.hpp"
@@ -9,6 +12,7 @@ file(REMOVE_RECURSE
   "rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__builder.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__struct.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__traits.hpp"
+  "rosidl_generator_cpp/isaacsim_msgs/msg/env.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/euler.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp"
   "rosidl_generator_cpp/isaacsim_msgs/msg/quat.hpp"

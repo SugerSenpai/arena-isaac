@@ -367,6 +367,9 @@ ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs"
 # install(FILES "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl" "DESTINATION" "share/isaacsim_msgs/msg")
 ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl" "DESTINATION" "share/isaacsim_msgs/msg")
 
+# install(FILES "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Env.idl" "DESTINATION" "share/isaacsim_msgs/msg")
+ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Env.idl" "DESTINATION" "share/isaacsim_msgs/msg")
+
 # install(FILES "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl" "DESTINATION" "share/isaacsim_msgs/srv")
 ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl" "DESTINATION" "share/isaacsim_msgs/srv")
 
@@ -393,6 +396,9 @@ ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs"
 
 # install(FILES "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/Euler.msg" "DESTINATION" "share/isaacsim_msgs/msg")
 ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/Euler.msg" "DESTINATION" "share/isaacsim_msgs/msg")
+
+# install(FILES "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/Env.msg" "DESTINATION" "share/isaacsim_msgs/msg")
+ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/Env.msg" "DESTINATION" "share/isaacsim_msgs/msg")
 
 # install(FILES "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUsd.srv" "DESTINATION" "share/isaacsim_msgs/srv")
 ament_cmake_symlink_install_files("/home/sora/Arena4-IsaacSim/src/isaacsim_msgs" FILES "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUsd.srv" "DESTINATION" "share/isaacsim_msgs/srv")

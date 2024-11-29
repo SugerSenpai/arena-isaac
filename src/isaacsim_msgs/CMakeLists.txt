@@ -13,6 +13,7 @@ set(msg_files
   "msg/PrimPath.msg"
   "msg/Quat.msg"
   "msg/Euler.msg"
+  "msg/Env.msg"
   )
 
 set(srv_files

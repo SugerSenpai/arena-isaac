@@ -4,6 +4,7 @@
     "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/PrimPath.msg",
     "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/Quat.msg",
     "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/Euler.msg",
+    "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:msg/Env.msg",
     "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUsd.srv",
     "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/UrdfToUsd.srv",
     "/home/sora/Arena4-IsaacSim/src/isaacsim_msgs:srv/ImportUrdf.srv",

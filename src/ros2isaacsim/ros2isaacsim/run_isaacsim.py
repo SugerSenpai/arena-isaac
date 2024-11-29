@@ -11,6 +11,7 @@ import omni
 import omni.graph.core as og
 import usdrt.Sdf
 from omni.isaac.core import SimulationContext
+from omni.isaac.core.utils.rotations import quat_to_euler_angles
 from omni.isaac.core.utils import extensions, stage
 from omni.isaac.nucleus import get_assets_root_path
 from omni.kit.viewport.utility import get_active_viewport
@@ -100,9 +101,12 @@ def create_publish_environment_information(controller):
 #=========================Get Prims attribute service============================
 def get_prim_attributes(request,response):
     name = request.name
-    prim_path = request.prim_path
-    response.attributes_name = get_prim_attribute_names(prim_path)
-    response.translate = get_prim_attribute_value(prim_path,attribute_name="xformOp:translate")
+    prim = get_prim_at_path(request.prim_path)
+    response.translate = np.array(prim.GetAttribute("xformOp:translate").Get(),dtype=np.float32)
+    quat = prim.GetAttribute("xformOp:orient").Get()
+    response.orient =  np.array([quat.real, quat.imaginary[0], quat.imaginary[1], quat.imaginary[2]], dtype=np.float32)
+    response.scale = np.array(prim.GetAttribute("xformOp:scale").Get(),dtype=np.float32)
+
     return response
 
 def get_prim_attr(controller):

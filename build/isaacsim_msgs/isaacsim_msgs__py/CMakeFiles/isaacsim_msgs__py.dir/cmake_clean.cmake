@@ -3,6 +3,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_fastrtps_c.c"
   "../rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_introspection_c.c"
   "../rosidl_generator_py/isaacsim_msgs/msg/__init__.py"
+  "../rosidl_generator_py/isaacsim_msgs/msg/_env.py"
+  "../rosidl_generator_py/isaacsim_msgs/msg/_env_s.c"
   "../rosidl_generator_py/isaacsim_msgs/msg/_euler.py"
   "../rosidl_generator_py/isaacsim_msgs/msg/_euler_s.c"
   "../rosidl_generator_py/isaacsim_msgs/msg/_prim_path.py"

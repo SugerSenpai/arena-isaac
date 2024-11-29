@@ -1,7 +1,7 @@
 #launch Isaac Sim before any other imports
 #default first two lines in any standalone application
 from isaacsim import SimulationApp
-simulation_app = SimulationApp({"headless": False}) # we can also run as headless. Notice: if headless parameter was True, there will not be any window popup
+simulation_app = SimulationApp({"headless": True}) # we can also run as headless. Notice: if headless parameter was True, there will not be any window popup
 
 from omni.isaac.cortex.cortex_world import CortexWorld
 from omni.isaac.core.prims import XFormPrim
@@ -144,7 +144,7 @@ right_wheel_drive_waffle.GetStiffnessAttr().Set(0)
 left_wheel_drive_burger.GetStiffnessAttr().Set(0)
 right_wheel_drive_burger.GetStiffnessAttr().Set(0)
 
-
+from omni.isaac.core.utils.rotations import quat_to_euler_angles
 # Start simulation
 omni.timeline.get_timeline_interface().play()
 i = 0
@@ -152,18 +152,30 @@ j = 0
 print(get_prim_attribute_names(f"/World/waffle"))
 while i>-1:
     world.step()
-    i+=1
-    if i%100 == 0:
-        if j < 7:
-            delete_prim(f"/World/cube_{j}")
-        j+=1
-    if j ==6:
-        if get_prim_at_path("/World/burger"):
-            delete_prim(f"/World/burger")
-    if j==7:
-        print(get_prim_attribute_names(f"/World/waffle"))
-        print(get_prim_attribute_value(f"/World/waffle", attribute_name="xformOp:translate"))
-        set_prim_attribute_value(f"/World/waffle", attribute_name="xformOp:translate", value=np.array([0,0,0]))
-    if j == 10:
+    waffle = get_prim_at_path("/World/waffle")
+    print(waffle.GetAttributes())
+    print(type(waffle.GetAttribute("xformOp:orient").Get()))
+    print(np.array(waffle.GetAttribute("xformOp:orient").Get()))
+    quat = waffle.GetAttribute("xformOp:orient").Get()
+    print(quat.real)
+    print(quat.imaginary[0],quat.imaginary[1],quat.imaginary[2])
+
+    orient_float = np.array(quat_to_euler_angles([quat.real,quat.imaginary[0], quat.imaginary[1], quat.imaginary[2]]),dtype=np.float32)
+    print(orient_float)
+    quat_float32 = np.array([quat.real, quat.imaginary[0], quat.imaginary[1], quat.imaginary[2]], dtype=np.float32)
+    print("Quaternion as float32:", quat_float32)
+
+
+
+    print(waffle.GetAttribute("xformOp:orient").Get())
+    # print the translation
+    print(waffle.GetAttribute("xformOp:translate").Get())
+    print(waffle.GetAttribute("xformOp:scale").Get())
+    print(waffle.GetAttribute("visibility").Get())
+    print(waffle.GetAttribute("purpose").Get())        
+    print(waffle.GetAttribute("xformOpOrder").Get())
+    set_prim_attribute_value(f"/World/waffle", attribute_name="xformOp:translate", value=np.array([0,0,0]))
+    if i == 5:
         break
+    i+=1
 simulation_app.close()

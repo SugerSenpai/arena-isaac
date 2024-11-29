@@ -9,6 +9,7 @@ prefix_override/sitecustomize.py
 prefix_override/__pycache__/sitecustomize.cpython-310.pyc
 resource/ros2isaacsim
 ros2isaacsim/__init__.py
+ros2isaacsim/control.py
 ros2isaacsim/convert_urdf_usd.py
 ros2isaacsim/delete_prims.py
 ros2isaacsim/open_multiple_robot.py
