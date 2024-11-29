@@ -10,12 +10,13 @@ import carb
 import omni
 import omni.graph.core as og
 import usdrt.Sdf
+import numpy as np
 from omni.isaac.core import SimulationContext
 from omni.isaac.core.utils import extensions, stage
-# from omni.isaac.dynamic_control import _dynamic_control
 from omni.isaac.nucleus import get_assets_root_path
 from omni.kit.viewport.utility import get_active_viewport
 from omni.isaac.core.utils.extensions import get_extension_path_from_name
+from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
 from pxr import Gf, Usd, UsdGeom
@@ -43,8 +44,6 @@ import_config.distance_scale = 1
 import_config.make_default_prim = True
 import_config.default_drive_type = (_urdf.UrdfJointTargetType.JOINT_DRIVE_VELOCITY)
 extension_path = _urdf.ImportConfig()
-# print(333333333333333333333333333333333333)
-# dc = _dynamic_control.acquire_dynamic_control_interface()
 
 # list devices.
 robots = []
@@ -103,14 +102,11 @@ def usd_importer(request, response):
     name = request.name
     usd_path = request.usd_path
     prim_path = request.prim_path + "/" + name
-    # position = Gf.Vec3f(request.position)
-    # orientation = Gf.Orientation(request.orientation)
+    position = request.position
+    orientation = request.orientation
     stage.add_reference_to_stage(usd_path, prim_path)
-    
-    # prim = dc.get_rigid_body(prim_path)
-    # transform = UsdGeom.TransformAPI(prim)
-    # transform.SetTransform(UsdGeom.XformOp.Transform(Gf.Matrix4d(orientation.GetMatrix(), position)))
-    # dc.set_rigid_body_pose(prim, transform.GetLocalTransformation())
+    set_prim_attribute_value(prim_path,attribute_name="xformOp:translate", value=np.array(position))
+    set_prim_attribute_value(prim_path,attribute_name="xformOp:orient", value=np.array(orientation))
     response.ret = True
     if not request.control:
         environments.append(prim_path)
