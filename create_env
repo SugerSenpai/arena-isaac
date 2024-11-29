@@ -7,7 +7,10 @@ source venv/bin/activate
 
 # install dependencies.
 pip install --upgrade pip
+pip install empy==3.4.2
+pip install lark catkin_pkg
 pip install torch==2.4.0 --index-url https://download.pytorch.org/whl/cu121
+
 pip install isaacsim-rl isaacsim-replicator isaacsim-extscache-physics isaacsim-extscache-kit-sdk isaacsim-extscache-kit isaacsim-app --extra-index-url https://pypi.nvidia.com
 mkdir venv/COLCON_IGNORE
 touch ~/.ros/fastdds.xml

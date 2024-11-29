@@ -22,7 +22,7 @@ from pxr import Gf, Usd, UsdGeom
 import numpy as np
 import rclpy
 from rclpy.node import Node
-from isaacsim_msgs.msg import Euler, Quat
+from isaacsim_msgs.msg import Euler, Quat, Env
 from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim
 from sensor_msgs.msg import JointState
 
@@ -45,9 +45,17 @@ import_config.make_default_prim = True
 import_config.default_drive_type = (_urdf.UrdfJointTargetType.JOINT_DRIVE_VELOCITY)
 extension_path = _urdf.ImportConfig()
 
-#================================================================================
+# list devices.
+robots = []
+environments = []
+robot_positions = []
+robot_rotations = []
+environment_positions = []
+environment_rotations = []
 
-#============================urdf importer service===============================
+#================================================================================
+#============================urdf converter service===============================
+# URDF convert to usd (service) -> usd_path.
 def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path
@@ -70,6 +78,23 @@ def convert_urdf_to_usd(controller):
                         srv_name='urdf_to_usd', 
                         callback=urdf_to_usd)
     return service
+#================================================================================
+#========================publish environment information=========================
+def publish_environemnt_information(node):
+    msg = Env()
+    msg.robots = robots
+    msg.environments = environments
+    msg.robot_positions = robot_positions
+    msg.robot_rotations = robot_rotations
+    msg.environment_positions = environment_positions
+    msg.environment_rotations = environment_rotations
+    node.publish(msg)
+
+def create_publish_environment_information(controller):
+    controller.create_publisher()
+#================================================================================
+#=========================multiple usd importer service==========================
+## pass
 #================================================================================
 
 #=========================Get Prims attribute service============================
@@ -128,11 +153,15 @@ def usd_importer(request, response):
 
     response.ret = True
     if not request.control:
+        environments.append(prim_path)
         return response 
-    # create graph.
+    robots.append(prim_path)
+    # create default graph.
     og.Controller.edit(
+        # default graph name for robots.
         {"graph_path": f"/{name}"},
         {
+            # create default nodes.
             og.Controller.Keys.CREATE_NODES: [
                 ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
                 ("ROS2Context", "omni.isaac.ros2_bridge.ROS2Context"),
@@ -140,17 +169,19 @@ def usd_importer(request, response):
                 ("SubcribeJoinState", "omni.isaac.ros2_bridge.ROS2SubscribeJointState"),
                 ("ArticulationController", "omni.isaac.core_nodes.IsaacArticulationController"),
             ],
+            # connect node inputs and outputs.
             og.Controller.Keys.CONNECT: [
                 ("OnPlaybackTick.outputs:tick", "PublishJointState.inputs:execIn"),
                 ("OnPlaybackTick.outputs:tick", "SubcribeJoinState.inputs:execIn"),
                 ("SubcribeJoinState.outputs:execOut", "ArticulationController.inputs:execIn"),
                 ("ROS2Context.outputs:context", "PublishJointState.inputs:context"),
                 ("ROS2Context.outputs:context", "SubcribeJoinState.inputs:context"),
-                ("SubcribeJoinState.outputs:effortCommand", "ArticulationController.inputs:effortCommand"),#config from here.
+                ("SubcribeJoinState.outputs:effortCommand", "ArticulationController.inputs:effortCommand"), #config publisher and subcriber.
                 ("SubcribeJoinState.outputs:jointNames", "ArticulationController.inputs:jointNames"),
                 ("SubcribeJoinState.outputs:positionCommand", "ArticulationController.inputs:positionCommand"),
                 ("SubcribeJoinState.outputs:velocityCommand", "ArticulationController.inputs:velocityCommand"),
             ],
+            # set default values for nodes.
             og.Controller.Keys.SET_VALUES: [
                 ("ROS2Context.inputs:domain_id", 1),
                 ("PublishJointState.inputs:targetPrim", [prim_path + "/base_footprint"]),
@@ -172,9 +203,11 @@ def import_usd(controller):
 #=================================================================================
 
 #===================================controller====================================
+# create controller node for isaacsim.
 def create_controller(time=120):
     # init controller.
     controller = rclpy.create_node('controller')
+    controller.create_publisher
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
