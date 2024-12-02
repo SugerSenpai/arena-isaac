@@ -6,6 +6,8 @@ msg/PrimPath.idl
 msg/PrimPath.msg
 msg/Quat.idl
 msg/Quat.msg
+msg/Values.idl
+msg/Values.msg
 srv/DeletePrim.idl
 srv/DeletePrim.srv
 srv/DeletePrim_Request.msg

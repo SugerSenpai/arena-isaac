@@ -82,6 +82,10 @@ CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/env.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__struct.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__builder.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp
@@ -126,6 +130,7 @@ rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_ms
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Quat.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Euler.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Env.idl
+rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Values.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl
@@ -179,6 +184,18 @@ rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__struct.hpp: rosidl_generator_
 
 rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__builder.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__builder.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp
 
 rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
@@ -265,10 +282,14 @@ isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/prim_path__tra
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__traits.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__builder.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/env.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/euler.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/quat.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/delete_prim.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/delete_prim__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/delete_prim__struct.hpp

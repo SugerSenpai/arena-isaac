@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "../rosidl_generator_py/isaacsim_msgs/msg/_prim_path_s.c"
   "../rosidl_generator_py/isaacsim_msgs/msg/_quat.py"
   "../rosidl_generator_py/isaacsim_msgs/msg/_quat_s.c"
+  "../rosidl_generator_py/isaacsim_msgs/msg/_values.py"
+  "../rosidl_generator_py/isaacsim_msgs/msg/_values_s.c"
   "../rosidl_generator_py/isaacsim_msgs/srv/__init__.py"
   "../rosidl_generator_py/isaacsim_msgs/srv/_delete_prim.py"
   "../rosidl_generator_py/isaacsim_msgs/srv/_delete_prim_s.c"

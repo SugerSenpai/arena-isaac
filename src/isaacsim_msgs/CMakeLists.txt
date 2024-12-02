@@ -14,6 +14,7 @@ set(msg_files
   "msg/Quat.msg"
   "msg/Euler.msg"
   "msg/Env.msg"
+  "msg/Values.msg"
   )
 
 set(srv_files

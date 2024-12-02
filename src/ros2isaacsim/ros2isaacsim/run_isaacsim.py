@@ -2,7 +2,7 @@
 from isaacsim import SimulationApp
 
 # Setting the config for simulation and make an simulation.
-CONFIG = {"renderer": "RayTracedLighting", "headless": False}
+CONFIG = {"renderer": "RayTracedLighting", "headless": True}
 simulation_app = SimulationApp(CONFIG)
 
 # Import dependencies.
@@ -23,7 +23,7 @@ from pxr import Gf, Usd, UsdGeom
 import numpy as np
 import rclpy
 from rclpy.node import Node
-from isaacsim_msgs.msg import Euler, Quat, Env
+from isaacsim_msgs.msg import Euler, Quat, Env, Values
 from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim
 from sensor_msgs.msg import JointState
 
@@ -120,8 +120,9 @@ def get_prim_attr(controller):
 def prim_mover(request,response):
     name = request.name
     prim_path = request.prim_path
-    target = request.target
-    set_prim_attribute_value(prim_path,attribute_name="xformOp:translate", value=np.array(target))
+    position, orientation = request.values
+    set_prim_attribute_value(prim_path,attribute_name="xformOp:translate", value=np.array(position.values))
+    set_prim_attribute_value(prim_path,attribute_name="xformOp:orient",value=np.array(orientation.values))
     response.ret = True
     return response
 

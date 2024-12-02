@@ -1,5 +1,5 @@
 string name
 string prim_path
-float32[] target
+Values[] values
 ---
 bool ret
