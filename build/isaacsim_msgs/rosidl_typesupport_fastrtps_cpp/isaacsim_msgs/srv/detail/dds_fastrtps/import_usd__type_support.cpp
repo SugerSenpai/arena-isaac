@@ -40,6 +40,17 @@ cdr_serialize(
   cdr << ros_message.prim_path;
   // Member: control
   cdr << (ros_message.control ? true : false);
+<<<<<<< HEAD
+=======
+  // Member: position
+  {
+    cdr << ros_message.position;
+  }
+  // Member: orientation
+  {
+    cdr << ros_message.orientation;
+  }
+>>>>>>> an
   return true;
 }
 
@@ -65,6 +76,19 @@ cdr_deserialize(
     ros_message.control = tmp ? true : false;
   }
 
+<<<<<<< HEAD
+=======
+  // Member: position
+  {
+    cdr >> ros_message.position;
+  }
+
+  // Member: orientation
+  {
+    cdr >> ros_message.orientation;
+  }
+
+>>>>>>> an
   return true;
 }
 
@@ -99,6 +123,23 @@ get_serialized_size(
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
+<<<<<<< HEAD
+=======
+  // Member: position
+  {
+    size_t array_size = 3;
+    size_t item_size = sizeof(ros_message.position[0]);
+    current_alignment += array_size * item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // Member: orientation
+  {
+    size_t array_size = 4;
+    size_t item_size = sizeof(ros_message.orientation[0]);
+    current_alignment += array_size * item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+>>>>>>> an
 
   return current_alignment - initial_alignment;
 }
@@ -170,6 +211,27 @@ max_serialized_size_ImportUsd_Request(
     current_alignment += array_size * sizeof(uint8_t);
   }
 
+<<<<<<< HEAD
+=======
+  // Member: position
+  {
+    size_t array_size = 3;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+  // Member: orientation
+  {
+    size_t array_size = 4;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+
+>>>>>>> an
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
     // All members are plain, and type is not empty.
@@ -178,7 +240,11 @@ max_serialized_size_ImportUsd_Request(
     using DataType = isaacsim_msgs::srv::ImportUsd_Request;
     is_plain =
       (
+<<<<<<< HEAD
       offsetof(DataType, control) +
+=======
+      offsetof(DataType, orientation) +
+>>>>>>> an
       last_member_size
       ) == ret_val;
   }

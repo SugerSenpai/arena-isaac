@@ -5,6 +5,11 @@
 
 module isaacsim_msgs {
   module srv {
+<<<<<<< HEAD
+=======
+    typedef float float__3[3];
+    typedef float float__4[4];
+>>>>>>> an
     struct ImportUsd_Request {
       string name;
 
@@ -13,6 +18,15 @@ module isaacsim_msgs {
       string prim_path;
 
       boolean control;
+<<<<<<< HEAD
+=======
+
+      @default (value="(0.0, 0.0, 0.0)")
+      float__3 position;
+
+      @default (value="(1.0, 0.0, 0.0, 0.0)")
+      float__4 orientation;
+>>>>>>> an
     };
     struct ImportUsd_Response {
       boolean ret;

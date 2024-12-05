@@ -50,6 +50,45 @@ inline void to_flow_style_yaml(
   {
     out << "control: ";
     rosidl_generator_traits::value_to_yaml(msg.control, out);
+<<<<<<< HEAD
+=======
+    out << ", ";
+  }
+
+  // member: position
+  {
+    if (msg.position.size() == 0) {
+      out << "position: []";
+    } else {
+      out << "position: [";
+      size_t pending_items = msg.position.size();
+      for (auto item : msg.position) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
+        }
+      }
+      out << "]";
+    }
+    out << ", ";
+  }
+
+  // member: orientation
+  {
+    if (msg.orientation.size() == 0) {
+      out << "orientation: []";
+    } else {
+      out << "orientation: [";
+      size_t pending_items = msg.orientation.size();
+      for (auto item : msg.orientation) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
+        }
+      }
+      out << "]";
+    }
+>>>>>>> an
   }
   out << "}";
 }  // NOLINT(readability/fn_size)
@@ -97,6 +136,49 @@ inline void to_block_style_yaml(
     rosidl_generator_traits::value_to_yaml(msg.control, out);
     out << "\n";
   }
+<<<<<<< HEAD
+=======
+
+  // member: position
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    if (msg.position.size() == 0) {
+      out << "position: []\n";
+    } else {
+      out << "position:\n";
+      for (auto item : msg.position) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
+  }
+
+  // member: orientation
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    if (msg.orientation.size() == 0) {
+      out << "orientation: []\n";
+    } else {
+      out << "orientation:\n";
+      for (auto item : msg.orientation) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
+  }
+>>>>>>> an
 }  // NOLINT(readability/fn_size)
 
 inline std::string to_yaml(const ImportUsd_Request & msg, bool use_flow_style = false)

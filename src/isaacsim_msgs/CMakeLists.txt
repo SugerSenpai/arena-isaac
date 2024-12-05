@@ -24,6 +24,7 @@ set(srv_files
   "srv/DeletePrim.srv"
   "srv/GetPrimAttributes.srv"
   "srv/MovePrim.srv"
+  "srv/ImportYaml.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

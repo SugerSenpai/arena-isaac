@@ -263,6 +263,7 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
   rosidl_generator_c/isaacsim_msgs/msg/detail/quat__struct.h
 
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/values__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/values__type_support.c \
   /usr/include/stdc-predef.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
@@ -467,6 +468,8 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string_functions.h \
   /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/service_introspection.h
 
+=======
+>>>>>>> an
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_urdf__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_urdf__type_support.c \
   /usr/include/stdc-predef.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
@@ -605,10 +608,17 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string_functions.h \
   /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/service_introspection.h
 
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/move_prim__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/move_prim__type_support.c \
   /usr/include/stdc-predef.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
   rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/move_prim__rosidl_typesupport_introspection_c.h \
+=======
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_yaml__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_yaml__type_support.c \
+  /usr/include/stdc-predef.h \
+  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+  rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_yaml__rosidl_typesupport_introspection_c.h \
+>>>>>>> an
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_type_support_struct.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
   /opt/ros/humble/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
@@ -637,7 +647,11 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/message_introspection.h \
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_initialization.h \
+<<<<<<< HEAD
   rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h \
+=======
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h \
+>>>>>>> an
   /usr/include/stdlib.h \
   /usr/include/x86_64-linux-gnu/bits/waitflags.h \
   /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
@@ -668,6 +682,7 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   /usr/include/alloca.h \
   /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
   rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
+<<<<<<< HEAD
   rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence.h \
@@ -677,6 +692,12 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   rosidl_generator_c/isaacsim_msgs/msg/detail/values__functions.h \
   rosidl_generator_c/isaacsim_msgs/msg/detail/values__type_support.h \
   rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/values__rosidl_typesupport_introspection_c.h \
+=======
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h \
+  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
+  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence.h \
+  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string_functions.h \
+>>>>>>> an
   /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/service_introspection.h
 
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c.o: rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.c \
@@ -749,6 +770,7 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
   /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/service_introspection.h
 
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/msg/values.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h:
@@ -777,6 +799,20 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/values__struct.h:
 
 rosidl_generator_c/isaacsim_msgs/msg/detail/values__functions.h:
 
+=======
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h:
+
+rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_yaml__rosidl_typesupport_introspection_c.h:
+
+rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_yaml__type_support.c:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h:
+
+/opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/service_introspection.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h:
+
+>>>>>>> an
 rosidl_generator_c/isaacsim_msgs/msg/detail/quat__struct.h:
 
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/quat__rosidl_typesupport_introspection_c.h:
@@ -809,8 +845,11 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_su
 
 /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h:
 
+=======
+>>>>>>> an
 rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_urdf__rosidl_typesupport_introspection_c.h:
 
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_support.c:
@@ -821,14 +860,20 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/prim_path__type_supp
 
 /usr/include/x86_64-linux-gnu/gnu/stubs-64.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/move_prim__type_support.c:
 
+=======
+>>>>>>> an
 /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_initialization.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h:
 
+<<<<<<< HEAD
 /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence_functions.h:
 
+=======
+>>>>>>> an
 rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.h:
 
 /usr/include/x86_64-linux-gnu/bits/uintn-identity.h:
@@ -839,8 +884,11 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/env__rosidl_typesupp
 
 /usr/include/x86_64-linux-gnu/bits/typesizes.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/values__rosidl_typesupport_introspection_c.h:
 
+=======
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/endianness.h:
 
 rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.h:
@@ -859,8 +907,11 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__rosidl_t
 
 /usr/include/x86_64-linux-gnu/bits/wordsize.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/values__type_support.c:
 
+=======
+>>>>>>> an
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/euler__type_support.c:
 
 /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h:
@@ -903,14 +954,20 @@ rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_sup
 
 /usr/include/x86_64-linux-gnu/bits/types/clockid_t.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h:
 
+=======
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/time64.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/sigset_t.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/msg/detail/values__type_support.h:
 
+=======
+>>>>>>> an
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h:
 
 rosidl_typesupport_introspection_c/isaacsim_msgs/msg/detail/env__type_support.c:

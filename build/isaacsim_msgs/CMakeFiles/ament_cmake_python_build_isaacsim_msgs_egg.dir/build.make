@@ -53,10 +53,17 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/sora/Arena4-IsaacSim/src/isaacsim_msgs
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/sora/Arena4-IsaacSim/build/isaacsim_msgs
+=======
+CMAKE_SOURCE_DIR = /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs
+>>>>>>> an
 
 # Utility rule file for ament_cmake_python_build_isaacsim_msgs_egg.
 
@@ -67,7 +74,11 @@ include CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/compiler_depen
 include CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/progress.make
 
 CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg:
+<<<<<<< HEAD
 	cd /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/ament_cmake_python/isaacsim_msgs && /home/sora/Arena4-IsaacSim/venv/bin/python3 setup.py egg_info
+=======
+	cd /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/ament_cmake_python/isaacsim_msgs && /home/kien/Documents/Arena4-IsaacSim/venv/bin/python3 setup.py egg_info
+>>>>>>> an
 
 ament_cmake_python_build_isaacsim_msgs_egg: CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg
 ament_cmake_python_build_isaacsim_msgs_egg: CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/build.make
@@ -82,6 +93,10 @@ CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/clean:
 .PHONY : CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/clean
 
 CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/depend:
+<<<<<<< HEAD
 	cd /home/sora/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/DependInfo.cmake --color=$(COLOR)
+=======
+	cd /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/DependInfo.cmake --color=$(COLOR)
+>>>>>>> an
 .PHONY : CMakeFiles/ament_cmake_python_build_isaacsim_msgs_egg.dir/depend
 

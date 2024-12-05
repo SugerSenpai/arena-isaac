@@ -53,10 +53,17 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/sora/Arena4-IsaacSim/src/isaacsim_msgs
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/sora/Arena4-IsaacSim/build/isaacsim_msgs
+=======
+CMAKE_SOURCE_DIR = /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs
+>>>>>>> an
 
 # Utility rule file for uninstall.
 
@@ -78,6 +85,10 @@ CMakeFiles/uninstall.dir/clean:
 .PHONY : CMakeFiles/uninstall.dir/clean
 
 CMakeFiles/uninstall.dir/depend:
+<<<<<<< HEAD
 	cd /home/sora/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+=======
+	cd /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/uninstall.dir/DependInfo.cmake --color=$(COLOR)
+>>>>>>> an
 .PHONY : CMakeFiles/uninstall.dir/depend
 

@@ -1,7 +1,13 @@
 CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c.o: \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c \
  /usr/include/stdc-predef.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.c \
+ /usr/include/stdc-predef.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h \
+>>>>>>> an
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h /usr/include/stdlib.h \
  /usr/include/x86_64-linux-gnu/bits/libc-header-start.h \
  /usr/include/features.h /usr/include/features-time64.h \
@@ -43,8 +49,13 @@ CMakeFiles/isaacsim_msgs__rosidl_generator_c.dir/rosidl_generator_c/isaacsim_msg
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h \
+>>>>>>> an
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
  /usr/include/x86_64-linux-gnu/bits/wchar.h \
  /usr/include/x86_64-linux-gnu/bits/stdint-uintn.h \

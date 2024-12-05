@@ -30,6 +30,11 @@ typedef struct isaacsim_msgs__srv__ImportUsd_Request
   rosidl_runtime_c__String usd_path;
   rosidl_runtime_c__String prim_path;
   bool control;
+<<<<<<< HEAD
+=======
+  float position[3];
+  float orientation[4];
+>>>>>>> an
 } isaacsim_msgs__srv__ImportUsd_Request;
 
 // Struct for a sequence of isaacsim_msgs__srv__ImportUsd_Request.

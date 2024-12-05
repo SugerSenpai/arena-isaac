@@ -10,6 +10,8 @@ import carb
 import omni
 import omni.graph.core as og
 import usdrt.Sdf
+import numpy as np
+import yaml
 from omni.isaac.core import SimulationContext
 from omni.isaac.core.utils.rotations import quat_to_euler_angles
 from omni.isaac.core.utils import extensions, stage
@@ -24,7 +26,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from isaacsim_msgs.msg import Euler, Quat, Env, Values
-from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim
+from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml
 from sensor_msgs.msg import JointState
 
 #======================================Base======================================
@@ -50,9 +52,44 @@ extension_path = _urdf.ImportConfig()
 robots = []
 environments = []
 robot_positions = []
-robot_rotations = []
+robot_orientation = []
 environment_positions = []
-environment_rotations = []
+environment_orientation = []
+
+#================================================================================
+#============================read yaml file===============================
+def read_yaml_config(yaml_path):
+    with open(yaml_path, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
+
+def yaml_importer(request, response):
+    # Read configuration from YAML file
+    yaml_path = request.yaml_path
+    config = read_yaml_config(yaml_path)
+    
+    # Extract parameters
+    name = config['robot']['name']
+    usd_path = config['robot']['usd_path']
+    prim_path = config['robot']['prim_path']
+    control = config['robot']['control']
+    position = config['robot']['position']
+    orientation = config['robot']['orientation']
+
+    # Prepare the request for ImportUsd service
+    yaml_request = ImportUsd.Request()
+    yaml_request.name = name
+    yaml_request.usd_path = usd_path
+    yaml_request.prim_path = prim_path
+    yaml_request.control = control
+    yaml_request.position = np.array(position,dtype=np.float32)
+    yaml_request.orientation = np.array(orientation,dtype=np.float32)
+
+    usd_response = usd_importer(yaml_request, response)
+    
+    # Pass the response back (optional, depending on how you want to structure your service)
+    response.ret = usd_response.ret
+    return response
 
 #================================================================================
 #============================urdf converter service===============================
@@ -86,9 +123,9 @@ def publish_environemnt_information(node):
     msg.robots = robots
     msg.environments = environments
     msg.robot_positions = robot_positions
-    msg.robot_rotations = robot_rotations
+    msg.robot_orientation = robot_orientation
     msg.environment_positions = environment_positions
-    msg.environment_rotations = environment_rotations
+    msg.environment_orientaion = environment_orientation
     node.publish(msg)
 
 def create_publish_environment_information(controller):
@@ -154,13 +191,17 @@ def usd_importer(request, response):
     name = request.name
     usd_path = request.usd_path
     prim_path = request.prim_path + "/" + name
+    position = request.position
+    orientation = request.orientation
     stage.add_reference_to_stage(usd_path, prim_path)
-
+    set_prim_attribute_value(prim_path, attribute_name="xformOp:translate", value=np.array(position))
+    set_prim_attribute_value(prim_path, attribute_name="xformOp:orient", value=np.array(orientation))
     response.ret = True
     if not request.control:
         environments.append(prim_path)
         return response 
     robots.append(prim_path)
+
     # create default graph.
     og.Controller.edit(
         # default graph name for robots.
@@ -200,6 +241,11 @@ def usd_importer(request, response):
     return response
 
 # Usd importer service callback.
+def import_yaml(controller):
+    service = controller.create_service(srv_type=ImportYaml, 
+                        srv_name='import_yaml', 
+                        callback=yaml_importer)
+    
 def import_usd(controller):
     service = controller.create_service(srv_type=ImportUsd, 
                         srv_name='import_usd', 
@@ -216,9 +262,6 @@ def create_controller(time=120):
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
-    delete_prim_service = _delete_prim(controller)
-    get_prim_attributes_service = get_prim_attr(controller)
-    move_prim_service = move_prim(controller)
     ##
     return controller
 

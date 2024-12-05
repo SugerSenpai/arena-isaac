@@ -1,10 +1,18 @@
 #!/usr/bin/python3
+<<<<<<< HEAD
 # EASY-INSTALL-ENTRY-SCRIPT: 'ros2isaacsim','console_scripts','convert_urdf_usd'
+=======
+# EASY-INSTALL-ENTRY-SCRIPT: 'ros2isaacsim==0.0.0','console_scripts','convert_urdf_usd'
+>>>>>>> an
 import re
 import sys
 
 # for compatibility with easy_install; see #2198
+<<<<<<< HEAD
 __requires__ = 'ros2isaacsim'
+=======
+__requires__ = 'ros2isaacsim==0.0.0'
+>>>>>>> an
 
 try:
     from importlib.metadata import distribution
@@ -30,4 +38,8 @@ globals().setdefault('load_entry_point', importlib_load_entry_point)
 
 if __name__ == '__main__':
     sys.argv[0] = re.sub(r'(-script\.pyw?|\.exe)?$', '', sys.argv[0])
+<<<<<<< HEAD
     sys.exit(load_entry_point('ros2isaacsim', 'console_scripts', 'convert_urdf_usd')())
+=======
+    sys.exit(load_entry_point('ros2isaacsim==0.0.0', 'console_scripts', 'convert_urdf_usd')())
+>>>>>>> an

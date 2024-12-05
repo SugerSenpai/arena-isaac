@@ -53,10 +53,17 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/sora/Arena4-IsaacSim/src/isaacsim_msgs
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/sora/Arena4-IsaacSim/build/isaacsim_msgs
+=======
+CMAKE_SOURCE_DIR = /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs
+>>>>>>> an
 
 # Utility rule file for isaacsim_msgs.
 
@@ -66,6 +73,7 @@ include CMakeFiles/isaacsim_msgs.dir/compiler_depend.make
 # Include the progress variables for this target.
 include CMakeFiles/isaacsim_msgs.dir/progress.make
 
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs: /home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/PrimPath.msg
 CMakeFiles/isaacsim_msgs: /home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/Quat.msg
 CMakeFiles/isaacsim_msgs: /home/sora/Arena4-IsaacSim/src/isaacsim_msgs/msg/Euler.msg
@@ -89,6 +97,24 @@ CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/GetPrimAttributes_Response.msg
 CMakeFiles/isaacsim_msgs: /home/sora/Arena4-IsaacSim/src/isaacsim_msgs/srv/MovePrim.srv
 CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/MovePrim_Request.msg
 CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/MovePrim_Response.msg
+=======
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/msg/PrimPath.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/msg/Quat.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/msg/Euler.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/msg/Env.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUsd.srv
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUsd_Request.msg
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUsd_Response.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/srv/UrdfToUsd.srv
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/UrdfToUsd_Request.msg
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/UrdfToUsd_Response.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportUrdf.srv
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUrdf_Request.msg
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportUrdf_Response.msg
+CMakeFiles/isaacsim_msgs: /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs/srv/ImportYaml.srv
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportYaml_Request.msg
+CMakeFiles/isaacsim_msgs: rosidl_cmake/srv/ImportYaml_Response.msg
+>>>>>>> an
 
 isaacsim_msgs: CMakeFiles/isaacsim_msgs
 isaacsim_msgs: CMakeFiles/isaacsim_msgs.dir/build.make
@@ -103,6 +129,10 @@ CMakeFiles/isaacsim_msgs.dir/clean:
 .PHONY : CMakeFiles/isaacsim_msgs.dir/clean
 
 CMakeFiles/isaacsim_msgs.dir/depend:
+<<<<<<< HEAD
 	cd /home/sora/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs.dir/DependInfo.cmake --color=$(COLOR)
+=======
+	cd /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs.dir/DependInfo.cmake --color=$(COLOR)
+>>>>>>> an
 .PHONY : CMakeFiles/isaacsim_msgs.dir/depend
 

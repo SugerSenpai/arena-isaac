@@ -4,7 +4,11 @@
 # compile C with /usr/bin/cc
 C_DEFINES = -DRCUTILS_ENABLE_FAULT_INJECTION -DROS_PACKAGE_NAME=\"isaacsim_msgs\" -Disaacsim_msgs__rosidl_generator_py_EXPORTS
 
+<<<<<<< HEAD
 C_INCLUDES = -I/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c -I/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py -I/usr/include/python3.10 -isystem /opt/ros/humble/include/rosidl_runtime_c -isystem /opt/ros/humble/include/rcutils -isystem /opt/ros/humble/include/rosidl_typesupport_interface
+=======
+C_INCLUDES = -I/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c -I/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py -I/usr/include/python3.10 -isystem /opt/ros/humble/include/rosidl_runtime_c -isystem /opt/ros/humble/include/rcutils -isystem /opt/ros/humble/include/rosidl_typesupport_interface
+>>>>>>> an
 
 C_FLAGS = -fPIC -Wall -Wextra
 

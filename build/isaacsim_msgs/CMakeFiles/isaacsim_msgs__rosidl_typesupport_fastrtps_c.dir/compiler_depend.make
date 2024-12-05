@@ -909,6 +909,7 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_f
   /usr/include/c++/11/stdlib.h \
   rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h
 
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/values__type_support_c.cpp.o: rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/values__type_support_c.cpp \
   /usr/include/stdc-predef.h \
   rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/values__rosidl_typesupport_fastrtps_c.h \
@@ -1678,6 +1679,8 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_f
   rosidl_generator_c/isaacsim_msgs/srv/get_prim_attributes.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h
 
+=======
+>>>>>>> an
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__type_support_c.cpp.o: rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__type_support_c.cpp \
   /usr/include/stdc-predef.h \
   rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__rosidl_typesupport_fastrtps_c.h \
@@ -2220,9 +2223,15 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_f
   rosidl_generator_c/isaacsim_msgs/srv/import_usd.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h
 
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/move_prim__type_support_c.cpp.o: rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/move_prim__type_support_c.cpp \
   /usr/include/stdc-predef.h \
   rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/move_prim__rosidl_typesupport_fastrtps_c.h \
+=======
+CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_yaml__type_support_c.cpp.o: rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_yaml__type_support_c.cpp \
+  /usr/include/stdc-predef.h \
+  rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_yaml__rosidl_typesupport_fastrtps_c.h \
+>>>>>>> an
   /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_type_support_struct.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
@@ -2442,6 +2451,7 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_f
   /usr/include/c++/11/istream \
   /usr/include/c++/11/bits/istream.tcc \
   /usr/include/malloc.h \
+<<<<<<< HEAD
   rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h \
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
   rosidl_generator_c/isaacsim_msgs/msg/detail/values__struct.h \
@@ -2449,6 +2459,13 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_f
   /usr/include/c++/11/stdlib.h \
   rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
   rosidl_generator_c/isaacsim_msgs/msg/detail/values__functions.h \
+=======
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h \
+  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h \
+  /usr/include/c++/11/stdlib.h \
+  rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
+>>>>>>> an
   /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string_functions.h \
   /opt/ros/humble/include/rosidl_typesupport_fastrtps_cpp/rosidl_typesupport_fastrtps_cpp/service_type_support.h \
   /opt/ros/humble/include/rmw/rmw/types.h \
@@ -2490,8 +2507,13 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_f
   /opt/ros/humble/include/rmw/rmw/subscription_content_filter_options.h \
   /opt/ros/humble/include/rmw/rmw/time.h \
   /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/service_type_support.hpp \
+<<<<<<< HEAD
   rosidl_generator_c/isaacsim_msgs/srv/move_prim.h \
   rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h
+=======
+  rosidl_generator_c/isaacsim_msgs/srv/import_yaml.h \
+  rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__type_support.h
+>>>>>>> an
 
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_fastrtps_c.dir/rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support_c.cpp.o: rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support_c.cpp \
   /usr/include/stdc-predef.h \
@@ -2775,6 +2797,7 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h:
 
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/urdf_to_usd__rosidl_typesupport_fastrtps_c.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/move_prim.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h:
@@ -2782,6 +2805,15 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h:
 rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h:
 
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/move_prim__type_support_c.cpp:
+=======
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__type_support.h:
+
+rosidl_generator_c/isaacsim_msgs/srv/import_yaml.h:
+
+rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_yaml__rosidl_typesupport_fastrtps_c.h:
+
+rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_yaml__type_support_c.cpp:
+>>>>>>> an
 
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h:
 
@@ -2793,6 +2825,7 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_usd__type_support_
 
 rosidl_generator_c/isaacsim_msgs/srv/import_urdf.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__rosidl_typesupport_fastrtps_c.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/get_prim_attributes.h:
@@ -2803,6 +2836,8 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__type_support.h:
 
 rosidl_generator_c/isaacsim_msgs/srv/delete_prim.h:
 
+=======
+>>>>>>> an
 /opt/ros/humble/include/rmw/rmw/serialized_message.h:
 
 /opt/ros/humble/include/rmw/rmw/ret_types.h:
@@ -2819,10 +2854,13 @@ rosidl_generator_c/isaacsim_msgs/srv/delete_prim.h:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/requested_deadline_missed.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__type_support_c.cpp:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/offered_deadline_missed.h:
 
+=======
+>>>>>>> an
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesupport_fastrtps_c.h:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/liveliness_lost.h:
@@ -2835,16 +2873,27 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesu
 
 /opt/ros/humble/include/rmw/rmw/qos_policy_kind.h:
 
+<<<<<<< HEAD
+=======
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h:
+
+>>>>>>> an
 /opt/ros/humble/include/rmw/rmw/events_statuses/incompatible_qos.h:
 
 /opt/ros/humble/include/rmw/rmw/events_statuses/events_statuses.h:
 
 /opt/ros/humble/include/rcutils/rcutils/qsort.h:
 
+<<<<<<< HEAD
+=======
+/opt/ros/humble/include/rcutils/rcutils/types/string_array.h:
+
+>>>>>>> an
 /opt/ros/humble/include/rcutils/rcutils/types/hash_map.h:
 
 /opt/ros/humble/include/rcutils/rcutils/types/char_array.h:
 
+<<<<<<< HEAD
 /opt/ros/humble/include/rcutils/rcutils/types.h:
 
 /opt/ros/humble/include/rcutils/rcutils/time.h:
@@ -2853,6 +2902,8 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesu
 
 /opt/ros/humble/include/rcutils/rcutils/error_handling.h:
 
+=======
+>>>>>>> an
 /usr/include/stdlib.h:
 
 /usr/include/c++/11/bits/stl_construct.h:
@@ -2863,6 +2914,11 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesu
 
 /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h:
 
+<<<<<<< HEAD
+=======
+/usr/include/strings.h:
+
+>>>>>>> an
 /opt/ros/humble/include/rcutils/rcutils/types/string_map.h:
 
 /usr/include/c++/11/cstdlib:
@@ -2893,6 +2949,11 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr-default.h:
 
+<<<<<<< HEAD
+=======
+/usr/include/c++/11/backward/binders.h:
+
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/time.h:
 
 /usr/include/x86_64-linux-gnu/bits/select.h:
@@ -2907,8 +2968,11 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.h:
 
 /usr/include/x86_64-linux-gnu/bits/locale.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support_c.cpp:
 
+=======
+>>>>>>> an
 /usr/include/locale.h:
 
 /usr/include/x86_64-linux-gnu/bits/pthreadtypes-arch.h:
@@ -2931,8 +2995,11 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/get_prim_attributes__type
 
 /opt/ros/humble/include/rcutils/rcutils/macros.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h:
 
+=======
+>>>>>>> an
 /usr/include/c++/11/bits/postypes.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/gthr.h:
@@ -3021,14 +3088,24 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/rosidl_typesupport_fastrtps_c__v
 
 /usr/include/c++/11/new:
 
+<<<<<<< HEAD
+=======
+/usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
+
+/usr/include/c++/11/bits/stl_iterator.h:
+
+>>>>>>> an
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_FILE.h:
 
 /usr/include/x86_64-linux-gnu/bits/types/struct_itimerspec.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__type_support.h:
 
+=======
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/types/time_t.h:
 
 /opt/ros/humble/include/rosidl_typesupport_fastrtps_c/rosidl_typesupport_fastrtps_c/identifier.h:
@@ -3069,6 +3146,13 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/quat__struct.h:
 
 /usr/include/c++/11/map:
 
+<<<<<<< HEAD
+=======
+/opt/ros/humble/include/rmw/rmw/events_statuses/offered_deadline_missed.h:
+
+rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__type_support_c.cpp:
+
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/wchar.h:
 
 /usr/include/x86_64-linux-gnu/c++/11/bits/c++allocator.h:
@@ -3087,7 +3171,11 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/quat__struct.h:
 
 /usr/include/linux/errno.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/move_prim__rosidl_typesupport_fastrtps_c.h:
+=======
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h:
+>>>>>>> an
 
 /usr/include/c++/11/debug/debug.h:
 
@@ -3123,6 +3211,11 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/move_prim__rosidl_typesup
 
 /usr/include/x86_64-linux-gnu/bits/types/clock_t.h:
 
+<<<<<<< HEAD
+=======
+/opt/ros/humble/include/rcutils/rcutils/error_handling.h:
+
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/types/__FILE.h:
 
 rosidl_generator_c/isaacsim_msgs/msg/detail/env__functions.h:
@@ -3133,10 +3226,13 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support
 
 /usr/include/c++/11/bits/ostream.tcc:
 
+<<<<<<< HEAD
 /usr/include/c++/11/backward/binders.h:
 
 rosidl_generator_c/isaacsim_msgs/msg/detail/values__functions.h:
 
+=======
+>>>>>>> an
 /usr/include/wchar.h:
 
 /usr/include/c++/11/bits/cxxabi_init_exception.h:
@@ -3181,16 +3277,24 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/values__functions.h:
 
 /usr/include/c++/11/cstdio:
 
+<<<<<<< HEAD
+=======
+/opt/ros/humble/include/rcutils/rcutils/snprintf.h:
+
+>>>>>>> an
 /usr/include/x86_64-linux-gnu/bits/types/cookie_io_functions_t.h:
 
 /usr/include/c++/11/cerrno:
 
 /usr/include/errno.h:
 
+<<<<<<< HEAD
 /usr/include/strings.h:
 
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/delete_prim__rosidl_typesupport_fastrtps_c.h:
 
+=======
+>>>>>>> an
 /opt/ros/humble/include/rmw/rmw/security_options.h:
 
 /opt/ros/humble/include/rcutils/rcutils/logging.h:
@@ -3225,8 +3329,11 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h:
 
 /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h:
 
+<<<<<<< HEAD
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/get_prim_attributes__rosidl_typesupport_fastrtps_c.h:
 
+=======
+>>>>>>> an
 /opt/ros/humble/include/rosidl_typesupport_fastrtps_cpp/rosidl_typesupport_fastrtps_cpp/message_type_support.h:
 
 /usr/include/x86_64-linux-gnu/bits/types.h:
@@ -3283,10 +3390,21 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h:
 
 /usr/include/c++/11/bits/vector.tcc:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h:
 
 /usr/include/c++/11/bits/stl_map.h:
 
+=======
+/usr/include/c++/11/bits/stl_map.h:
+
+/usr/include/x86_64-linux-gnu/bits/time64.h:
+
+rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/euler__rosidl_typesupport_fastrtps_c.h:
+
+/opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/service_type_support_struct.h:
+
+>>>>>>> an
 /usr/include/c++/11/array:
 
 /usr/include/c++/11/bits/uses_allocator.h:
@@ -3295,12 +3413,15 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h:
 
 /usr/include/c++/11/bits/ios_base.h:
 
+<<<<<<< HEAD
 /usr/include/x86_64-linux-gnu/bits/struct_mutex.h:
 
 /usr/include/c++/11/bits/stl_iterator.h:
 
 /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence_functions.h:
 
+=======
+>>>>>>> an
 /usr/include/c++/11/bits/locale_classes.h:
 
 /usr/include/c++/11/bits/locale_classes.tcc:
@@ -3331,8 +3452,11 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__functions.h:
 
 /usr/include/c++/11/cwctype:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h:
 
+=======
+>>>>>>> an
 /usr/include/malloc.h:
 
 /usr/include/c++/11/bits/streambuf_iterator.h:
@@ -3345,10 +3469,13 @@ rosidl_generator_c/isaacsim_msgs/srv/detail/get_prim_attributes__functions.h:
 
 /usr/include/c++/11/bits/basic_ios.tcc:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h:
 
 /usr/include/c++/11/istream:
 
+=======
+>>>>>>> an
 rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h:
 
 /usr/include/c++/11/bits/istream.tcc:
@@ -3365,8 +3492,11 @@ rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h:
 
 rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.h:
 
+<<<<<<< HEAD
 rosidl_generator_c/isaacsim_msgs/srv/detail/delete_prim__struct.h:
 
+=======
+>>>>>>> an
 /opt/ros/humble/include/rcutils/rcutils/visibility_control_macros.h:
 
 /usr/include/c++/11/cstddef:
@@ -3383,6 +3513,7 @@ rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__struct.h:
 
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/quat__type_support_c.cpp:
 
+<<<<<<< HEAD
 /opt/ros/humble/include/rcutils/rcutils/types/string_array.h:
 
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/values__type_support_c.cpp:
@@ -3398,9 +3529,23 @@ rosidl_typesupport_fastrtps_c/isaacsim_msgs/msg/detail/euler__rosidl_typesupport
 rosidl_generator_c/isaacsim_msgs/msg/detail/values__struct.h:
 
 rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/delete_prim__type_support_c.cpp:
+=======
+/usr/include/c++/11/istream:
+
+rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h:
+
+rosidl_typesupport_fastrtps_c/isaacsim_msgs/srv/detail/import_urdf__rosidl_typesupport_fastrtps_c.h:
+>>>>>>> an
 
 /opt/ros/humble/include/rmw/rmw/types.h:
 
 /usr/include/c++/11/bits/stl_tree.h:
 
 /opt/ros/humble/include/rcutils/rcutils/visibility_control.h:
+<<<<<<< HEAD
+=======
+
+/opt/ros/humble/include/rcutils/rcutils/time.h:
+
+/opt/ros/humble/include/rcutils/rcutils/types.h:
+>>>>>>> an

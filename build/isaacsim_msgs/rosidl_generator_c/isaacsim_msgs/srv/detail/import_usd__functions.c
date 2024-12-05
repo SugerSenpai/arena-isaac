@@ -38,6 +38,18 @@ isaacsim_msgs__srv__ImportUsd_Request__init(isaacsim_msgs__srv__ImportUsd_Reques
     return false;
   }
   // control
+<<<<<<< HEAD
+=======
+  // position
+  msg->position[0] = 0.0f;
+  msg->position[1] = 0.0f;
+  msg->position[2] = 0.0f;
+  // orientation
+  msg->orientation[0] = 1.0f;
+  msg->orientation[1] = 0.0f;
+  msg->orientation[2] = 0.0f;
+  msg->orientation[3] = 0.0f;
+>>>>>>> an
   return true;
 }
 
@@ -54,6 +66,11 @@ isaacsim_msgs__srv__ImportUsd_Request__fini(isaacsim_msgs__srv__ImportUsd_Reques
   // prim_path
   rosidl_runtime_c__String__fini(&msg->prim_path);
   // control
+<<<<<<< HEAD
+=======
+  // position
+  // orientation
+>>>>>>> an
 }
 
 bool
@@ -84,6 +101,21 @@ isaacsim_msgs__srv__ImportUsd_Request__are_equal(const isaacsim_msgs__srv__Impor
   if (lhs->control != rhs->control) {
     return false;
   }
+<<<<<<< HEAD
+=======
+  // position
+  for (size_t i = 0; i < 3; ++i) {
+    if (lhs->position[i] != rhs->position[i]) {
+      return false;
+    }
+  }
+  // orientation
+  for (size_t i = 0; i < 4; ++i) {
+    if (lhs->orientation[i] != rhs->orientation[i]) {
+      return false;
+    }
+  }
+>>>>>>> an
   return true;
 }
 
@@ -115,6 +147,17 @@ isaacsim_msgs__srv__ImportUsd_Request__copy(
   }
   // control
   output->control = input->control;
+<<<<<<< HEAD
+=======
+  // position
+  for (size_t i = 0; i < 3; ++i) {
+    output->position[i] = input->position[i];
+  }
+  // orientation
+  for (size_t i = 0; i < 4; ++i) {
+    output->orientation[i] = input->orientation[i];
+  }
+>>>>>>> an
   return true;
 }
 

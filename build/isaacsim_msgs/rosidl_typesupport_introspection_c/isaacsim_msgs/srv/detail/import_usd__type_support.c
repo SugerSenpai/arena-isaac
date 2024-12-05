@@ -37,7 +37,101 @@ void isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__
   isaacsim_msgs__srv__ImportUsd_Request__fini(message_memory);
 }
 
+<<<<<<< HEAD
 static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__ImportUsd_Request_message_member_array[4] = {
+=======
+size_t isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__size_function__ImportUsd_Request__position(
+  const void * untyped_member)
+{
+  (void)untyped_member;
+  return 3;
+}
+
+const void * isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_const_function__ImportUsd_Request__position(
+  const void * untyped_member, size_t index)
+{
+  const float * member =
+    (const float *)(untyped_member);
+  return &member[index];
+}
+
+void * isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_function__ImportUsd_Request__position(
+  void * untyped_member, size_t index)
+{
+  float * member =
+    (float *)(untyped_member);
+  return &member[index];
+}
+
+void isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__fetch_function__ImportUsd_Request__position(
+  const void * untyped_member, size_t index, void * untyped_value)
+{
+  const float * item =
+    ((const float *)
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_const_function__ImportUsd_Request__position(untyped_member, index));
+  float * value =
+    (float *)(untyped_value);
+  *value = *item;
+}
+
+void isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__assign_function__ImportUsd_Request__position(
+  void * untyped_member, size_t index, const void * untyped_value)
+{
+  float * item =
+    ((float *)
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_function__ImportUsd_Request__position(untyped_member, index));
+  const float * value =
+    (const float *)(untyped_value);
+  *item = *value;
+}
+
+size_t isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__size_function__ImportUsd_Request__orientation(
+  const void * untyped_member)
+{
+  (void)untyped_member;
+  return 4;
+}
+
+const void * isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_const_function__ImportUsd_Request__orientation(
+  const void * untyped_member, size_t index)
+{
+  const float * member =
+    (const float *)(untyped_member);
+  return &member[index];
+}
+
+void * isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_function__ImportUsd_Request__orientation(
+  void * untyped_member, size_t index)
+{
+  float * member =
+    (float *)(untyped_member);
+  return &member[index];
+}
+
+void isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__fetch_function__ImportUsd_Request__orientation(
+  const void * untyped_member, size_t index, void * untyped_value)
+{
+  const float * item =
+    ((const float *)
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_const_function__ImportUsd_Request__orientation(untyped_member, index));
+  float * value =
+    (float *)(untyped_value);
+  *value = *item;
+}
+
+void isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__assign_function__ImportUsd_Request__orientation(
+  void * untyped_member, size_t index, const void * untyped_value)
+{
+  float * item =
+    ((float *)
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_function__ImportUsd_Request__orientation(untyped_member, index));
+  const float * value =
+    (const float *)(untyped_value);
+  *item = *value;
+}
+
+static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__ImportUsd_Request_message_member_array[6] = {
+>>>>>>> an
   {
     "name",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -105,13 +199,54 @@ static rosidl_typesupport_introspection_c__MessageMember isaacsim_msgs__srv__Imp
     NULL,  // fetch(index, &value) function pointer
     NULL,  // assign(index, value) function pointer
     NULL  // resize(index) function pointer
+<<<<<<< HEAD
+=======
+  },
+  {
+    "position",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    true,  // is array
+    3,  // array size
+    false,  // is upper bound
+    offsetof(isaacsim_msgs__srv__ImportUsd_Request, position),  // bytes offset in struct
+    NULL,  // default value
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__size_function__ImportUsd_Request__position,  // size() function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_const_function__ImportUsd_Request__position,  // get_const(index) function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_function__ImportUsd_Request__position,  // get(index) function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__fetch_function__ImportUsd_Request__position,  // fetch(index, &value) function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__assign_function__ImportUsd_Request__position,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "orientation",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    true,  // is array
+    4,  // array size
+    false,  // is upper bound
+    offsetof(isaacsim_msgs__srv__ImportUsd_Request, orientation),  // bytes offset in struct
+    NULL,  // default value
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__size_function__ImportUsd_Request__orientation,  // size() function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_const_function__ImportUsd_Request__orientation,  // get_const(index) function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__get_function__ImportUsd_Request__orientation,  // get(index) function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__fetch_function__ImportUsd_Request__orientation,  // fetch(index, &value) function pointer
+    isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__assign_function__ImportUsd_Request__orientation,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+>>>>>>> an
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__ImportUsd_Request_message_members = {
   "isaacsim_msgs__srv",  // message namespace
   "ImportUsd_Request",  // message name
+<<<<<<< HEAD
   4,  // number of fields
+=======
+  6,  // number of fields
+>>>>>>> an
   sizeof(isaacsim_msgs__srv__ImportUsd_Request),
   isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__ImportUsd_Request_message_member_array,  // message members
   isaacsim_msgs__srv__ImportUsd_Request__rosidl_typesupport_introspection_c__ImportUsd_Request_init_function,  // function to initialize message memory (memory has to be allocated)

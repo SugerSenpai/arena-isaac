@@ -1,4 +1,5 @@
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c.o: \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c \
  /usr/include/stdc-predef.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
@@ -7,6 +8,16 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
  /opt/ros/humble/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__type_support.c \
+ /usr/include/stdc-predef.h \
+ /usr/lib/gcc/x86_64-linux-gnu/11/include/stddef.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/srv/detail/import_usd__rosidl_typesupport_introspection_c.h \
+ /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_type_support_struct.h \
+ /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
+ /opt/ros/humble/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_c/isaacsim_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h \
+>>>>>>> an
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/service_type_support_struct.h \
  /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/field_types.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdint.h /usr/include/stdint.h \
@@ -29,7 +40,11 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
  /opt/ros/humble/include/rosidl_typesupport_introspection_c/rosidl_typesupport_introspection_c/message_introspection.h \
  /usr/lib/gcc/x86_64-linux-gnu/11/include/stdbool.h \
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/message_initialization.h \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h \
+>>>>>>> an
  /usr/include/stdlib.h /usr/include/x86_64-linux-gnu/bits/waitflags.h \
  /usr/include/x86_64-linux-gnu/bits/waitstatus.h \
  /usr/include/x86_64-linux-gnu/bits/floatn.h \
@@ -56,8 +71,13 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c.dir/rosidl_typesupp
  /usr/include/x86_64-linux-gnu/bits/struct_mutex.h \
  /usr/include/x86_64-linux-gnu/bits/struct_rwlock.h /usr/include/alloca.h \
  /usr/include/x86_64-linux-gnu/bits/stdlib-float.h \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h \
+>>>>>>> an
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence.h \
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string_functions.h \

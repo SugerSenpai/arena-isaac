@@ -37,7 +37,87 @@ void ImportUsd_Request_fini_function(void * message_memory)
   typed_message->~ImportUsd_Request();
 }
 
+<<<<<<< HEAD
 static const ::rosidl_typesupport_introspection_cpp::MessageMember ImportUsd_Request_message_member_array[4] = {
+=======
+size_t size_function__ImportUsd_Request__position(const void * untyped_member)
+{
+  (void)untyped_member;
+  return 3;
+}
+
+const void * get_const_function__ImportUsd_Request__position(const void * untyped_member, size_t index)
+{
+  const auto & member =
+    *reinterpret_cast<const std::array<float, 3> *>(untyped_member);
+  return &member[index];
+}
+
+void * get_function__ImportUsd_Request__position(void * untyped_member, size_t index)
+{
+  auto & member =
+    *reinterpret_cast<std::array<float, 3> *>(untyped_member);
+  return &member[index];
+}
+
+void fetch_function__ImportUsd_Request__position(
+  const void * untyped_member, size_t index, void * untyped_value)
+{
+  const auto & item = *reinterpret_cast<const float *>(
+    get_const_function__ImportUsd_Request__position(untyped_member, index));
+  auto & value = *reinterpret_cast<float *>(untyped_value);
+  value = item;
+}
+
+void assign_function__ImportUsd_Request__position(
+  void * untyped_member, size_t index, const void * untyped_value)
+{
+  auto & item = *reinterpret_cast<float *>(
+    get_function__ImportUsd_Request__position(untyped_member, index));
+  const auto & value = *reinterpret_cast<const float *>(untyped_value);
+  item = value;
+}
+
+size_t size_function__ImportUsd_Request__orientation(const void * untyped_member)
+{
+  (void)untyped_member;
+  return 4;
+}
+
+const void * get_const_function__ImportUsd_Request__orientation(const void * untyped_member, size_t index)
+{
+  const auto & member =
+    *reinterpret_cast<const std::array<float, 4> *>(untyped_member);
+  return &member[index];
+}
+
+void * get_function__ImportUsd_Request__orientation(void * untyped_member, size_t index)
+{
+  auto & member =
+    *reinterpret_cast<std::array<float, 4> *>(untyped_member);
+  return &member[index];
+}
+
+void fetch_function__ImportUsd_Request__orientation(
+  const void * untyped_member, size_t index, void * untyped_value)
+{
+  const auto & item = *reinterpret_cast<const float *>(
+    get_const_function__ImportUsd_Request__orientation(untyped_member, index));
+  auto & value = *reinterpret_cast<float *>(untyped_value);
+  value = item;
+}
+
+void assign_function__ImportUsd_Request__orientation(
+  void * untyped_member, size_t index, const void * untyped_value)
+{
+  auto & item = *reinterpret_cast<float *>(
+    get_function__ImportUsd_Request__orientation(untyped_member, index));
+  const auto & value = *reinterpret_cast<const float *>(untyped_value);
+  item = value;
+}
+
+static const ::rosidl_typesupport_introspection_cpp::MessageMember ImportUsd_Request_message_member_array[6] = {
+>>>>>>> an
   {
     "name",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
@@ -105,13 +185,54 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember ImportUsd_Req
     nullptr,  // fetch(index, &value) function pointer
     nullptr,  // assign(index, value) function pointer
     nullptr  // resize(index) function pointer
+<<<<<<< HEAD
+=======
+  },
+  {
+    "position",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    true,  // is array
+    3,  // array size
+    false,  // is upper bound
+    offsetof(isaacsim_msgs::srv::ImportUsd_Request, position),  // bytes offset in struct
+    nullptr,  // default value
+    size_function__ImportUsd_Request__position,  // size() function pointer
+    get_const_function__ImportUsd_Request__position,  // get_const(index) function pointer
+    get_function__ImportUsd_Request__position,  // get(index) function pointer
+    fetch_function__ImportUsd_Request__position,  // fetch(index, &value) function pointer
+    assign_function__ImportUsd_Request__position,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+  },
+  {
+    "orientation",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_FLOAT,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    true,  // is array
+    4,  // array size
+    false,  // is upper bound
+    offsetof(isaacsim_msgs::srv::ImportUsd_Request, orientation),  // bytes offset in struct
+    nullptr,  // default value
+    size_function__ImportUsd_Request__orientation,  // size() function pointer
+    get_const_function__ImportUsd_Request__orientation,  // get_const(index) function pointer
+    get_function__ImportUsd_Request__orientation,  // get(index) function pointer
+    fetch_function__ImportUsd_Request__orientation,  // fetch(index, &value) function pointer
+    assign_function__ImportUsd_Request__orientation,  // assign(index, value) function pointer
+    nullptr  // resize(index) function pointer
+>>>>>>> an
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers ImportUsd_Request_message_members = {
   "isaacsim_msgs::srv",  // message namespace
   "ImportUsd_Request",  // message name
+<<<<<<< HEAD
   4,  // number of fields
+=======
+  6,  // number of fields
+>>>>>>> an
   sizeof(isaacsim_msgs::srv::ImportUsd_Request),
   ImportUsd_Request_message_member_array,  // message members
   ImportUsd_Request_init_function,  // function to initialize message memory (memory has to be allocated)

@@ -1,8 +1,16 @@
+<<<<<<< HEAD
 # Install script for directory: /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/isaacsim_msgs__py
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
   set(CMAKE_INSTALL_PREFIX "/home/sora/Arena4-IsaacSim/install/isaacsim_msgs")
+=======
+# Install script for directory: /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/isaacsim_msgs__py
+
+# Set the install prefix
+if(NOT DEFINED CMAKE_INSTALL_PREFIX)
+  set(CMAKE_INSTALL_PREFIX "/home/kien/Documents/Arena4-IsaacSim/install/isaacsim_msgs")
+>>>>>>> an
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 

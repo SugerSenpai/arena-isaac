@@ -1,5 +1,9 @@
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesupport_introspection_cpp/isaacsim_msgs/msg/detail/euler__type_support.cpp.o: \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_cpp/isaacsim_msgs/msg/detail/euler__type_support.cpp \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_introspection_cpp/isaacsim_msgs/msg/detail/euler__type_support.cpp \
+>>>>>>> an
  /usr/include/stdc-predef.h /usr/include/c++/11/array \
  /usr/include/c++/11/utility \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++config.h \
@@ -137,7 +141,11 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_cpp.dir/rosidl_typesu
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/visibility_control.h \
  /opt/ros/humble/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
  /opt/ros/humble/include/rosidl_runtime_cpp/rosidl_typesupport_cpp/message_type_support.hpp \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__struct.hpp \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp/isaacsim_msgs/msg/detail/euler__struct.hpp \
+>>>>>>> an
  /usr/include/c++/11/algorithm /usr/include/c++/11/bits/stl_algo.h \
  /usr/include/c++/11/bits/algorithmfwd.h \
  /usr/include/c++/11/bits/stl_heap.h \

@@ -1,5 +1,6 @@
 {
   "package_name": "isaacsim_msgs",
+<<<<<<< HEAD
   "output_dir": "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_fastrtps_cpp/isaacsim_msgs",
   "template_dir": "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource",
   "idl_tuples": [
@@ -14,6 +15,19 @@
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/DeletePrim.idl",
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/GetPrimAttributes.idl",
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/MovePrim.idl"
+=======
+  "output_dir": "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_typesupport_fastrtps_cpp/isaacsim_msgs",
+  "template_dir": "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource",
+  "idl_tuples": [
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/PrimPath.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Quat.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Euler.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Env.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/UrdfToUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUrdf.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportYaml.idl"
+>>>>>>> an
   ],
   "target_dependencies": [
     "/opt/ros/humble/lib/rosidl_typesupport_fastrtps_cpp/rosidl_typesupport_fastrtps_cpp",
@@ -24,6 +38,7 @@
     "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/msg__type_support.cpp.em",
     "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/srv__rosidl_typesupport_fastrtps_cpp.hpp.em",
     "/opt/ros/humble/share/rosidl_typesupport_fastrtps_cpp/resource/srv__type_support.cpp.em",
+<<<<<<< HEAD
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/PrimPath.idl",
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Quat.idl",
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl",
@@ -35,5 +50,15 @@
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/DeletePrim.idl",
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/GetPrimAttributes.idl",
     "/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/MovePrim.idl"
+=======
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/PrimPath.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Quat.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Euler.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/msg/Env.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl",
+    "/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs/srv/ImportYaml.idl"
+>>>>>>> an
   ]
 }

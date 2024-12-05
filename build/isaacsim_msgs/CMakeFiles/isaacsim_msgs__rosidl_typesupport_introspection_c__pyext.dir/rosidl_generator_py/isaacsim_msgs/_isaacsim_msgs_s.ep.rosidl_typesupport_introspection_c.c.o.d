@@ -1,5 +1,9 @@
 CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_introspection_c.c.o: \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_introspection_c.c \
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_py/isaacsim_msgs/_isaacsim_msgs_s.ep.rosidl_typesupport_introspection_c.c \
+>>>>>>> an
  /usr/include/stdc-predef.h /usr/include/python3.10/Python.h \
  /usr/include/python3.10/patchlevel.h /usr/include/python3.10/pyconfig.h \
  /usr/include/x86_64-linux-gnu/python3.10/pyconfig.h \
@@ -201,6 +205,7 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_g
  /opt/ros/humble/include/rosidl_typesupport_interface/rosidl_typesupport_interface/macros.h \
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/service_type_support_struct.h \
  /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/action_type_support_struct.h \
+<<<<<<< HEAD
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__type_support.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__struct.h \
@@ -237,3 +242,32 @@ CMakeFiles/isaacsim_msgs__rosidl_typesupport_introspection_c__pyext.dir/rosidl_g
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__type_support.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__struct.h \
  /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/move_prim__functions.h
+=======
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/rosidl_generator_c__visibility_control.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__struct.h \
+ /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/string.h \
+ /opt/ros/humble/include/rosidl_runtime_c/rosidl_runtime_c/primitives_sequence.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/prim_path__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/quat__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/euler__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/env__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/env__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/msg/detail/env__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_usd__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/urdf_to_usd__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_urdf__functions.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__type_support.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__struct.h \
+ /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_c/isaacsim_msgs/srv/detail/import_yaml__functions.h
+>>>>>>> an

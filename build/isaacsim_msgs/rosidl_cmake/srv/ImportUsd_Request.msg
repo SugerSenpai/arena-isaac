@@ -2,3 +2,8 @@ string name
 string usd_path
 string prim_path
 bool control
+<<<<<<< HEAD
+=======
+float32[3] position [0, 0, 0]
+float32[4] orientation [1, 0, 0, 0]
+>>>>>>> an

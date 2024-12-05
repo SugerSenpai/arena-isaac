@@ -7,6 +7,15 @@
 
 import builtins  # noqa: E402, I100
 
+<<<<<<< HEAD
+=======
+import math  # noqa: E402, I100
+
+# Member 'position'
+# Member 'orientation'
+import numpy  # noqa: E402, I100
+
+>>>>>>> an
 import rosidl_parser.definition  # noqa: E402, I100
 
 
@@ -48,8 +57,25 @@ class Metaclass_ImportUsd_Request(type):
         # the message class under "Data and other attributes defined here:"
         # as well as populate each message instance
         return {
+<<<<<<< HEAD
         }
 
+=======
+            'POSITION__DEFAULT': numpy.array((0.0, 0.0, 0.0, ), dtype=numpy.float32),
+            'ORIENTATION__DEFAULT': numpy.array((1.0, 0.0, 0.0, 0.0, ), dtype=numpy.float32),
+        }
+
+    @property
+    def POSITION__DEFAULT(cls):
+        """Return default value for message field 'position'."""
+        return numpy.array((0.0, 0.0, 0.0, ), dtype=numpy.float32)
+
+    @property
+    def ORIENTATION__DEFAULT(cls):
+        """Return default value for message field 'orientation'."""
+        return numpy.array((1.0, 0.0, 0.0, 0.0, ), dtype=numpy.float32)
+
+>>>>>>> an
 
 class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
     """Message class 'ImportUsd_Request'."""
@@ -59,6 +85,11 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
         '_usd_path',
         '_prim_path',
         '_control',
+<<<<<<< HEAD
+=======
+        '_position',
+        '_orientation',
+>>>>>>> an
     ]
 
     _fields_and_field_types = {
@@ -66,6 +97,11 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
         'usd_path': 'string',
         'prim_path': 'string',
         'control': 'boolean',
+<<<<<<< HEAD
+=======
+        'position': 'float[3]',
+        'orientation': 'float[4]',
+>>>>>>> an
     }
 
     SLOT_TYPES = (
@@ -73,6 +109,11 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.UnboundedString(),  # noqa: E501
         rosidl_parser.definition.BasicType('boolean'),  # noqa: E501
+<<<<<<< HEAD
+=======
+        rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('float'), 3),  # noqa: E501
+        rosidl_parser.definition.Array(rosidl_parser.definition.BasicType('float'), 4),  # noqa: E501
+>>>>>>> an
     )
 
     def __init__(self, **kwargs):
@@ -83,6 +124,13 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
         self.usd_path = kwargs.get('usd_path', str())
         self.prim_path = kwargs.get('prim_path', str())
         self.control = kwargs.get('control', bool())
+<<<<<<< HEAD
+=======
+        self.position = kwargs.get(
+            'position', ImportUsd_Request.POSITION__DEFAULT)
+        self.orientation = kwargs.get(
+            'orientation', ImportUsd_Request.ORIENTATION__DEFAULT)
+>>>>>>> an
 
     def __repr__(self):
         typename = self.__class__.__module__.split('.')
@@ -121,6 +169,13 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
             return False
         if self.control != other.control:
             return False
+<<<<<<< HEAD
+=======
+        if all(self.position != other.position):
+            return False
+        if all(self.orientation != other.orientation):
+            return False
+>>>>>>> an
         return True
 
     @classmethod
@@ -180,6 +235,71 @@ class ImportUsd_Request(metaclass=Metaclass_ImportUsd_Request):
                 "The 'control' field must be of type 'bool'"
         self._control = value
 
+<<<<<<< HEAD
+=======
+    @builtins.property
+    def position(self):
+        """Message field 'position'."""
+        return self._position
+
+    @position.setter
+    def position(self, value):
+        if isinstance(value, numpy.ndarray):
+            assert value.dtype == numpy.float32, \
+                "The 'position' numpy.ndarray() must have the dtype of 'numpy.float32'"
+            assert value.size == 3, \
+                "The 'position' numpy.ndarray() must have a size of 3"
+            self._position = value
+            return
+        if __debug__:
+            from collections.abc import Sequence
+            from collections.abc import Set
+            from collections import UserList
+            from collections import UserString
+            assert \
+                ((isinstance(value, Sequence) or
+                  isinstance(value, Set) or
+                  isinstance(value, UserList)) and
+                 not isinstance(value, str) and
+                 not isinstance(value, UserString) and
+                 len(value) == 3 and
+                 all(isinstance(v, float) for v in value) and
+                 all(not (val < -3.402823466e+38 or val > 3.402823466e+38) or math.isinf(val) for val in value)), \
+                "The 'position' field must be a set or sequence with length 3 and each value of type 'float' and each float in [-340282346600000016151267322115014000640.000000, 340282346600000016151267322115014000640.000000]"
+        self._position = numpy.array(value, dtype=numpy.float32)
+
+    @builtins.property
+    def orientation(self):
+        """Message field 'orientation'."""
+        return self._orientation
+
+    @orientation.setter
+    def orientation(self, value):
+        if isinstance(value, numpy.ndarray):
+            assert value.dtype == numpy.float32, \
+                "The 'orientation' numpy.ndarray() must have the dtype of 'numpy.float32'"
+            assert value.size == 4, \
+                "The 'orientation' numpy.ndarray() must have a size of 4"
+            self._orientation = value
+            return
+        if __debug__:
+            from collections.abc import Sequence
+            from collections.abc import Set
+            from collections import UserList
+            from collections import UserString
+            assert \
+                ((isinstance(value, Sequence) or
+                  isinstance(value, Set) or
+                  isinstance(value, UserList)) and
+                 not isinstance(value, str) and
+                 not isinstance(value, UserString) and
+                 len(value) == 4 and
+                 all(isinstance(v, float) for v in value) and
+                 all(not (val < -3.402823466e+38 or val > 3.402823466e+38) or math.isinf(val) for val in value)), \
+                "The 'orientation' field must be a set or sequence with length 4 and each value of type 'float' and each float in [-340282346600000016151267322115014000640.000000, 340282346600000016151267322115014000640.000000]"
+        self._orientation = numpy.array(value, dtype=numpy.float32)
+
+>>>>>>> an
 
 # Import statements for member types
 

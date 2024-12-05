@@ -53,10 +53,17 @@ RM = /usr/bin/cmake -E rm -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
+<<<<<<< HEAD
 CMAKE_SOURCE_DIR = /home/sora/Arena4-IsaacSim/src/isaacsim_msgs
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/sora/Arena4-IsaacSim/build/isaacsim_msgs
+=======
+CMAKE_SOURCE_DIR = /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs
+
+# The top-level build directory on which CMake was run.
+CMAKE_BINARY_DIR = /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs
+>>>>>>> an
 
 # Utility rule file for isaacsim_msgs__cpp.
 
@@ -82,10 +89,13 @@ CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/env.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__struct.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp
+=======
+>>>>>>> an
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp
@@ -98,6 +108,7 @@ CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_urd
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__struct.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__traits.hpp
+<<<<<<< HEAD
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/delete_prim.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/delete_prim__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/delete_prim__struct.hpp
@@ -110,6 +121,12 @@ CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/move_prim.
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__builder.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__struct.hpp
 CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__traits.hpp
+=======
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_yaml.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__builder.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__struct.hpp
+CMakeFiles/isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__traits.hpp
+>>>>>>> an
 
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: /opt/ros/humble/lib/rosidl_generator_cpp/rosidl_generator_cpp
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: /opt/ros/humble/local/lib/python3.10/dist-packages/rosidl_generator_cpp/__init__.py
@@ -130,6 +147,7 @@ rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_ms
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Quat.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Euler.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Env.idl
+<<<<<<< HEAD
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/msg/Values.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
@@ -139,6 +157,14 @@ rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_ms
 rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/MovePrim.idl
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code for ROS interfaces"
 	/home/sora/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_cpp/cmake/../../../lib/rosidl_generator_cpp/rosidl_generator_cpp --generator-arguments-file /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp__arguments.json
+=======
+rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportUsd.idl
+rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/UrdfToUsd.idl
+rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportUrdf.idl
+rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp: rosidl_adapter/isaacsim_msgs/srv/ImportYaml.idl
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Generating C++ code for ROS interfaces"
+	/home/kien/Documents/Arena4-IsaacSim/venv/bin/python3 /opt/ros/humble/share/rosidl_generator_cpp/cmake/../../../lib/rosidl_generator_cpp/rosidl_generator_cpp --generator-arguments-file /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_generator_cpp__arguments.json
+>>>>>>> an
 
 rosidl_generator_cpp/isaacsim_msgs/msg/detail/prim_path__builder.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/prim_path__builder.hpp
@@ -185,6 +211,7 @@ rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__struct.hpp: rosidl_generator_
 rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__traits.hpp
 
+<<<<<<< HEAD
 rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp
 
@@ -197,6 +224,8 @@ rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp: rosidl_generat
 rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp
 
+=======
+>>>>>>> an
 rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
 
@@ -233,6 +262,7 @@ rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__struct.hpp: rosidl_ge
 rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__traits.hpp
 
+<<<<<<< HEAD
 rosidl_generator_cpp/isaacsim_msgs/srv/delete_prim.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/delete_prim.hpp
 
@@ -268,6 +298,19 @@ rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__struct.hpp: rosidl_gene
 
 rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__traits.hpp
+=======
+rosidl_generator_cpp/isaacsim_msgs/srv/import_yaml.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/import_yaml.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__builder.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__builder.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__struct.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__struct.hpp
+
+rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__traits.hpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
+	@$(CMAKE_COMMAND) -E touch_nocreate rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__traits.hpp
+>>>>>>> an
 
 isaacsim_msgs__cpp: CMakeFiles/isaacsim_msgs__cpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/env__builder.hpp
@@ -282,13 +325,17 @@ isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/prim_path__tra
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/quat__traits.hpp
+<<<<<<< HEAD
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/detail/values__traits.hpp
+=======
+>>>>>>> an
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/env.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/euler.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/prim_path.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/quat.hpp
+<<<<<<< HEAD
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/msg/values.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/delete_prim.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/delete_prim__builder.hpp
@@ -297,12 +344,15 @@ isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/delete_prim__t
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/get_prim_attributes__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/get_prim_attributes__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/get_prim_attributes__traits.hpp
+=======
+>>>>>>> an
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_urdf__traits.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_usd__traits.hpp
+<<<<<<< HEAD
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__builder.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__struct.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/move_prim__traits.hpp
@@ -313,6 +363,17 @@ isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/get_prim_attributes.h
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_urdf.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/move_prim.hpp
+=======
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__builder.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__struct.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/import_yaml__traits.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__builder.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__struct.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/detail/urdf_to_usd__traits.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_urdf.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_usd.hpp
+isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/import_yaml.hpp
+>>>>>>> an
 isaacsim_msgs__cpp: rosidl_generator_cpp/isaacsim_msgs/srv/urdf_to_usd.hpp
 isaacsim_msgs__cpp: CMakeFiles/isaacsim_msgs__cpp.dir/build.make
 .PHONY : isaacsim_msgs__cpp
@@ -326,6 +387,10 @@ CMakeFiles/isaacsim_msgs__cpp.dir/clean:
 .PHONY : CMakeFiles/isaacsim_msgs__cpp.dir/clean
 
 CMakeFiles/isaacsim_msgs__cpp.dir/depend:
+<<<<<<< HEAD
 	cd /home/sora/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/src/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs /home/sora/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs__cpp.dir/DependInfo.cmake --color=$(COLOR)
+=======
+	cd /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/src/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs /home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/CMakeFiles/isaacsim_msgs__cpp.dir/DependInfo.cmake --color=$(COLOR)
+>>>>>>> an
 .PHONY : CMakeFiles/isaacsim_msgs__cpp.dir/depend
 

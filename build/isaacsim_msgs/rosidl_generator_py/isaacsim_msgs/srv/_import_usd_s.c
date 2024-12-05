@@ -19,6 +19,12 @@
 #include "rosidl_runtime_c/string.h"
 #include "rosidl_runtime_c/string_functions.h"
 
+<<<<<<< HEAD
+=======
+#include "rosidl_runtime_c/primitives_sequence.h"
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
+
+>>>>>>> an
 
 ROSIDL_GENERATOR_C_EXPORT
 bool isaacsim_msgs__srv__import_usd__request__convert_from_py(PyObject * _pymsg, void * _ros_message)
@@ -107,6 +113,57 @@ bool isaacsim_msgs__srv__import_usd__request__convert_from_py(PyObject * _pymsg,
     ros_message->control = (Py_True == field);
     Py_DECREF(field);
   }
+<<<<<<< HEAD
+=======
+  {  // position
+    PyObject * field = PyObject_GetAttrString(_pymsg, "position");
+    if (!field) {
+      return false;
+    }
+    {
+      // TODO(dirk-thomas) use a better way to check the type before casting
+      assert(field->ob_type != NULL);
+      assert(field->ob_type->tp_name != NULL);
+      assert(strcmp(field->ob_type->tp_name, "numpy.ndarray") == 0);
+      PyArrayObject * seq_field = (PyArrayObject *)field;
+      Py_INCREF(seq_field);
+      assert(PyArray_NDIM(seq_field) == 1);
+      assert(PyArray_TYPE(seq_field) == NPY_FLOAT32);
+      Py_ssize_t size = 3;
+      float * dest = ros_message->position;
+      for (Py_ssize_t i = 0; i < size; ++i) {
+        float tmp = *(npy_float32 *)PyArray_GETPTR1(seq_field, i);
+        memcpy(&dest[i], &tmp, sizeof(float));
+      }
+      Py_DECREF(seq_field);
+    }
+    Py_DECREF(field);
+  }
+  {  // orientation
+    PyObject * field = PyObject_GetAttrString(_pymsg, "orientation");
+    if (!field) {
+      return false;
+    }
+    {
+      // TODO(dirk-thomas) use a better way to check the type before casting
+      assert(field->ob_type != NULL);
+      assert(field->ob_type->tp_name != NULL);
+      assert(strcmp(field->ob_type->tp_name, "numpy.ndarray") == 0);
+      PyArrayObject * seq_field = (PyArrayObject *)field;
+      Py_INCREF(seq_field);
+      assert(PyArray_NDIM(seq_field) == 1);
+      assert(PyArray_TYPE(seq_field) == NPY_FLOAT32);
+      Py_ssize_t size = 4;
+      float * dest = ros_message->orientation;
+      for (Py_ssize_t i = 0; i < size; ++i) {
+        float tmp = *(npy_float32 *)PyArray_GETPTR1(seq_field, i);
+        memcpy(&dest[i], &tmp, sizeof(float));
+      }
+      Py_DECREF(seq_field);
+    }
+    Py_DECREF(field);
+  }
+>>>>>>> an
 
   return true;
 }
@@ -191,6 +248,45 @@ PyObject * isaacsim_msgs__srv__import_usd__request__convert_to_py(void * raw_ros
       }
     }
   }
+<<<<<<< HEAD
+=======
+  {  // position
+    PyObject * field = NULL;
+    field = PyObject_GetAttrString(_pymessage, "position");
+    if (!field) {
+      return NULL;
+    }
+    assert(field->ob_type != NULL);
+    assert(field->ob_type->tp_name != NULL);
+    assert(strcmp(field->ob_type->tp_name, "numpy.ndarray") == 0);
+    PyArrayObject * seq_field = (PyArrayObject *)field;
+    assert(PyArray_NDIM(seq_field) == 1);
+    assert(PyArray_TYPE(seq_field) == NPY_FLOAT32);
+    assert(sizeof(npy_float32) == sizeof(float));
+    npy_float32 * dst = (npy_float32 *)PyArray_GETPTR1(seq_field, 0);
+    float * src = &(ros_message->position[0]);
+    memcpy(dst, src, 3 * sizeof(float));
+    Py_DECREF(field);
+  }
+  {  // orientation
+    PyObject * field = NULL;
+    field = PyObject_GetAttrString(_pymessage, "orientation");
+    if (!field) {
+      return NULL;
+    }
+    assert(field->ob_type != NULL);
+    assert(field->ob_type->tp_name != NULL);
+    assert(strcmp(field->ob_type->tp_name, "numpy.ndarray") == 0);
+    PyArrayObject * seq_field = (PyArrayObject *)field;
+    assert(PyArray_NDIM(seq_field) == 1);
+    assert(PyArray_TYPE(seq_field) == NPY_FLOAT32);
+    assert(sizeof(npy_float32) == sizeof(float));
+    npy_float32 * dst = (npy_float32 *)PyArray_GETPTR1(seq_field, 0);
+    float * src = &(ros_message->orientation[0]);
+    memcpy(dst, src, 4 * sizeof(float));
+    Py_DECREF(field);
+  }
+>>>>>>> an
 
   // ownership of _pymessage is transferred to the caller
   return _pymessage;

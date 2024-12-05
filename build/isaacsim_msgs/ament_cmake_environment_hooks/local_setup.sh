@@ -2,7 +2,11 @@
 
 # since this file is sourced use either the provided AMENT_CURRENT_PREFIX
 # or fall back to the destination set at configure time
+<<<<<<< HEAD
 : ${AMENT_CURRENT_PREFIX:="/home/sora/Arena4-IsaacSim/install/isaacsim_msgs"}
+=======
+: ${AMENT_CURRENT_PREFIX:="/home/kien/Documents/Arena4-IsaacSim/install/isaacsim_msgs"}
+>>>>>>> an
 if [ ! -d "$AMENT_CURRENT_PREFIX" ]; then
   if [ -z "$COLCON_CURRENT_PREFIX" ]; then
     echo "The compile time prefix path '$AMENT_CURRENT_PREFIX' doesn't " \

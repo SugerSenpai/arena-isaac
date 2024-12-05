@@ -98,6 +98,23 @@ static bool _ImportUsd_Request__cdr_serialize(
     cdr << (ros_message->control ? true : false);
   }
 
+<<<<<<< HEAD
+=======
+  // Field name: position
+  {
+    size_t size = 3;
+    auto array_ptr = ros_message->position;
+    cdr.serializeArray(array_ptr, size);
+  }
+
+  // Field name: orientation
+  {
+    size_t size = 4;
+    auto array_ptr = ros_message->orientation;
+    cdr.serializeArray(array_ptr, size);
+  }
+
+>>>>>>> an
   return true;
 }
 
@@ -165,6 +182,23 @@ static bool _ImportUsd_Request__cdr_deserialize(
     ros_message->control = tmp ? true : false;
   }
 
+<<<<<<< HEAD
+=======
+  // Field name: position
+  {
+    size_t size = 3;
+    auto array_ptr = ros_message->position;
+    cdr.deserializeArray(array_ptr, size);
+  }
+
+  // Field name: orientation
+  {
+    size_t size = 4;
+    auto array_ptr = ros_message->orientation;
+    cdr.deserializeArray(array_ptr, size);
+  }
+
+>>>>>>> an
   return true;
 }  // NOLINT(readability/fn_size)
 
@@ -200,6 +234,27 @@ size_t get_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
     current_alignment += item_size +
       eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
   }
+<<<<<<< HEAD
+=======
+  // field.name position
+  {
+    size_t array_size = 3;
+    auto array_ptr = ros_message->position;
+    (void)array_ptr;
+    size_t item_size = sizeof(array_ptr[0]);
+    current_alignment += array_size * item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+  // field.name orientation
+  {
+    size_t array_size = 4;
+    auto array_ptr = ros_message->orientation;
+    (void)array_ptr;
+    size_t item_size = sizeof(array_ptr[0]);
+    current_alignment += array_size * item_size +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, item_size);
+  }
+>>>>>>> an
 
   return current_alignment - initial_alignment;
 }
@@ -272,6 +327,25 @@ size_t max_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
     last_member_size = array_size * sizeof(uint8_t);
     current_alignment += array_size * sizeof(uint8_t);
   }
+<<<<<<< HEAD
+=======
+  // member: position
+  {
+    size_t array_size = 3;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+  // member: orientation
+  {
+    size_t array_size = 4;
+
+    last_member_size = array_size * sizeof(uint32_t);
+    current_alignment += array_size * sizeof(uint32_t) +
+      eprosima::fastcdr::Cdr::alignment(current_alignment, sizeof(uint32_t));
+  }
+>>>>>>> an
 
   size_t ret_val = current_alignment - initial_alignment;
   if (is_plain) {
@@ -281,7 +355,11 @@ size_t max_serialized_size_isaacsim_msgs__srv__ImportUsd_Request(
     using DataType = isaacsim_msgs__srv__ImportUsd_Request;
     is_plain =
       (
+<<<<<<< HEAD
       offsetof(DataType, control) +
+=======
+      offsetof(DataType, orientation) +
+>>>>>>> an
       last_member_size
       ) == ret_val;
   }

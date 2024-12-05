@@ -36,6 +36,25 @@ struct ImportUsd_Request_
   explicit ImportUsd_Request_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+<<<<<<< HEAD
+=======
+      rosidl_runtime_cpp::MessageInitialization::DEFAULTS_ONLY == _init)
+    {
+      std::fill<typename std::array<float, 3>::iterator, float>(this->position.begin(), this->position.end(), 0.0f);
+      this->orientation[0] = 1.0f;
+      this->orientation[1] = 0.0f;
+      this->orientation[2] = 0.0f;
+      this->orientation[3] = 0.0f;
+    } else if (rosidl_runtime_cpp::MessageInitialization::ZERO == _init) {
+      this->name = "";
+      this->usd_path = "";
+      this->prim_path = "";
+      this->control = false;
+      std::fill<typename std::array<float, 3>::iterator, float>(this->position.begin(), this->position.end(), 0.0f);
+      std::fill<typename std::array<float, 4>::iterator, float>(this->orientation.begin(), this->orientation.end(), 0.0f);
+    }
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+>>>>>>> an
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->name = "";
@@ -48,9 +67,33 @@ struct ImportUsd_Request_
   explicit ImportUsd_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : name(_alloc),
     usd_path(_alloc),
+<<<<<<< HEAD
     prim_path(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+=======
+    prim_path(_alloc),
+    position(_alloc),
+    orientation(_alloc)
+  {
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::DEFAULTS_ONLY == _init)
+    {
+      std::fill<typename std::array<float, 3>::iterator, float>(this->position.begin(), this->position.end(), 0.0f);
+      this->orientation[0] = 1.0f;
+      this->orientation[1] = 0.0f;
+      this->orientation[2] = 0.0f;
+      this->orientation[3] = 0.0f;
+    } else if (rosidl_runtime_cpp::MessageInitialization::ZERO == _init) {
+      this->name = "";
+      this->usd_path = "";
+      this->prim_path = "";
+      this->control = false;
+      std::fill<typename std::array<float, 3>::iterator, float>(this->position.begin(), this->position.end(), 0.0f);
+      std::fill<typename std::array<float, 4>::iterator, float>(this->orientation.begin(), this->orientation.end(), 0.0f);
+    }
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+>>>>>>> an
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->name = "";
@@ -73,6 +116,15 @@ struct ImportUsd_Request_
   using _control_type =
     bool;
   _control_type control;
+<<<<<<< HEAD
+=======
+  using _position_type =
+    std::array<float, 3>;
+  _position_type position;
+  using _orientation_type =
+    std::array<float, 4>;
+  _orientation_type orientation;
+>>>>>>> an
 
   // setters for named parameter idiom
   Type & set__name(
@@ -99,6 +151,21 @@ struct ImportUsd_Request_
     this->control = _arg;
     return *this;
   }
+<<<<<<< HEAD
+=======
+  Type & set__position(
+    const std::array<float, 3> & _arg)
+  {
+    this->position = _arg;
+    return *this;
+  }
+  Type & set__orientation(
+    const std::array<float, 4> & _arg)
+  {
+    this->orientation = _arg;
+    return *this;
+  }
+>>>>>>> an
 
   // constant declarations
 
@@ -154,6 +221,15 @@ struct ImportUsd_Request_
     if (this->control != other.control) {
       return false;
     }
+<<<<<<< HEAD
+=======
+    if (this->position != other.position) {
+      return false;
+    }
+    if (this->orientation != other.orientation) {
+      return false;
+    }
+>>>>>>> an
     return true;
   }
   bool operator!=(const ImportUsd_Request_ & other) const

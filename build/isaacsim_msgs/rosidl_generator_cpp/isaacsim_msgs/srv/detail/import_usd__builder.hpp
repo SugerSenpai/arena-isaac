@@ -21,16 +21,58 @@ namespace srv
 namespace builder
 {
 
+<<<<<<< HEAD
+=======
+class Init_ImportUsd_Request_orientation
+{
+public:
+  explicit Init_ImportUsd_Request_orientation(::isaacsim_msgs::srv::ImportUsd_Request & msg)
+  : msg_(msg)
+  {}
+  ::isaacsim_msgs::srv::ImportUsd_Request orientation(::isaacsim_msgs::srv::ImportUsd_Request::_orientation_type arg)
+  {
+    msg_.orientation = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::isaacsim_msgs::srv::ImportUsd_Request msg_;
+};
+
+class Init_ImportUsd_Request_position
+{
+public:
+  explicit Init_ImportUsd_Request_position(::isaacsim_msgs::srv::ImportUsd_Request & msg)
+  : msg_(msg)
+  {}
+  Init_ImportUsd_Request_orientation position(::isaacsim_msgs::srv::ImportUsd_Request::_position_type arg)
+  {
+    msg_.position = std::move(arg);
+    return Init_ImportUsd_Request_orientation(msg_);
+  }
+
+private:
+  ::isaacsim_msgs::srv::ImportUsd_Request msg_;
+};
+
+>>>>>>> an
 class Init_ImportUsd_Request_control
 {
 public:
   explicit Init_ImportUsd_Request_control(::isaacsim_msgs::srv::ImportUsd_Request & msg)
   : msg_(msg)
   {}
+<<<<<<< HEAD
   ::isaacsim_msgs::srv::ImportUsd_Request control(::isaacsim_msgs::srv::ImportUsd_Request::_control_type arg)
   {
     msg_.control = std::move(arg);
     return std::move(msg_);
+=======
+  Init_ImportUsd_Request_position control(::isaacsim_msgs::srv::ImportUsd_Request::_control_type arg)
+  {
+    msg_.control = std::move(arg);
+    return Init_ImportUsd_Request_position(msg_);
+>>>>>>> an
   }
 
 private:
