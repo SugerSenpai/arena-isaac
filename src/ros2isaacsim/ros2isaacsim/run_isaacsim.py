@@ -2,7 +2,7 @@
 from isaacsim import SimulationApp
 
 # Setting the config for simulation and make an simulation.
-CONFIG = {"renderer": "RayTracedLighting", "headless": True}
+CONFIG = {"renderer": "RayTracedLighting", "headless": False}
 simulation_app = SimulationApp(CONFIG)
 
 # Import dependencies.
@@ -262,7 +262,9 @@ def create_controller(time=120):
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
-    ##
+    get_prim_attribute_service = get_prim_attr(controller)
+    move_prim_service = move_prim(controller)
+    delete_prim_service = _delete_prim(controller)
     return controller
 
 # update the simulation.
