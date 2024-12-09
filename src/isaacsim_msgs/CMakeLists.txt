@@ -25,6 +25,8 @@ set(srv_files
   "srv/GetPrimAttributes.srv"
   "srv/MovePrim.srv"
   "srv/ImportYaml.srv"
+  "srv/ScalePrim.srv"
+  "srv/SpawnWall.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}

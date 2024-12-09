@@ -7,6 +7,7 @@ simulation_app = SimulationApp(CONFIG)
 
 # Import dependencies.
 import carb
+import math
 import omni
 import omni.graph.core as og
 import usdrt.Sdf
@@ -22,11 +23,12 @@ from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_at
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
 from pxr import Gf, Usd, UsdGeom
+import omni.kit.commands as commands
 import numpy as np
 import rclpy
 from rclpy.node import Node
 from isaacsim_msgs.msg import Euler, Quat, Env, Values
-from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml
+from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, ScalePrim, SpawnWall
 from sensor_msgs.msg import JointState
 
 #======================================Base======================================
@@ -158,8 +160,15 @@ def prim_mover(request,response):
     name = request.name
     prim_path = request.prim_path
     position, orientation = request.values
-    set_prim_attribute_value(prim_path,attribute_name="xformOp:translate", value=np.array(position.values))
-    set_prim_attribute_value(prim_path,attribute_name="xformOp:orient",value=np.array(orientation.values))
+    position = tuple(position.values)
+    orientation = tuple(orientation.values)
+    commands.execute(
+        "IsaacSimTeleportPrim",
+        prim_path = prim_path,
+        translation = position,
+        rotation = orientation,
+    )
+
     response.ret = True
     return response
 
@@ -170,11 +179,35 @@ def move_prim(controller):
     return service
 #================================================================================
 
+#============================Scale Prims service=================================
+def prim_scaler(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    scale = tuple(request.values)
+    commands.execute(
+        "IsaacSimScalePrim",
+        prim_path = prim_path,
+        scale = scale,
+    )
+
+    response.ret = True
+    return response
+
+def scale_prim(controller):
+    service = controller.create_service(srv_type=ScalePrim, 
+                        srv_name='scale_prim', 
+                        callback=prim_scaler)
+    return service
+#================================================================================
+
 #============================Delete Prims service================================
 def prim_deleter(request,response):
     name = request.name
     prim_path = request.prim_path
-    delete_prim(prim_path)
+    commands.execute(
+        "IsaacSimDestroyPrim",
+        prim_path = prim_path,
+    )
     response.ret = True
     return response
 
@@ -182,6 +215,44 @@ def _delete_prim(controller):
     service = controller.create_service(srv_type=DeletePrim, 
                         srv_name='_delete_prim', 
                         callback=prim_deleter)
+    return service
+#================================================================================
+
+#============================Delete Prims service================================
+def wall_spawner(request,response):
+    #Get service attributes
+    name = request.name
+    world_path = request.world_path
+    start = np.array(request.start)
+    end = np.array(request.end)
+    start_vec = Gf.Vec3d(*request.start)
+    end_vec = Gf.Vec3d(*request.end)
+    #fixed attributes
+    scale=Gf.Vec3f(*[0.05, 1, 1])
+    color=np.array([.2,.2,0.])
+    vector_ab = end - start 
+
+    center = (start_vec + end_vec)/2
+    length = np.linalg.norm(start[:2] - end[:2])
+    angle = math.atan2(vector_ab[1], vector_ab[0])
+    
+    #create wall
+    stage = omni.usd.get_context().get_stage()
+    wall = UsdGeom.Cube.Define(stage, f"{world_path}/{name}")
+    wall_transform = UsdGeom.XformCommonAPI(wall)
+    wall.AddTranslateOp().Set(center)
+    wall_transform.SetScale(scale)
+    wall.AddRotateZOp().Set(math.degrees(angle))
+
+
+
+    response.ret = True
+    return response
+
+def spawn_wall(controller):
+    service = controller.create_service(srv_type=SpawnWall, 
+                        srv_name='spawn_wall', 
+                        callback=wall_spawner)
     return service
 #================================================================================
 
@@ -265,6 +336,8 @@ def create_controller(time=120):
     get_prim_attribute_service = get_prim_attr(controller)
     move_prim_service = move_prim(controller)
     delete_prim_service = _delete_prim(controller)
+    prim_scale_service = scale_prim(controller)
+    wall_spawn_service = spawn_wall(controller)
     return controller
 
 # update the simulation.

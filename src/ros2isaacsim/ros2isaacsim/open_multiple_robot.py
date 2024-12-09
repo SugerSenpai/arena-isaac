@@ -14,6 +14,7 @@ from omni.isaac.core.utils.extensions import get_extension_path_from_name
 from pxr import Gf, PhysxSchema, Sdf, UsdLux, UsdPhysics, UsdGeom
 from omni.isaac.core.objects import DynamicCuboid
 from omni.isaac.dynamic_control import _dynamic_control
+import omni.kit.commands as commands
 import omni.kit.commands
 import numpy as np
 import omni
