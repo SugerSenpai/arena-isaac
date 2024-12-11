@@ -1,8 +1,0 @@
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/PrimPath.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Quat.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Euler.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:msg/Env.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUsd.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/UrdfToUsd.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportUrdf.idl
-/home/kien/Documents/Arena4-IsaacSim/build/isaacsim_msgs/rosidl_adapter/isaacsim_msgs:srv/ImportYaml.idl
