@@ -12,16 +12,22 @@ import omni
 import omni.graph.core as og
 import usdrt.Sdf
 import numpy as np
+import matplotlib.pyplot as plt
 import yaml
 from omni.isaac.core import SimulationContext
 from omni.isaac.core.utils.rotations import quat_to_euler_angles
-from omni.isaac.core.utils import extensions, stage
+from omni.isaac.core.utils import extensions, stage, nucleus
 from omni.isaac.nucleus import get_assets_root_path
 from omni.kit.viewport.utility import get_active_viewport
 from omni.isaac.core.utils.extensions import get_extension_path_from_name
 from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
+from omni.isaac.sensor import Camera, LidarRtx
+from omni.isaac.range_sensor import _range_sensor
+import omni.replicator.core as rep
+import omni.syntheticdata._syntheticdata as sd
+import omni.isaac.core.utils.numpy.rotations as rot_utils
 from pxr import Gf, Usd, UsdGeom
 import omni.kit.commands as commands
 import numpy as np
@@ -33,11 +39,17 @@ from sensor_msgs.msg import JointState
 
 #======================================Base======================================
 # Setting up world and enable ros2_bridge extentions.
+BACKGROUND_STAGE_PATH = "/background"
+
+BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
+
 world = World()
 extensions.enable_extension("omni.isaac.ros2_bridge")
 simulation_app.update() #update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
 
+assets_root_path = nucleus.get_assets_root_path()
+stage.add_reference_to_stage(assets_root_path + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH)
 # Setting up URDF importer.
 status, import_config = omni.kit.commands.execute("URDFCreateImportConfig")
 import_config.merge_fixed_joints = True
@@ -271,8 +283,15 @@ def usd_importer(request, response):
     if not request.control:
         environments.append(prim_path)
         return response 
-    robots.append(prim_path)
+    camera_prim_path = prim_path + "/" + "Camera"
+    camera = camera_set_up(camera_prim_path)
+    camera.initialize()
+    publish_camera_info(camera, 20)
+    publish_depth(camera, 20)
+    publish_rgb(camera, 20)
+    publish_pointcloud_from_depth(camera, 20)
 
+    robots.append(prim_path)
     # create default graph.
     og.Controller.edit(
         # default graph name for robots.
@@ -305,11 +324,149 @@ def usd_importer(request, response):
                 ("ArticulationController.inputs:targetPrim", [prim_path]),
                 ("ArticulationController.inputs:robotPath", prim_path),
                 ("SubcribeJoinState.inputs:topicName", f"{name}_command"),
+                
                 ("PublishJointState.inputs:topicName", f"{name}_states"),
             ]
         }
     )
     return response
+
+#=================================================================================
+#===================================Sensors=======================================
+
+def camera_set_up(prim_path):
+    camera = Camera(
+        prim_path = prim_path,
+        name = 'camera',
+        frequency=20,
+        resolution=(640, 480),
+    )
+    camera.initialize()
+    return camera
+
+def publish_camera_info(camera: Camera, freq):
+    from omni.isaac.ros2_bridge import read_camera_info
+    # The following code will link the camera's render product and publish the data to the specified topic name.
+    render_product = camera._render_product_path
+    step_size = int(60/freq)
+    topic_name = camera.name+"_camera_info"
+    queue_size = 1
+    node_namespace = ""
+    frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
+
+    writer = rep.writers.get("ROS2PublishCameraInfo")
+    camera_info = read_camera_info(render_product_path=render_product)
+    writer.initialize(
+        frameId=frame_id,
+        nodeNamespace=node_namespace,
+        queueSize=queue_size,
+        topicName=topic_name,
+        width=camera_info["width"],
+        height=camera_info["height"],
+        projectionType=camera_info["projectionType"],
+        k=camera_info["k"].reshape([1, 9]),
+        r=camera_info["r"].reshape([1, 9]),
+        p=camera_info["p"].reshape([1, 12]),
+        physicalDistortionModel=camera_info["physicalDistortionModel"],
+        physicalDistortionCoefficients=camera_info["physicalDistortionCoefficients"],
+    )
+    writer.attach([render_product])
+
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        "PostProcessDispatch" + "IsaacSimulationGate", render_product
+    )
+
+    # Set step input of the Isaac Simulation Gate nodes upstream of ROS publishers to control their execution rate
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+    return
+
+def publish_pointcloud_from_depth(camera: Camera, freq):
+    # The following code will link the camera's render product and publish the data to the specified topic name.
+    render_product = camera._render_product_path
+    step_size = int(60/freq)
+    topic_name = camera.name+"_pointcloud" # Set topic name to the camera's name
+    queue_size = 1
+    node_namespace = ""
+    frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
+
+    # Note, this pointcloud publisher will simply convert the Depth image to a pointcloud using the Camera intrinsics.
+    # This pointcloud generation method does not support semantic labelled objects.
+    rv = omni.syntheticdata.SyntheticData.convert_sensor_type_to_rendervar(
+        sd.SensorType.DistanceToImagePlane.name
+    )
+
+    writer = rep.writers.get(rv + "ROS2PublishPointCloud")
+    writer.initialize(
+        frameId=frame_id,
+        nodeNamespace=node_namespace,
+        queueSize=queue_size,
+        topicName=topic_name
+    )
+    writer.attach([render_product])
+
+    # Set step input of the Isaac Simulation Gate nodes upstream of ROS publishers to control their execution rate
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        rv + "IsaacSimulationGate", render_product
+    )
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+
+    return
+
+def publish_rgb(camera: Camera, freq):
+    # The following code will link the camera's render product and publish the data to the specified topic name.
+    render_product = camera._render_product_path
+    step_size = int(60/freq)
+    topic_name = camera.name+"_rgb"
+    queue_size = 1
+    node_namespace = ""
+    frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
+
+    rv = omni.syntheticdata.SyntheticData.convert_sensor_type_to_rendervar(sd.SensorType.Rgb.name)
+    writer = rep.writers.get(rv + "ROS2PublishImage")
+    writer.initialize(
+        frameId=frame_id,
+        nodeNamespace=node_namespace,
+        queueSize=queue_size,
+        topicName=topic_name
+    )
+    writer.attach([render_product])
+
+    # Set step input of the Isaac Simulation Gate nodes upstream of ROS publishers to control their execution rate
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        rv + "IsaacSimulationGate", render_product
+    )
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+
+    return
+
+def publish_depth(camera: Camera, freq):
+    # The following code will link the camera's render product and publish the data to the specified topic name.
+    render_product = camera._render_product_path
+    step_size = int(60/freq)
+    topic_name = camera.name+"_depth"
+    queue_size = 1
+    node_namespace = ""
+    frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
+
+    rv = omni.syntheticdata.SyntheticData.convert_sensor_type_to_rendervar(
+                            sd.SensorType.DistanceToImagePlane.name
+                        )
+    writer = rep.writers.get(rv + "ROS2PublishImage")
+    writer.initialize(
+        frameId=frame_id,
+        nodeNamespace=node_namespace,
+        queueSize=queue_size,
+        topicName=topic_name
+    )
+    writer.attach([render_product])
+
+    # Set step input of the Isaac Simulation Gate nodes upstream of ROS publishers to control their execution rate
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        rv + "IsaacSimulationGate", render_product
+    )
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+
+    return
 
 # Usd importer service callback.
 def import_yaml(controller):
