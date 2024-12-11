@@ -17,6 +17,7 @@ ros2isaacsim/control.py
 ros2isaacsim/convert_urdf_usd.py
 ros2isaacsim/main.ipynb
 ros2isaacsim/run_isaacsim.py
+ros2isaacsim/test.py
 ros2isaacsim/.ipynb_checkpoints/control-checkpoint.py
 ros2isaacsim/.ipynb_checkpoints/convert_urdf_usd-checkpoint.py
 ros2isaacsim/.ipynb_checkpoints/main-checkpoint.ipynb

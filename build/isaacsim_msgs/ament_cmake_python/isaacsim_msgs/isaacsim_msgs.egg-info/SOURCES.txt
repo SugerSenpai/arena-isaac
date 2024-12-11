@@ -26,5 +26,6 @@ isaacsim_msgs/srv/_import_urdf_s.c
 isaacsim_msgs/srv/_import_usd.py
 isaacsim_msgs/srv/_import_usd_s.c
 isaacsim_msgs/srv/_import_yaml.py
+isaacsim_msgs/srv/_import_yaml_s.c
 isaacsim_msgs/srv/_urdf_to_usd.py
 isaacsim_msgs/srv/_urdf_to_usd_s.c
