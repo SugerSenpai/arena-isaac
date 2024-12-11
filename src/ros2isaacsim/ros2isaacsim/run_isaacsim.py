@@ -21,7 +21,8 @@ from omni.isaac.core.utils.extensions import get_extension_path_from_name
 from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
-from omni.isaac.sensor import Camera
+from omni.isaac.sensor import Camera, LidarRtx
+from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
 import omni.isaac.core.utils.numpy.rotations as rot_utils

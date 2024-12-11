@@ -15,6 +15,7 @@ resource/ros2isaacsim
 ros2isaacsim/__init__.py
 ros2isaacsim/control.py
 ros2isaacsim/convert_urdf_usd.py
+ros2isaacsim/lidar.py
 ros2isaacsim/main.ipynb
 ros2isaacsim/run_isaacsim.py
 ros2isaacsim/test.py
