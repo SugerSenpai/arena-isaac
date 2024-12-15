@@ -1,15 +1,17 @@
 xacro /home/brainfucker/Arena4-IsaacSim/src/simulation-setup/entities/robots/jackal/urdf/jackal.urdf.xacro > /home/brainfucker/Arena4-IsaacSim/src/simulation-setup/entities/robots/jackal/urdf/jackal.urdf
 
-ros2 service call /urdf_to_usd isaacsim_msgs/srv/UrdfToUsd '{"name": "waffle", "urdf_path": "/home/brainfucker/arena4_ws/src/arena/simulation-setup/entities/robots/waffle/urdf/waffle.urdf", 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}'
+ros2 service call isaac/urdf_to_usd isaacsim_msgs/srv/UrdfToUsd '{"name": "waffle", "urdf_path": "/home/ubuntu/arena4_ws/src/arena/simulation-setup/entities/robots/waffle/urdf/waffle.urdf"}'
 
-ros2 service call /import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': 'robot_models/Arena_rosnav/User/waffle.usd', 'prim_path': '/World', 'control': True, 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}"
+ros2 service call isaac/sdf_to_usd isaacsim_msgs/srv/SdfToUsd '{"name": "chair", "sdf_path": "src/arena/simulation-setup/entities/obstacles/static/chair/sdf/chair.sdf"}'
 
-ros2 service call /_delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waffle', 'prim_path': '/World/wall_2'}"
+ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/Arena_rosnav/User/waffle.usd', 'prim_path': '/World', 'control': True, 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}"
 
-ros2 service call /get_prim_attributes isaacsim_msgs/srv/GetPrimAttributes "{'name': 'waffle', 'prim_path': '/World/waffle'}"
+ros2 service call isaac/delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waffle', 'prim_path': '/World/wall_2'}"
 
-ros2 service call /move_prim isaacsim_msgs/srv/MovePrim "{name: 'waffle', prim_path: '/World/waffle', values: [{values: [-2.0, 0.0, 5.0]}, {values: [2.0, 0.0, 0.0, 1.0]}]}"
+ros2 service call isaac/get_prim_attributes isaacsim_msgs/srv/GetPrimAttributes "{'name': 'waffle', 'prim_path': '/World/waffle'}"
 
-ros2 service call /scale_prim isaacsim_msgs/srv/ScalePrim "{name: 'waffle', prim_path: '/World/waffle', values: [{values: [2.0, 2.0, 2.0]}]}"
+ros2 service call isaac/move_prim isaacsim_msgs/srv/MovePrim "{name: 'waffle', prim_path: '/World/waffle', values: [{values: [-2.0, 0.0, 5.0]}, {values: [2.0, 0.0, 0.0, 1.0]}]}"
 
-ros2 service call /spawn_wall isaacsim_msgs/srv/SpawnWall "{name: 'wall_2', world_path: '/World',start:[1.0,1.0,0.0], end:[5.0,5.0,0.0]}"
+ros2 service call isaac/scale_prim isaacsim_msgs/srv/ScalePrim "{name: 'waffle', prim_path: '/World/waffle', values: [{values: [2.0, 2.0, 2.0]}]}"
+
+ros2 service call isaac/spawn_wall isaacsim_msgs/srv/SpawnWall "{name: 'wall_1', world_path: '/World',start:[1.0,1.0], end:[-5.0,1.0], height: 2.0}"

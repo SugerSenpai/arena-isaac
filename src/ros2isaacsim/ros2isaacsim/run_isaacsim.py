@@ -34,7 +34,7 @@ import numpy as np
 import rclpy
 from rclpy.node import Node
 from isaacsim_msgs.msg import Euler, Quat, Env, Values
-from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, ScalePrim, SpawnWall
+from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, ScalePrim, SpawnWall, SdfToUsd
 from sensor_msgs.msg import JointState
 
 #======================================Base======================================
@@ -111,7 +111,7 @@ def yaml_importer(request, response):
 def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path
-    usd_path = f"robot_models/Arena_rosnav/User/{request.name}.usd"
+    usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
     
     status, stage_path = omni.kit.commands.execute(
         "URDFParseAndImportFile",
@@ -127,10 +127,38 @@ def urdf_to_usd(request, response):
 # Urdf importer service callback.
 def convert_urdf_to_usd(controller):
     service = controller.create_service(srv_type=UrdfToUsd, 
-                        srv_name='urdf_to_usd', 
+                        srv_name='isaac/urdf_to_usd', 
                         callback=urdf_to_usd)
     return service
 #================================================================================
+#============================sdf converter service===============================
+# URDF convert to usd (service) -> usd_path.
+def sdf_to_usd(request, response):
+    name = request.name
+    sdf_path = request.sdf_path
+    usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
+    
+    status, stage_path = omni.kit.commands.execute(
+        "SDFParseAndImportFile",
+        sdf_path=sdf_path,
+        dest_path=usd_path,
+        import_config=import_config,
+        get_articulation_root=False,
+    )
+    
+    response.usd_path = usd_path
+    return response
+    
+# Urdf importer service callback.
+def convert_sdf_to_usd(controller):
+    service = controller.create_service(srv_type=SdfToUsd, 
+                        srv_name='isaac/sdf_to_usd', 
+                        callback=sdf_to_usd)
+    return service
+#================================================================================
+
+
+
 #========================publish environment information=========================
 def publish_environemnt_information(node):
     msg = Env()
@@ -162,7 +190,7 @@ def get_prim_attributes(request,response):
 
 def get_prim_attr(controller):
     service = controller.create_service(srv_type=GetPrimAttributes, 
-                        srv_name='get_prim_attributes', 
+                        srv_name='isaac/get_prim_attributes', 
                         callback=get_prim_attributes)
     return service
 #================================================================================
@@ -186,7 +214,7 @@ def prim_mover(request,response):
 
 def move_prim(controller):
     service = controller.create_service(srv_type=MovePrim, 
-                        srv_name='move_prim', 
+                        srv_name='isaac/move_prim', 
                         callback=prim_mover)
     return service
 #================================================================================
@@ -207,7 +235,7 @@ def prim_scaler(request,response):
 
 def scale_prim(controller):
     service = controller.create_service(srv_type=ScalePrim, 
-                        srv_name='scale_prim', 
+                        srv_name='isaac/scale_prim', 
                         callback=prim_scaler)
     return service
 #================================================================================
@@ -225,7 +253,7 @@ def prim_deleter(request,response):
 
 def _delete_prim(controller):
     service = controller.create_service(srv_type=DeletePrim, 
-                        srv_name='_delete_prim', 
+                        srv_name='isaac/delete_prim', 
                         callback=prim_deleter)
     return service
 #================================================================================
@@ -235,12 +263,13 @@ def wall_spawner(request,response):
     #Get service attributes
     name = request.name
     world_path = request.world_path
-    start = np.array(request.start)
-    end = np.array(request.end)
-    start_vec = Gf.Vec3d(*request.start)
-    end_vec = Gf.Vec3d(*request.end)
+    height = request.height
+    start = np.append(np.array(request.start),height/2)
+    end =  np.append(np.array(request.end),height/2)
+    start_vec = Gf.Vec3d(*start)
+    end_vec = Gf.Vec3d(*end)
     #fixed attributes
-    scale=Gf.Vec3f(*[0.05, 1, 1])
+    scale=Gf.Vec3f(*[0.05, 1, height/2])
     color=np.array([.2,.2,0.])
     vector_ab = end - start 
 
@@ -263,7 +292,7 @@ def wall_spawner(request,response):
 
 def spawn_wall(controller):
     service = controller.create_service(srv_type=SpawnWall, 
-                        srv_name='spawn_wall', 
+                        srv_name='isaac/spawn_wall', 
                         callback=wall_spawner)
     return service
 #================================================================================
@@ -471,12 +500,12 @@ def publish_depth(camera: Camera, freq):
 # Usd importer service callback.
 def import_yaml(controller):
     service = controller.create_service(srv_type=ImportYaml, 
-                        srv_name='import_yaml', 
+                        srv_name='isaac/import_yaml', 
                         callback=yaml_importer)
     
 def import_usd(controller):
     service = controller.create_service(srv_type=ImportUsd, 
-                        srv_name='import_usd', 
+                        srv_name='isaac/import_usd', 
                         callback=usd_importer)
     return service
 #=================================================================================
@@ -490,6 +519,7 @@ def create_controller(time=120):
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
+    sdf_to_usd_service = convert_sdf_to_usd(controller)
     get_prim_attribute_service = get_prim_attr(controller)
     move_prim_service = move_prim(controller)
     delete_prim_service = _delete_prim(controller)
