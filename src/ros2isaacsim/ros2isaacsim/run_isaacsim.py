@@ -18,10 +18,11 @@ from omni.isaac.core.utils import extensions, stage, nucleus
 from omni.isaac.nucleus import get_assets_root_path
 from omni.kit.viewport.utility import get_active_viewport
 from omni.isaac.core.utils.extensions import get_extension_path_from_name
-from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
+from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names, is_prim_path_valid
+from omni.isaac.core_nodes.scripts.utils import set_target_prims
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
-from omni.isaac.sensor import Camera, LidarRtx
+from omni.isaac.sensor import Camera
 from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
@@ -160,12 +161,18 @@ def usd_importer(request, response):
         environments.append(prim_path)
         return response 
     camera_prim_path = prim_path + "/" + "Camera"
+
     camera = camera_set_up(camera_prim_path)
     camera.initialize()
     publish_camera_info(camera, 20)
     publish_depth(camera, 20)
     publish_rgb(camera, 20)
     publish_pointcloud_from_depth(camera, 20)
+    publish_camera_tf(camera)
+
+    lidar_prim_path = prim_path + "/" + "Lidar"
+    lidar = lidar_setup(lidar_prim_path)
+    publish_lidar(lidar)
 
     robots.append(prim_path)
     # create default graph.
@@ -208,7 +215,49 @@ def usd_importer(request, response):
     return response
 
 #=================================================================================
-#===================================Sensors=======================================
+#===================================Sensors Lidar=================================
+
+def lidar_setup(prim_path):
+    # stage = omni.usd.get_context().get_stage()
+    # omni.kit.commands.execute('AddPhysicsSceneCommand',stage = stage, path='/World/PhysicsScene')
+    result, lidar = omni.kit.commands.execute(
+                "RangeSensorCreateLidar",
+                path=prim_path,
+                min_range=0.4,
+                max_range=100.0,
+                draw_points=False,
+                draw_lines=True,
+                horizontal_fov=360.0,
+                vertical_fov=30.0,
+                horizontal_resolution=0.4,
+                vertical_resolution=4.0,
+                rotation_rate=0.0,
+                high_lod=False,
+                yaw_offset=0.0,
+                enable_semantics=False
+            )
+    return lidar
+
+def publish_lidar(lidar):
+    step_size = int(60/20)
+    hydra_texture = rep.create.render_product(lidar.GetPath(), [1, 1], name="Isaac")
+    writer = rep.writers.get("ROS2PublishLaserScan")
+    writer.initialize(
+    frameId="sim_lidar",           
+    nodeNamespace="",             
+    queueSize=1,                  
+    topicName="scan"              
+    )
+    writer.attach([hydra_texture])
+
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        "Lidar" + "IsaacSimulationGate", hydra_texture
+    )
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+
+    return
+#=================================================================================
+#===================================Sensors Camera================================
 
 def camera_set_up(prim_path):
     camera = Camera(
@@ -342,6 +391,83 @@ def publish_depth(camera: Camera, freq):
     )
     og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
 
+    return
+
+def publish_camera_tf(camera: Camera):
+    camera_prim = camera.prim_path
+
+    if not is_prim_path_valid(camera_prim):
+        raise ValueError(f"Camera path '{camera_prim}' is invalid.")
+
+    try:
+        # Generate the camera_frame_id. OmniActionGraph will use the last part of
+        # the full camera prim path as the frame name, so we will extract it here
+        # and use it for the pointcloud frame_id.
+        camera_frame_id=camera_prim.split("/")[-1]
+
+        # Generate an action graph associated with camera TF publishing.
+        ros_camera_graph_path = "/CameraTFActionGraph"
+
+        # If a camera graph is not found, create a new one.
+        if not is_prim_path_valid(ros_camera_graph_path):
+            (ros_camera_graph, _, _, _) = og.Controller.edit(
+                {
+                    "graph_path": ros_camera_graph_path,
+                    "evaluator_name": "execution",
+                    "pipeline_stage": og.GraphPipelineStage.GRAPH_PIPELINE_STAGE_SIMULATION,
+                },
+                {
+                    og.Controller.Keys.CREATE_NODES: [
+                        ("OnTick", "omni.graph.action.OnTick"),
+                        ("IsaacClock", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
+                        ("RosPublisher", "omni.isaac.ros2_bridge.ROS2PublishClock"),
+                    ],
+                    og.Controller.Keys.CONNECT: [
+                        ("OnTick.outputs:tick", "RosPublisher.inputs:execIn"),
+                        ("IsaacClock.outputs:simulationTime", "RosPublisher.inputs:timeStamp"),
+                    ]
+                }
+            )
+
+        # Generate 2 nodes associated with each camera: TF from world to ROS camera convention, and world frame.
+        og.Controller.edit(
+            ros_camera_graph_path,
+            {
+                og.Controller.Keys.CREATE_NODES: [
+                    ("PublishTF_"+camera_frame_id, "omni.isaac.ros2_bridge.ROS2PublishTransformTree"),
+                    ("PublishRawTF_"+camera_frame_id+"_world", "omni.isaac.ros2_bridge.ROS2PublishRawTransformTree"),
+                ],
+                og.Controller.Keys.SET_VALUES: [
+                    ("PublishTF_"+camera_frame_id+".inputs:topicName", "/tf"),
+                    # Note if topic_name is changed to something else besides "/tf",
+                    # it will not be captured by the ROS tf broadcaster.
+                    ("PublishRawTF_"+camera_frame_id+"_world.inputs:topicName", "/tf"),
+                    ("PublishRawTF_"+camera_frame_id+"_world.inputs:parentFrameId", camera_frame_id),
+                    ("PublishRawTF_"+camera_frame_id+"_world.inputs:childFrameId", camera_frame_id+"_world"),
+                    # Static transform from ROS camera convention to world (+Z up, +X forward) convention:
+                    ("PublishRawTF_"+camera_frame_id+"_world.inputs:rotation", [0.5, -0.5, 0.5, 0.5]),
+                ],
+                og.Controller.Keys.CONNECT: [
+                    (ros_camera_graph_path+"/OnTick.outputs:tick",
+                        "PublishTF_"+camera_frame_id+".inputs:execIn"),
+                    (ros_camera_graph_path+"/OnTick.outputs:tick",
+                        "PublishRawTF_"+camera_frame_id+"_world.inputs:execIn"),
+                    (ros_camera_graph_path+"/IsaacClock.outputs:simulationTime",
+                        "PublishTF_"+camera_frame_id+".inputs:timeStamp"),
+                    (ros_camera_graph_path+"/IsaacClock.outputs:simulationTime",
+                        "PublishRawTF_"+camera_frame_id+"_world.inputs:timeStamp"),
+                ],
+            },
+        )
+    except Exception as e:
+        print(e)
+
+    # Add target prims for the USD pose. All other frames are static.
+    set_target_prims(
+        primPath=ros_camera_graph_path+"/PublishTF_"+camera_frame_id,
+        inputName="inputs:targetPrims",
+        targetPrimPaths=[camera_prim],
+    )
     return
 
 # Usd importer service callback.
