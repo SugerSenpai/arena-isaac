@@ -36,12 +36,13 @@ from rclpy.node import Node
 from isaacsim_msgs.msg import Euler, Quat, Env, Values
 from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, ScalePrim, SpawnWall, SdfToUsd
 from sensor_msgs.msg import JointState
+import usdrt.Sdf
 
 #======================================Base======================================
 # Setting up world and enable ros2_bridge extentions.
 BACKGROUND_STAGE_PATH = "/background"
 
-BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
+# BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
 extensions.enable_extension("omni.isaac.ros2_bridge")
@@ -49,7 +50,7 @@ simulation_app.update() #update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
 
 assets_root_path = nucleus.get_assets_root_path()
-stage.add_reference_to_stage(assets_root_path + BACKGROUND_USD_PATH, BACKGROUND_STAGE_PATH)
+stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH)
 # Setting up URDF importer.
 status, import_config = omni.kit.commands.execute("URDFCreateImportConfig")
 import_config.merge_fixed_joints = True
@@ -326,38 +327,111 @@ def usd_importer(request, response):
         # default graph name for robots.
         {"graph_path": f"/{name}"},
         {
-            # create default nodes.
+            # 2) Create the nodes needed
             og.Controller.Keys.CREATE_NODES: [
-                ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
-                ("ROS2Context", "omni.isaac.ros2_bridge.ROS2Context"),
-                ("PublishJointState", "omni.isaac.ros2_bridge.ROS2PublishJointState"),
-                ("SubcribeJoinState", "omni.isaac.ros2_bridge.ROS2SubscribeJointState"),
-                ("ArticulationController", "omni.isaac.core_nodes.IsaacArticulationController"),
+                ("OnPlaybackTick",        "omni.graph.action.OnPlaybackTick"),
+                ("ROS2Context",           "omni.isaac.ros2_bridge.ROS2Context"),
+                ("ROS2SubscribeTwist",    "omni.isaac.ros2_bridge.ROS2SubscribeTwist"),
+                ("ScaleStageUnits",       "omni.isaac.core_nodes.OgnIsaacScaleToFromStageUnit"),       # "Scale To/From Stage Units"
+                ("Break3Vector_Linear",   "omni.graph.nodes.BreakVector3"),
+                ("Break3Vector_Angular",  "omni.graph.nodes.BreakVector3"),
+                ("DifferentialController","omni.isaac.wheeled_robots.DifferentialController"),
+                ("ConstantToken0",        "omni.graph.nodes.ConstantToken"),
+                ("ConstantToken1",        "omni.graph.nodes.ConstantToken"),
+                ("MakeArray",             "omni.graph.nodes.ConstructArray"),
+                ("ArticulationController","omni.isaac.core_nodes.IsaacArticulationController"),
             ],
-            # connect node inputs and outputs.
-            og.Controller.Keys.CONNECT: [
-                ("OnPlaybackTick.outputs:tick", "PublishJointState.inputs:execIn"),
-                ("OnPlaybackTick.outputs:tick", "SubcribeJoinState.inputs:execIn"),
-                ("SubcribeJoinState.outputs:execOut", "ArticulationController.inputs:execIn"),
-                ("ROS2Context.outputs:context", "PublishJointState.inputs:context"),
-                ("ROS2Context.outputs:context", "SubcribeJoinState.inputs:context"),
-                ("SubcribeJoinState.outputs:effortCommand", "ArticulationController.inputs:effortCommand"), #config publisher and subcriber.
-                ("SubcribeJoinState.outputs:jointNames", "ArticulationController.inputs:jointNames"),
-                ("SubcribeJoinState.outputs:positionCommand", "ArticulationController.inputs:positionCommand"),
-                ("SubcribeJoinState.outputs:velocityCommand", "ArticulationController.inputs:velocityCommand"),
-            ],
-            # set default values for nodes.
+            
             og.Controller.Keys.SET_VALUES: [
-                ("ROS2Context.inputs:domain_id", 1),
-                ("PublishJointState.inputs:targetPrim", [prim_path + "/base_footprint"]),
-                ("ArticulationController.inputs:targetPrim", [prim_path]),
-                ("ArticulationController.inputs:robotPath", prim_path),
-                ("SubcribeJoinState.inputs:topicName", f"{name}_command"),
-                
-                ("PublishJointState.inputs:topicName", f"{name}_states"),
-            ]
+                ("MakeArray.inputs:arraySize",2),
+                # ROS2SubscribeTwist: set the /cmd_vel topic (or your own topic)
+                ("ROS2SubscribeTwist.inputs:topicName", "/cmd_vel"),
+
+                # Differential Controller parameters
+                ("DifferentialController.inputs:wheelDistance",   0.16),
+                ("DifferentialController.inputs:wheelRadius",     0.033),
+                ("DifferentialController.inputs:maxWheelSpeed",   10.0),
+                ("DifferentialController.inputs:maxLinearSpeed",  2.0),
+                ("DifferentialController.inputs:maxAngularSpeed", 2.0),
+                ("DifferentialController.inputs:maxAcceleration", 0.0),      # 0 = no limit
+                ("DifferentialController.inputs:maxDeceleration", 0.0),
+                ("DifferentialController.inputs:maxAngularAcceleration", 0.0),
+
+                # ArticulationController: which prim is the robot
+                ("ArticulationController.inputs:targetPrim", prim_path),
+                ("ConstantToken0.inputs:value",'wheel_left_joint'),
+                ("ConstantToken1.inputs:value",'wheel_right_joint'),
+
+            ],
+            
+            og.Controller.Keys.CREATE_ATTRIBUTES: [
+                ("MakeArray.inputs:input1", "token"),
+            ],
+            # 3) Connect each node's pins
+            og.Controller.Keys.CONNECT: [
+                # -- Execution flow
+                ("OnPlaybackTick.outputs:tick",            "ROS2SubscribeTwist.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick",            "ArticulationController.inputs:execIn"),
+                ("ROS2SubscribeTwist.outputs:execOut",      "DifferentialController.inputs:execIn"),
+
+                # -- ROS context to the subscriber
+                ("ROS2Context.outputs:context", "ROS2SubscribeTwist.inputs:context"),
+
+                # -- Scale the linear velocity before splitting it
+                ("ROS2SubscribeTwist.outputs:linearVelocity", "ScaleStageUnits.inputs:value"),
+                ("ScaleStageUnits.outputs:result",           "Break3Vector_Linear.inputs:tuple"),
+
+                # -- Break the scaled linear velocity into x,y,z
+                ("Break3Vector_Linear.outputs:x", "DifferentialController.inputs:linearVelocity"),
+
+                # -- Break the angular velocity into x,y,z (only z used typically)
+                ("ROS2SubscribeTwist.outputs:angularVelocity", "Break3Vector_Angular.inputs:tuple"),
+                ("Break3Vector_Angular.outputs:z",             "DifferentialController.inputs:angularVelocity"),
+
+                # -- Constant tokens to MakeArray for joint indices
+                ("ConstantToken0.inputs:value", "MakeArray.inputs:input0"),
+                ("ConstantToken1.inputs:value", "MakeArray.inputs:input1"),
+                ("MakeArray.outputs:array",      "ArticulationController.inputs:jointNames"),
+
+                # -- DifferentialController outputs to ArticulationController
+                ("DifferentialController.outputs:velocityCommand", "ArticulationController.inputs:velocityCommand"),
+            ],
         }
     )
+    og.Controller.edit(
+        {"graph_path": "/ROS2Odom", "evaluator_name": "execution"},
+        {
+            og.Controller.Keys.CREATE_NODES: [
+                ("onPlaybackTick", "omni.graph.action.OnPlaybackTick"),
+                ("context", "omni.isaac.ros2_bridge.ROS2Context"),
+                ("readSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
+                ("computeOdom", "omni.isaac.core_nodes.IsaacComputeOdometry"),
+                ("publishOdom", "omni.isaac.ros2_bridge.ROS2PublishOdometry"),
+                ("publishRawTF", "omni.isaac.ros2_bridge.ROS2PublishRawTransformTree"),
+            ],
+            og.Controller.Keys.SET_VALUES: [
+                ("context.inputs:domain_id", 30),
+                ("computeOdom.inputs:chassisPrim", prim_path+'/base_link'),
+            ],
+            og.Controller.Keys.CONNECT: [
+                ("onPlaybackTick.outputs:tick", "computeOdom.inputs:execIn"),
+                ("onPlaybackTick.outputs:tick", "publishOdom.inputs:execIn"),
+                ("onPlaybackTick.outputs:tick", "publishRawTF.inputs:execIn"),
+                ("readSimTime.outputs:simulationTime", "publishOdom.inputs:timeStamp"),
+                ("readSimTime.outputs:simulationTime", "publishRawTF.inputs:timeStamp"),
+                ("context.outputs:context", "publishOdom.inputs:context"),
+                ("context.outputs:context", "publishRawTF.inputs:context"),
+                ("computeOdom.outputs:angularVelocity", "publishOdom.inputs:angularVelocity"),
+                ("computeOdom.outputs:linearVelocity", "publishOdom.inputs:linearVelocity"),
+                ("computeOdom.outputs:orientation", "publishOdom.inputs:orientation"),
+                ("computeOdom.outputs:position", "publishOdom.inputs:position"),
+                ("computeOdom.outputs:orientation", "publishRawTF.inputs:rotation"),
+                ("computeOdom.outputs:position", "publishRawTF.inputs:translation"),
+            ],
+        },
+    )
+    
+    
     return response
 
 #=================================================================================

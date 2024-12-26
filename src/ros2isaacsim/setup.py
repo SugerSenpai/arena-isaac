@@ -26,6 +26,7 @@ setup(
             "run_isaacsim=ros2isaacsim.run_isaacsim:main",
             "convert_urdf_usd=ros2isaacsim.convert_urdf_usd:main",
             "control=ros2isaacsim.control:main",
+            "control2=ros2isaacsim.control2:main",
         ],
     },
 )
