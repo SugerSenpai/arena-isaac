@@ -23,7 +23,7 @@ from omni.isaac.core.utils.extensions import get_extension_path_from_name
 from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
-from omni.isaac.sensor import Camera, LidarRtx
+from omni.isaac.sensor import Camera, LidarRtx, IMUSensor
 from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
@@ -297,6 +297,51 @@ def spawn_wall(controller):
                         callback=wall_spawner)
     return service
 #================================================================================
+#===================================Sensors IMU=================================
+
+def imu_setup(prim_path):
+    imu = IMUSensor(
+        prim_path=prim_path,
+        name='imu',
+        frequency=60,  # Tần số lấy mẫu, có thể điều chỉnh tùy theo yêu cầu
+        translation=np.array([0, 0, 0]),  # Vị trí cảm biến trên robot
+        orientation=np.array([1, 0, 0, 0]),  # Hướng cảm biến trên robot
+        linear_acceleration_filter_size=10,
+        angular_velocity_filter_size=10,
+        orientation_filter_size=10,
+    )
+    imu.initialize()
+    return imu
+
+def publish_imu(imu, freq):
+    from omni.isaac.ros2_bridge import read_imu_info
+    import omni.replicator.core as rep
+
+    step_size = int(60 / freq)
+    topic_name = imu.name + "_imu"
+    queue_size = 10  # Kích thước hàng đợi có thể điều chỉnh tùy theo yêu cầu
+    node_namespace = ""
+    frame_id = imu.prim_path.split("/")[-1]
+
+    # Khởi tạo writer cho IMU
+    writer = rep.writers.get("ROS2PublishImu")
+    writer.initialize(
+        frameId=frame_id,
+        nodeNamespace=node_namespace,
+        queueSize=queue_size,
+        topicName=topic_name
+    )
+    writer.attach([imu._imu_sensor_path])
+
+    # Cài đặt bước thời gian cho node Isaac Simulation Gate
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        "IMU" + "IsaacSimulationGate", imu._imu_sensor_path
+    )
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+
+    return
+
+#=================================================================================
 
 #============================usd importer service================================
 # Usd importer (service) -> bool.
@@ -321,6 +366,12 @@ def usd_importer(request, response):
     publish_rgb(camera, 20)
     publish_pointcloud_from_depth(camera, 20)
 
+    # Thiết lập IMU
+    imu_prim_path = prim_path + "/" + "Imu"
+    imu = imu_setup(imu_prim_path)
+    publish_imu(imu, freq=60)
+
+    
     robots.append(prim_path)
     # create default graph.
     og.Controller.edit(
@@ -430,14 +481,14 @@ def usd_importer(request, response):
             ],
         },
     )
-    
-    
+
     return response
 
 #=================================================================================
 #===================================Sensors=======================================
 
 def camera_set_up(prim_path):
+    
     camera = Camera(
         prim_path = prim_path,
         name = 'camera',
