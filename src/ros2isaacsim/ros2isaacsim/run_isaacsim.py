@@ -22,7 +22,7 @@ from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_at
 from omni.isaac.core_nodes.scripts.utils import set_target_prims
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
-from omni.isaac.sensor import Camera, ContactSensor
+from omni.isaac.sensor import Camera, ContactSensor, IMUSensor
 from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
@@ -179,6 +179,10 @@ def usd_importer(request, response):
     contact_sensor = contact_sensor_setup(contact_prim_path)
     publish_contact_sensor_info(contact_sensor)
 
+    imu_prim_path = prim_path + "/" + "IMU"
+    imu = imu_setup(imu_prim_path)
+    publish_imu(imu)
+
     robots.append(prim_path)
     # create default graph.
     og.Controller.edit(
@@ -257,7 +261,6 @@ def contact_sensor_setup(prim_path):
     prim_path=prim_path,
     name="Contact_Sensor",
     frequency=60,
-    translation=np.array([0, 0, 0]),
     min_threshold=0,
     max_threshold=10000000,
     radius=-1,
@@ -300,6 +303,61 @@ def publish_contact_sensor_info(contact_sensor: ContactSensor):
         }
     )
     return
+
+#===================================Sensors IMU=================================
+
+def imu_setup(prim_path):
+    imu = IMUSensor(
+    prim_path=prim_path,
+    name="imu",
+    frequency=60,
+    linear_acceleration_filter_size = 10,
+    angular_velocity_filter_size = 10,
+    orientation_filter_size = 10,
+)
+    imu.initialize()
+    return imu
+
+def publish_imu(imu):
+    imu_sensor_prim_path = imu.prim_path
+    og.Controller.edit(
+        {"graph_path": f"/IMU_Publisher"},
+        {
+            # Create necessary nodes
+            og.Controller.Keys.CREATE_NODES: [
+                ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
+                ("IsaacReadIMU", "omni.isaac.sensor.IsaacReadIMU"),
+                ("ToString", "omni.graph.nodes.ToString"),
+                ("PrintText", "omni.graph.ui_nodes.PrintText"),
+                ("ROS2PublishImu", "omni.isaac.ros2_bridge.ROS2PublishImu")
+            ],
+            # Connect nodes
+            og.Controller.Keys.CONNECT: [
+                ("OnPlaybackTick.outputs:tick", "IsaacReadIMU.inputs:execIn"),  # Trigger IMU read on playback tick
+                ("IsaacReadIMU.outputs:execOut", "ROS2PublishImu.inputs:execIn"),  # Trigger publishing after IMU read
+                ("IsaacReadIMU.outputs:angVel", "ROS2PublishImu.inputs:angularVelocity"),  # Corrected angular velocity
+                ("IsaacReadIMU.outputs:linAcc", "ROS2PublishImu.inputs:linearAcceleration"),  # Corrected linear acceleration
+                ("IsaacReadIMU.outputs:orientation", "ROS2PublishImu.inputs:orientation"),  # Pass orientation
+                ("IsaacReadIMU.outputs:angVel", "ToString.inputs:value"),  # Convert angular velocity for display
+                ("ToString.outputs:converted", "PrintText.inputs:text")  # Print IMU data
+            ],
+            # Set node parameters
+            og.Controller.Keys.SET_VALUES: [
+                ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set IMU sensor prim path
+                ("ROS2PublishImu.inputs:topicName", "/imu_data"),  # ROS 2 topic name
+                ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the IMU message
+                ("ROS2PublishImu.inputs:publishAngularVelocity", True),  # Enable angular velocity publishing
+                ("ROS2PublishImu.inputs:publishLinearAcceleration", True),  # Enable linear acceleration publishing
+                ("ROS2PublishImu.inputs:publishOrientation", True),  # Enable orientation publishing
+                ("ROS2PublishImu.inputs:qosProfile", "default"),  # QoS profile
+                ("ROS2PublishImu.inputs:queueSize", 10)  # Queue size
+            ],
+        }
+    )
+    return
+
+#=================================================================================
+
 #=================================================================================
 #===================================Sensors Camera================================
 
