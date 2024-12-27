@@ -22,7 +22,7 @@ from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_at
 from omni.isaac.core_nodes.scripts.utils import set_target_prims
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
-from omni.isaac.sensor import Camera
+from omni.isaac.sensor import Camera, ContactSensor
 from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
@@ -174,6 +174,11 @@ def usd_importer(request, response):
     lidar = lidar_setup(lidar_prim_path)
     publish_lidar(lidar)
 
+
+    contact_prim_path = prim_path + "/" + "ContactSensor"
+    contact_sensor = contact_sensor_setup(contact_prim_path)
+    publish_contact_sensor_info(contact_sensor)
+
     robots.append(prim_path)
     # create default graph.
     og.Controller.edit(
@@ -218,43 +223,82 @@ def usd_importer(request, response):
 #===================================Sensors Lidar=================================
 
 def lidar_setup(prim_path):
-    # stage = omni.usd.get_context().get_stage()
-    # omni.kit.commands.execute('AddPhysicsSceneCommand',stage = stage, path='/World/PhysicsScene')
-    result, lidar = omni.kit.commands.execute(
-                "RangeSensorCreateLidar",
-                path=prim_path,
-                min_range=0.4,
-                max_range=100.0,
-                draw_points=False,
-                draw_lines=True,
-                horizontal_fov=360.0,
-                vertical_fov=30.0,
-                horizontal_resolution=0.4,
-                vertical_resolution=4.0,
-                rotation_rate=0.0,
-                high_lod=False,
-                yaw_offset=0.0,
-                enable_semantics=False
-            )
+    _, lidar = omni.kit.commands.execute(
+    "IsaacSensorCreateRtxLidar",
+    path= prim_path,
+    parent=None,
+    config="Example_Rotary",
+    orientation=Gf.Quatd(1.0, 0.0, 0.0, 0.0),
+    )
     return lidar
 
 def publish_lidar(lidar):
-    step_size = int(60/20)
     hydra_texture = rep.create.render_product(lidar.GetPath(), [1, 1], name="Isaac")
-    writer = rep.writers.get("ROS2PublishLaserScan")
-    writer.initialize(
-    frameId="sim_lidar",           
-    nodeNamespace="",             
-    queueSize=1,                  
-    topicName="scan"              
-    )
+
+    writer = rep.writers.get("RtxLidar" + "ROS2PublishPointCloud")
+    writer.initialize(topicName="lidar_point_cloud", frameId="sim_lidar")
     writer.attach([hydra_texture])
 
-    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
-        "Lidar" + "IsaacSimulationGate", hydra_texture
-    )
-    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+    # Create the debug draw pipeline in the post process graph
+    writer = rep.writers.get("RtxLidar" + "DebugDrawPointCloud")
+    writer.attach([hydra_texture])
 
+    # Create LaserScan publisher pipeline in the post process graph
+    writer = rep.writers.get("RtxLidar" + "ROS2PublishLaserScan")
+    writer.initialize(topicName="lidar_scan", frameId="sim_lidar")
+    writer.attach([hydra_texture])
+
+    return
+#=================================================================================
+#===================================Contact Sensor================================
+def contact_sensor_setup(prim_path):
+    contact_sensor = ContactSensor(
+
+    prim_path=prim_path,
+    name="Contact_Sensor",
+    frequency=60,
+    translation=np.array([0, 0, 0]),
+    min_threshold=0,
+    max_threshold=10000000,
+    radius=-1,
+    )
+    contact_sensor.initialize()
+    return contact_sensor
+
+def publish_contact_sensor_info(contact_sensor: ContactSensor):
+    contact_sensor_prim = contact_sensor.prim_path
+    og.Controller.edit(
+        {"graph_path": f"/Contact_Sensor"},
+        {
+            # 2) Create the nodes needed
+            og.Controller.Keys.CREATE_NODES: [
+                ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
+                ("ROS2Context", "omni.isaac.ros2_bridge.ROS2Context"),
+                ("ReadContactSensor", "omni.isaac.sensor.IsaacReadContactSensor"),
+                ("ToString", "omni.graph.nodes.ToString"),
+                ("PrintText", "omni.graph.ui_nodes.PrintText"),
+                ("ROS2Publisher", "omni.isaac.ros2_bridge.ROS2Publisher")  # ROS2Publisher setup
+            ],
+            # 3) Connect each node's pins
+            og.Controller.Keys.CONNECT: [
+                ("OnPlaybackTick.outputs:tick", "ReadContactSensor.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick", "PrintText.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick", "ROS2Publisher.inputs:execIn"),  # Connect exec to ROS2Publisher
+                ("ReadContactSensor.outputs:value", "ToString.inputs:value"),  # Convert to string
+                ("ToString.outputs:converted", "PrintText.inputs:text"),       # Connect to PrintText
+                ("ToString.outputs:converted", "ROS2Publisher.inputs:messageName"),  # Message name is the converted string
+            ],
+            og.Controller.Keys.SET_VALUES: [
+                ("ROS2Context.inputs:domain_id", 1),
+                ("ReadContactSensor.inputs:csPrim", contact_sensor_prim),
+                ("ROS2Publisher.inputs:topicName", "/contact_sensor_data"),        # Set topic name
+                ("ROS2Publisher.inputs:messagePackage", "std_msgs"),              # Message package
+                ("ROS2Publisher.inputs:messageSubfolder", "msg"),                 # Message subfolder
+                ("ROS2Publisher.inputs:messageName", "String"),                   # ROS2 message type                       # Queue size
+                ("ROS2Publisher.inputs:qosProfile", "default"),                   # QoS profile
+            ],
+        }
+    )
     return
 #=================================================================================
 #===================================Sensors Camera================================
