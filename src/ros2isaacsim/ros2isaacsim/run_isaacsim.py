@@ -24,6 +24,7 @@ from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_at
 from omni.isaac.core_nodes.scripts.utils import set_target_prims
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
+<<<<<<< HEAD
 from omni.isaac.sensor import Camera, LidarRtx, IMUSensor
 =======
 from omni.isaac.sensor import Camera, ContactSensor, IMUSensor
