@@ -11,13 +11,13 @@ class controller(Node):
         super().__init__("controller")
         self.client = self.create_client(
             srv_type=ImportUsd,
-            srv_name='/import_usd',
+            srv_name='isaac/import_usd',
         )
         self.request = ImportUsd.Request()
         while not self.client.wait_for_service(timeout_sec=1.0):
             self.get_logger().info('service not available, waiting again...')
         future = self.send(name='waffle', 
-                           usd_path='robot_models/Arena_rosnav/User/waffle.usd', 
+                           usd_path='/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/waffle.usd', 
                            prim_path='/World', 
                            control=True)
         rclpy.spin_until_future_complete(self, future)

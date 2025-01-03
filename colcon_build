@@ -4,6 +4,6 @@ export ROS_DOMAIN_ID=1
 export RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/ros/humble/lib/
 source venv/bin/activate
-colcon build
+colcon build --symlink-install
 source /opt/ros/humble/setup.bash
 source install/setup.bash

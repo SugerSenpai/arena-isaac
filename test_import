@@ -1,7 +1,0 @@
-xacro /home/brainfucker/Arena4-IsaacSim/src/simulation-setup/entities/robots/jackal/urdf/jackal.urdf.xacro > /home/brainfucker/Arena4-IsaacSim/src/simulation-setup/entities/robots/jackal/urdf/jackal.urdf
-
-ros2 service call /urdf_to_usd isaacsim_msgs/srv/UrdfToUsd '{"name": "waffle", "urdf_path": "/home/brainfucker/arena4_ws/src/arena/simulation-setup/entities/robots/waffle/urdf/waffle.urdf", 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}'
-
-ros2 service call /import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': 'robot_models/Arena_rosnav/User/waffle.usd', 'prim_path': '/World', 'control': True, 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}"
-
-ros2 service call /import_yaml isaacsim_msgs/srv/ImportYaml '{'yaml_path': '/home/kien/Documents/arena-isaac/robot_models/demo.yaml'}'

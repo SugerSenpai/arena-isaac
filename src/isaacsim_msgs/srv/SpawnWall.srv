@@ -1,0 +1,7 @@
+string name
+string world_path '/World'
+float32[] start
+float32[] end
+float32 height
+---
+bool ret

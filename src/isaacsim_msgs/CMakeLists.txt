@@ -14,13 +14,20 @@ set(msg_files
   "msg/Quat.msg"
   "msg/Euler.msg"
   "msg/Env.msg"
+  "msg/Values.msg"
   )
 
 set(srv_files
   "srv/ImportUsd.srv"
   "srv/UrdfToUsd.srv"
   "srv/ImportUrdf.srv"
+  "srv/DeletePrim.srv"
+  "srv/GetPrimAttributes.srv"
+  "srv/MovePrim.srv"
   "srv/ImportYaml.srv"
+  "srv/ScalePrim.srv"
+  "srv/SpawnWall.srv"
+  "srv/SdfToUsd.srv"
   )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
