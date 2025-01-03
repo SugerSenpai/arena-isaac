@@ -321,36 +321,39 @@ def imu_setup(prim_path):
 def publish_imu(imu):
     imu_sensor_prim_path = imu.prim_path
     og.Controller.edit(
-        {"graph_path": f"/IMU_Publisher"},
+        {"graph_path": f"/IMU_Publisher"},  # Define the graph path
         {
-            # Create necessary nodes
+            # Create the required nodes
             og.Controller.Keys.CREATE_NODES: [
                 ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
+                ("ROS2Context", "omni.isaac.ros2_bridge.ROS2Context"),
                 ("IsaacReadIMU", "omni.isaac.sensor.IsaacReadIMU"),
                 ("ToString", "omni.graph.nodes.ToString"),
                 ("PrintText", "omni.graph.ui_nodes.PrintText"),
                 ("ROS2PublishImu", "omni.isaac.ros2_bridge.ROS2PublishImu")
             ],
-            # Connect nodes
+            # Connect the nodes
             og.Controller.Keys.CONNECT: [
-                ("OnPlaybackTick.outputs:tick", "IsaacReadIMU.inputs:execIn"),  # Trigger IMU read on playback tick
-                ("IsaacReadIMU.outputs:execOut", "ROS2PublishImu.inputs:execIn"),  # Trigger publishing after IMU read
-                ("IsaacReadIMU.outputs:angVel", "ROS2PublishImu.inputs:angularVelocity"),  # Corrected angular velocity
-                ("IsaacReadIMU.outputs:linAcc", "ROS2PublishImu.inputs:linearAcceleration"),  # Corrected linear acceleration
+                ("OnPlaybackTick.outputs:tick", "IsaacReadIMU.inputs:execIn"),  # Trigger IMU data reading
+                ("IsaacReadIMU.outputs:execOut", "ROS2PublishImu.inputs:execIn"),  # Trigger IMU data publishing
+                ("ROS2Context.outputs:context", "ROS2PublishImu.inputs:context"),  # Connect ROS2 context
+                ("IsaacReadIMU.outputs:angVel", "ROS2PublishImu.inputs:angularVelocity"),  # Pass angular velocity
+                ("IsaacReadIMU.outputs:linAcc", "ROS2PublishImu.inputs:linearAcceleration"),  # Pass linear acceleration
                 ("IsaacReadIMU.outputs:orientation", "ROS2PublishImu.inputs:orientation"),  # Pass orientation
-                ("IsaacReadIMU.outputs:angVel", "ToString.inputs:value"),  # Convert angular velocity for display
-                ("ToString.outputs:converted", "PrintText.inputs:text")  # Print IMU data
+                ("IsaacReadIMU.outputs:angVel", "ToString.inputs:value"),  # Convert angular velocity for debugging
+                ("ToString.outputs:converted", "PrintText.inputs:text")  # Print IMU data to console
             ],
-            # Set node parameters
+            # Set the node parameters
             og.Controller.Keys.SET_VALUES: [
-                ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set IMU sensor prim path
-                ("ROS2PublishImu.inputs:topicName", "/imu_data"),  # ROS 2 topic name
-                ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the IMU message
+                ("ROS2Context.inputs:domain_id", 1),  # Set the ROS2 domain ID
+                ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set the IMU sensor prim path
+                ("ROS2PublishImu.inputs:topicName", "/imu_data"),  # ROS2 topic name
+                ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the ROS2 message
                 ("ROS2PublishImu.inputs:publishAngularVelocity", True),  # Enable angular velocity publishing
                 ("ROS2PublishImu.inputs:publishLinearAcceleration", True),  # Enable linear acceleration publishing
                 ("ROS2PublishImu.inputs:publishOrientation", True),  # Enable orientation publishing
-                ("ROS2PublishImu.inputs:qosProfile", "default"),  # QoS profile
-                ("ROS2PublishImu.inputs:queueSize", 10)  # Queue size
+                ("ROS2PublishImu.inputs:qosProfile", "default"),  # Set the QoS profile
+                ("ROS2PublishImu.inputs:queueSize", 10)  # Set the queue size
             ],
         }
     )
