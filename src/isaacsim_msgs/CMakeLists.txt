@@ -15,6 +15,7 @@ set(msg_files
   "msg/Euler.msg"
   "msg/Env.msg"
   "msg/Values.msg"
+  "msg/ContactSensor.msg"
   )
 
 set(srv_files
