@@ -218,43 +218,52 @@ def usd_importer(request, response):
 
     robots.append(prim_path)
 
-    # create default graph.
+    # create default graph (for waffle)
+    #TODO: Update for different models and make it into a resource folder.
     og.Controller.edit(
         # default graph name for robots.
         {"graph_path": f"/{name}/controller"},
         {
-            # 2) Create the nodes needed
+            #Create nodes for the OmniGraph
             og.Controller.Keys.CREATE_NODES: [
                 ("OnPlaybackTick",        "omni.graph.action.OnPlaybackTick"),
                 ("ROS2Context",           "omni.isaac.ros2_bridge.ROS2Context"),
                 ("ROS2SubscribeTwist",    "omni.isaac.ros2_bridge.ROS2SubscribeTwist"),
-                ("ScaleStageUnits",       "omni.isaac.core_nodes.OgnIsaacScaleToFromStageUnit"),       # "Scale To/From Stage Units"
+                ("ScaleStageUnits",       "omni.isaac.core_nodes.OgnIsaacScaleToFromStageUnit"),       
                 ("Break3Vector_Linear",   "omni.graph.nodes.BreakVector3"),
                 ("Break3Vector_Angular",  "omni.graph.nodes.BreakVector3"),
                 ("DifferentialController","omni.isaac.wheeled_robots.DifferentialController"),
                 ("ConstantToken0",        "omni.graph.nodes.ConstantToken"),
                 ("ConstantToken1",        "omni.graph.nodes.ConstantToken"),
                 ("MakeArray",             "omni.graph.nodes.ConstructArray"),
+                ("PublishJointState", "omni.isaac.ros2_bridge.ROS2PublishJointState"),
+                ("SubscribeJointState", "omni.isaac.ros2_bridge.ROS2SubscribeJointState"),
                 ("ArticulationController","omni.isaac.core_nodes.IsaacArticulationController"),
-                # ("PublishJointState", "omni.isaac.")
+                ("ReadSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
+
             ],
             
             og.Controller.Keys.SET_VALUES: [
+                #MakeArray size
                 ("MakeArray.inputs:arraySize",2),
-                # ROS2SubscribeTwist: set the /cmd_vel topic (or your own topic)
+                
+                #ROS2 Subscriber for controlling
                 ("ROS2SubscribeTwist.inputs:topicName", "/cmd_vel"),
 
-                # Differential Controller parameters
+                #DifferentialController
                 ("DifferentialController.inputs:wheelDistance",   0.16),
                 ("DifferentialController.inputs:wheelRadius",     0.033),
                 ("DifferentialController.inputs:maxWheelSpeed",   10.0),
                 ("DifferentialController.inputs:maxLinearSpeed",  2.0),
                 ("DifferentialController.inputs:maxAngularSpeed", 2.0),
-                ("DifferentialController.inputs:maxAcceleration", 0.0),      # 0 = no limit
+                ("DifferentialController.inputs:maxAcceleration", 0.0),     
                 ("DifferentialController.inputs:maxDeceleration", 0.0),
                 ("DifferentialController.inputs:maxAngularAcceleration", 0.0),
-
-                # ArticulationController: which prim is the robot
+                
+                #SubscribeJointState
+                ("SubscribeJointState.inputs:targetPrim",f"/{name}")
+                
+                # ArticulationController
                 ("ArticulationController.inputs:targetPrim", prim_path),
                 ("ConstantToken0.inputs:value",'wheel_left_joint'),
                 ("ConstantToken1.inputs:value",'wheel_right_joint'),
@@ -269,11 +278,14 @@ def usd_importer(request, response):
                 # -- Execution flow
                 ("OnPlaybackTick.outputs:tick",            "ROS2SubscribeTwist.inputs:execIn"),
                 ("OnPlaybackTick.outputs:tick",            "ArticulationController.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick", "PublishJointState.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick", "SubscribeJointState.inputs:execIn"),
                 ("ROS2SubscribeTwist.outputs:execOut",      "DifferentialController.inputs:execIn"),
 
                 # -- ROS context to the subscriber
                 ("ROS2Context.outputs:context", "ROS2SubscribeTwist.inputs:context"),
 
+                
                 # -- Scale the linear velocity before splitting it
                 ("ROS2SubscribeTwist.outputs:linearVelocity", "ScaleStageUnits.inputs:value"),
                 ("ScaleStageUnits.outputs:result",           "Break3Vector_Linear.inputs:tuple"),
