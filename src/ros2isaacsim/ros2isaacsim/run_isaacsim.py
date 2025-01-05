@@ -895,6 +895,7 @@ def create_controller(time=120):
     delete_prim_service = _delete_prim(controller)
     prim_scale_service = scale_prim(controller)
     wall_spawn_service = spawn_wall(controller)
+    import_yaml_service = import_yaml(controller)
     return controller
 
 # update the simulation.
