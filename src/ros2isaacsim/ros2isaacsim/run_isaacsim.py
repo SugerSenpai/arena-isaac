@@ -221,7 +221,7 @@ def usd_importer(request, response):
     # create default graph.
     og.Controller.edit(
         # default graph name for robots.
-        {"graph_path": f"/{name}"},
+        {"graph_path": f"/{name}/controller"},
         {
             # 2) Create the nodes needed
             og.Controller.Keys.CREATE_NODES: [
@@ -296,7 +296,7 @@ def usd_importer(request, response):
         }
     )
     og.Controller.edit(
-        {"graph_path": "/ROS2Odom", "evaluator_name": "execution"},
+        {"graph_path": f"{name}/JointState_Odom_Publisher", "evaluator_name": "execution"},
         {
             og.Controller.Keys.CREATE_NODES: [
                 ("onPlaybackTick", "omni.graph.action.OnPlaybackTick"),
