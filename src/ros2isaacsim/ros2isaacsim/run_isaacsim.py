@@ -178,6 +178,172 @@ def create_publish_environment_information(controller):
 #=========================multiple usd importer service==========================
 ## pass
 #================================================================================
+
+#=========================Get Prims attribute service============================
+def get_prim_attributes(request,response):
+    name = request.name
+    prim = get_prim_at_path(request.prim_path)
+    response.translate = np.array(prim.GetAttribute("xformOp:translate").Get(),dtype=np.float32)
+    quat = prim.GetAttribute("xformOp:orient").Get()
+    response.orient =  np.array([quat.real, quat.imaginary[0], quat.imaginary[1], quat.imaginary[2]], dtype=np.float32)
+    response.scale = np.array(prim.GetAttribute("xformOp:scale").Get(),dtype=np.float32)
+
+    return response
+
+def get_prim_attr(controller):
+    service = controller.create_service(srv_type=GetPrimAttributes, 
+                        srv_name='isaac/get_prim_attributes', 
+                        callback=get_prim_attributes)
+    return service
+#================================================================================
+
+#============================Move Prims service================================
+def prim_mover(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    position, orientation = request.values
+    position = tuple(position.values)
+    orientation = tuple(orientation.values)
+    commands.execute(
+        "IsaacSimTeleportPrim",
+        prim_path = prim_path,
+        translation = position,
+        rotation = orientation,
+    )
+
+    response.ret = True
+    return response
+
+def move_prim(controller):
+    service = controller.create_service(srv_type=MovePrim, 
+                        srv_name='isaac/move_prim', 
+                        callback=prim_mover)
+    return service
+#================================================================================
+
+#============================Scale Prims service=================================
+def prim_scaler(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    scale = tuple(request.values)
+    commands.execute(
+        "IsaacSimScalePrim",
+        prim_path = prim_path,
+        scale = scale,
+    )
+
+    response.ret = True
+    return response
+
+def scale_prim(controller):
+    service = controller.create_service(srv_type=ScalePrim, 
+                        srv_name='isaac/scale_prim', 
+                        callback=prim_scaler)
+    return service
+#================================================================================
+
+#============================Delete Prims service================================
+def prim_deleter(request,response):
+    name = request.name
+    prim_path = request.prim_path
+    commands.execute(
+        "IsaacSimDestroyPrim",
+        prim_path = prim_path,
+    )
+    response.ret = True
+    return response
+
+def _delete_prim(controller):
+    service = controller.create_service(srv_type=DeletePrim, 
+                        srv_name='isaac/delete_prim', 
+                        callback=prim_deleter)
+    return service
+#================================================================================
+
+#============================Delete Prims service================================
+def wall_spawner(request,response):
+    #Get service attributes
+    name = request.name
+    world_path = request.world_path
+    height = request.height
+    start = np.append(np.array(request.start),height/2)
+    end =  np.append(np.array(request.end),height/2)
+    start_vec = Gf.Vec3d(*start)
+    end_vec = Gf.Vec3d(*end)
+    #fixed attributes
+    scale=Gf.Vec3f(*[0.05, 1, height/2])
+    color=np.array([.2,.2,0.])
+    vector_ab = end - start 
+
+    center = (start_vec + end_vec)/2
+    length = np.linalg.norm(start[:2] - end[:2])
+    angle = math.atan2(vector_ab[1], vector_ab[0])
+    
+    #create wall
+    stage = omni.usd.get_context().get_stage()
+    wall = UsdGeom.Cube.Define(stage, f"{world_path}/{name}")
+    wall_transform = UsdGeom.XformCommonAPI(wall)
+    wall.AddTranslateOp().Set(center)
+    wall_transform.SetScale(scale)
+    wall.AddRotateZOp().Set(math.degrees(angle))
+
+
+
+    response.ret = True
+    return response
+
+def spawn_wall(controller):
+    service = controller.create_service(srv_type=SpawnWall, 
+                        srv_name='isaac/spawn_wall', 
+                        callback=wall_spawner)
+    return service
+#================================================================================
+#===================================Sensors IMU=================================
+
+def imu_setup(prim_path):
+    imu = IMUSensor(
+        prim_path=prim_path,
+        name='imu',
+        frequency=60,  # Tần số lấy mẫu, có thể điều chỉnh tùy theo yêu cầu
+        translation=np.array([0, 0, 0]),  # Vị trí cảm biến trên robot
+        orientation=np.array([1, 0, 0, 0]),  # Hướng cảm biến trên robot
+        linear_acceleration_filter_size=10,
+        angular_velocity_filter_size=10,
+        orientation_filter_size=10,
+    )
+    imu.initialize()
+    return imu
+
+def publish_imu(imu, freq):
+    from omni.isaac.ros2_bridge import read_imu_info
+    import omni.replicator.core as rep
+
+    step_size = int(60 / freq)
+    topic_name = imu.name + "_imu"
+    queue_size = 10  # Kích thước hàng đợi có thể điều chỉnh tùy theo yêu cầu
+    node_namespace = ""
+    frame_id = imu.prim_path.split("/")[-1]
+
+    # Khởi tạo writer cho IMU
+    writer = rep.writers.get("ROS2PublishImu")
+    writer.initialize(
+        frameId=frame_id,
+        nodeNamespace=node_namespace,
+        queueSize=queue_size,
+        topicName=topic_name
+    )
+    writer.attach([imu._imu_sensor_path])
+
+    # Cài đặt bước thời gian cho node Isaac Simulation Gate
+    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
+        "IMU" + "IsaacSimulationGate", imu._imu_sensor_path
+    )
+    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
+
+    return
+
+#=================================================================================
+
 #============================usd importer service================================
 # Usd importer (service) -> bool.
 def usd_importer(request, response):
@@ -217,9 +383,7 @@ def usd_importer(request, response):
     # publish_imu(imu)
 
     robots.append(prim_path)
-
-    # create default graph (for waffle)
-    #TODO: Update for different models and make it into a resource folder.
+    # create default graph.
     og.Controller.edit(
         # default graph name for robots.
         {"graph_path": f"/{name}/controller"},
@@ -261,7 +425,7 @@ def usd_importer(request, response):
                 ("DifferentialController.inputs:maxAngularAcceleration", 0.0),
                 
                 #SubscribeJointState
-                ("SubscribeJointState.inputs:targetPrim",f"/{name}")
+                ("PublishJointState.inputs:targetPrim",f"/{name}"),
                 
                 # ArticulationController
                 ("ArticulationController.inputs:targetPrim", prim_path),
@@ -308,7 +472,7 @@ def usd_importer(request, response):
         }
     )
     og.Controller.edit(
-        {"graph_path": f"{name}/JointState_Odom_Publisher", "evaluator_name": "execution"},
+        {"graph_path": f"/{name}/JointState_Odom_Publisher", "evaluator_name": "execution"},
         {
             og.Controller.Keys.CREATE_NODES: [
                 ("onPlaybackTick", "omni.graph.action.OnPlaybackTick"),
@@ -358,7 +522,7 @@ def usd_importer(request, response):
                 ("computeOdom.outputs:orientation", "publishRawTF.inputs:rotation"),
                 ("computeOdom.outputs:position", "publishRawTF.inputs:translation"),
             ],
-        },
+        }
     )
 
     return response
@@ -715,6 +879,11 @@ def publish_camera_tf(camera: Camera):
     return
 
 # Usd importer service callback.
+def import_yaml(controller):
+    service = controller.create_service(srv_type=ImportYaml, 
+                        srv_name='isaac/import_yaml', 
+                        callback=yaml_importer)
+    
 def import_usd(controller):
     service = controller.create_service(srv_type=ImportUsd, 
                         srv_name='isaac/import_usd', 
@@ -731,7 +900,13 @@ def create_controller(time=120):
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
-    ##
+    sdf_to_usd_service = convert_sdf_to_usd(controller)
+    get_prim_attribute_service = get_prim_attr(controller)
+    move_prim_service = move_prim(controller)
+    delete_prim_service = _delete_prim(controller)
+    prim_scale_service = scale_prim(controller)
+    wall_spawn_service = spawn_wall(controller)
+    import_yaml_service = import_yaml(controller)
     return controller
 
 # update the simulation.
