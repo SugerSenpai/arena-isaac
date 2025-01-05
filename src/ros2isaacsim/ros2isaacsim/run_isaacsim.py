@@ -43,7 +43,7 @@ import usdrt.Sdf
 # Setting up world and enable ros2_bridge extentions.
 BACKGROUND_STAGE_PATH = "/background"
 
-# BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
+BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
 extensions.enable_extension("omni.isaac.ros2_bridge")
@@ -51,7 +51,7 @@ simulation_app.update() #update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
 
 assets_root_path = nucleus.get_assets_root_path()
-stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH)
+stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH + BACKGROUND_USD_PATH)
 # Setting up URDF importer.
 status, import_config = omni.kit.commands.execute("URDFCreateImportConfig")
 import_config.merge_fixed_joints = True
@@ -298,51 +298,6 @@ def spawn_wall(controller):
                         callback=wall_spawner)
     return service
 #================================================================================
-#===================================Sensors IMU=================================
-
-def imu_setup(prim_path):
-    imu = IMUSensor(
-        prim_path=prim_path,
-        name='imu',
-        frequency=60,  # Tần số lấy mẫu, có thể điều chỉnh tùy theo yêu cầu
-        translation=np.array([0, 0, 0]),  # Vị trí cảm biến trên robot
-        orientation=np.array([1, 0, 0, 0]),  # Hướng cảm biến trên robot
-        linear_acceleration_filter_size=10,
-        angular_velocity_filter_size=10,
-        orientation_filter_size=10,
-    )
-    imu.initialize()
-    return imu
-
-def publish_imu(imu, freq):
-    from omni.isaac.ros2_bridge import read_imu_info
-    import omni.replicator.core as rep
-
-    step_size = int(60 / freq)
-    topic_name = imu.name + "_imu"
-    queue_size = 10  # Kích thước hàng đợi có thể điều chỉnh tùy theo yêu cầu
-    node_namespace = ""
-    frame_id = imu.prim_path.split("/")[-1]
-
-    # Khởi tạo writer cho IMU
-    writer = rep.writers.get("ROS2PublishImu")
-    writer.initialize(
-        frameId=frame_id,
-        nodeNamespace=node_namespace,
-        queueSize=queue_size,
-        topicName=topic_name
-    )
-    writer.attach([imu._imu_sensor_path])
-
-    # Cài đặt bước thời gian cho node Isaac Simulation Gate
-    gate_path = omni.syntheticdata.SyntheticData._get_node_path(
-        "IMU" + "IsaacSimulationGate", imu._imu_sensor_path
-    )
-    og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
-
-    return
-
-#=================================================================================
 
 #============================usd importer service================================
 # Usd importer (service) -> bool.
@@ -363,24 +318,24 @@ def usd_importer(request, response):
 
     camera = camera_set_up(camera_prim_path)
     camera.initialize()
-    # publish_camera_info(camera, 20)
-    # publish_depth(camera, 20)
-    # publish_rgb(camera, 20)
-    # publish_pointcloud_from_depth(camera, 20)
-    # publish_camera_tf(camera)
+    publish_camera_info(camera, 20)
+    publish_depth(camera, 20)
+    publish_rgb(camera, 20)
+    publish_pointcloud_from_depth(camera, 20)
+    publish_camera_tf(camera)
 
     lidar_prim_path = prim_path + "/" + "Lidar"
     lidar = lidar_setup(lidar_prim_path)
-    # publish_lidar(lidar)
+    publish_lidar(lidar)
 
-
-    contact_prim_path = prim_path + "/" + "ContactSensor"
-    contact_sensor = contact_sensor_setup(contact_prim_path)
-    # publish_contact_sensor_info(contact_sensor)
-
-    imu_prim_path = prim_path + "/" + "IMU"
-    imu = imu_setup(imu_prim_path)
-    # publish_imu(imu)
+    links = ["wheel_left_link","wheel_right_link"]
+    for link in links:
+        imu_prim_path = prim_path + "/" + link + "/" + "IMU"
+        contact_prim_path = prim_path + "/" + link + "/" + "ContactSensor"
+        imu = imu_setup(imu_prim_path)
+        contact_sensor = contact_sensor_setup(contact_prim_path)
+        publish_contact_sensor_info(link,contact_sensor)
+        publish_imu(link,imu)
 
     robots.append(prim_path)
     # create default graph.
@@ -524,7 +479,7 @@ def usd_importer(request, response):
             ],
         }
     )
-
+    world.stop()
     return response
 
 #=================================================================================
@@ -572,40 +527,47 @@ def contact_sensor_setup(prim_path):
     contact_sensor.initialize()
     return contact_sensor
 
-def publish_contact_sensor_info(contact_sensor: ContactSensor):
+def publish_contact_sensor_info(link, contact_sensor: ContactSensor):
     contact_sensor_prim = contact_sensor.prim_path
-    og.Controller.edit(
-        {"graph_path": f"/Contact_Sensor"},
+    (graph_handle,nodes,_,_) = og.Controller.edit(
+        {"graph_path": f"/{link}_Contact_Sensor"},
         {
             # 2) Create the nodes needed
             og.Controller.Keys.CREATE_NODES: [
                 ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
                 ("ROS2Context", "omni.isaac.ros2_bridge.ROS2Context"),
                 ("ReadContactSensor", "omni.isaac.sensor.IsaacReadContactSensor"),
-                ("ToString", "omni.graph.nodes.ToString"),
-                ("PrintText", "omni.graph.ui_nodes.PrintText"),
-                ("ROS2Publisher", "omni.isaac.ros2_bridge.ROS2Publisher")  # ROS2Publisher setup
-            ],
-            # 3) Connect each node's pins
-            og.Controller.Keys.CONNECT: [
-                ("OnPlaybackTick.outputs:tick", "ReadContactSensor.inputs:execIn"),
-                ("OnPlaybackTick.outputs:tick", "PrintText.inputs:execIn"),
-                ("OnPlaybackTick.outputs:tick", "ROS2Publisher.inputs:execIn"),  # Connect exec to ROS2Publisher
-                ("ReadContactSensor.outputs:value", "ToString.inputs:value"),  # Convert to string
-                ("ToString.outputs:converted", "PrintText.inputs:text"),       # Connect to PrintText
-                ("ToString.outputs:converted", "ROS2Publisher.inputs:messageName"),  # Message name is the converted string
+                ("ROS2Publisher", "omni.isaac.ros2_bridge.ROS2Publisher"), # ROS2Publisher setup
             ],
             og.Controller.Keys.SET_VALUES: [
                 ("ROS2Context.inputs:domain_id", 1),
                 ("ReadContactSensor.inputs:csPrim", contact_sensor_prim),
-                ("ROS2Publisher.inputs:topicName", "/contact_sensor_data"),        # Set topic name
-                ("ROS2Publisher.inputs:messagePackage", "std_msgs"),              # Message package
-                ("ROS2Publisher.inputs:messageSubfolder", "msg"),                 # Message subfolder
-                ("ROS2Publisher.inputs:messageName", "String"),                   # ROS2 message type                       # Queue size
-                ("ROS2Publisher.inputs:qosProfile", "default"),                   # QoS profile
+                ("ROS2Publisher.inputs:topicName", f"/{link}/contact_sensor_data"),        # Set topic name
+                ("ROS2Publisher.inputs:messagePackage", "isaacsim_msgs"),              # Message package
+                ("ROS2Publisher.inputs:messageName", "ContactSensor"),                   # ROS2 message type
             ],
+            # 3) Connect each node's pins
+            og.Controller.Keys.CONNECT: [
+                ("OnPlaybackTick.outputs:tick", "ReadContactSensor.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick", "ROS2Publisher.inputs:execIn"),  
+                ("ROS2Context.outputs:context", "ROS2Publisher.inputs:context"),
+                # ("ReadContactSensor.outputs:inContact","ROS2Publisher.inputs:in_contact"),
+                # ("ReadContactSensor.outputs:value", "ROS2Publisher.inputs:force_value"),  
+            ],
+
         }
     )
+
+    og_path = graph_handle.get_path_to_graph()
+    og.Controller.connect(
+        og.Controller.attribute(og_path + "/ReadContactSensor.outputs:inContact"),
+        og.Controller.attribute(og_path + "/ROS2Publisher.inputs:in_contact"),
+    )
+    og.Controller.connect(
+        og.Controller.attribute(og_path + "/ReadContactSensor.outputs:value"),
+        og.Controller.attribute(og_path + "/ROS2Publisher.inputs:force_value"),
+    )
+
     return
 
 #===================================Sensors IMU=================================
@@ -619,43 +581,44 @@ def imu_setup(prim_path):
     angular_velocity_filter_size = 10,
     orientation_filter_size = 10,
 )
-    imu.initialize()
+    # imu.initialize()
     return imu
 
-def publish_imu(imu):
+def publish_imu(link,imu):
     imu_sensor_prim_path = imu.prim_path
     og.Controller.edit(
-        {"graph_path": f"/IMU_Publisher"},
+        {"graph_path": f"/{link}_IMU"},  # Define the graph path
         {
-            # Create necessary nodes
+            # Create the required nodes
             og.Controller.Keys.CREATE_NODES: [
                 ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
+                ("ROS2Context", "omni.isaac.ros2_bridge.ROS2Context"),
                 ("IsaacReadIMU", "omni.isaac.sensor.IsaacReadIMU"),
-                ("ROS2Context",           "omni.isaac.ros2_bridge.ROS2Context"),
-
                 ("ToString", "omni.graph.nodes.ToString"),
                 ("PrintText", "omni.graph.ui_nodes.PrintText"),
                 ("ROS2PublishImu", "omni.isaac.ros2_bridge.ROS2PublishImu")
             ],
-            # Connect nodes
+            # Connect the nodes
             og.Controller.Keys.CONNECT: [
-                ("OnPlaybackTick.outputs:tick", "IsaacReadIMU.inputs:execIn"),  # Trigger IMU read on playback tick
-                ("IsaacReadIMU.outputs:execOut", "ROS2PublishImu.inputs:execIn"),  # Trigger publishing after IMU read
-                ("IsaacReadIMU.outputs:angVel", "ROS2PublishImu.inputs:angularVelocity"),  # Corrected angular velocity
-                ("IsaacReadIMU.outputs:linAcc", "ROS2PublishImu.inputs:linearAcceleration"),  # Corrected linear acceleration
+                ("OnPlaybackTick.outputs:tick", "IsaacReadIMU.inputs:execIn"),  # Trigger IMU data reading
+                ("IsaacReadIMU.outputs:execOut", "ROS2PublishImu.inputs:execIn"),  # Trigger IMU data publishing
+                ("ROS2Context.outputs:context", "ROS2PublishImu.inputs:context"),  # Connect ROS2 context
+                ("IsaacReadIMU.outputs:angVel", "ROS2PublishImu.inputs:angularVelocity"),  # Pass angular velocity
+                ("IsaacReadIMU.outputs:linAcc", "ROS2PublishImu.inputs:linearAcceleration"),  # Pass linear acceleration
                 ("IsaacReadIMU.outputs:orientation", "ROS2PublishImu.inputs:orientation"),  # Pass orientation
-                ("IsaacReadIMU.outputs:angVel", "ToString.inputs:value"),  # Convert angular velocity for display
-                ("ToString.outputs:converted", "PrintText.inputs:text")  # Print IMU data
+                ("IsaacReadIMU.outputs:angVel", "ToString.inputs:value"),  # Convert angular velocity for debugging
+                ("ToString.outputs:converted", "PrintText.inputs:text")  # Print IMU data to console
             ],
-            # Set node parameters
+            # Set the node parameters
             og.Controller.Keys.SET_VALUES: [
-                ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set IMU sensor prim path
-                ("ROS2PublishImu.inputs:topicName", "/imu_data"),  # ROS 2 topic name
+                ("ROS2Context.inputs:domain_id", 1),  # Set the ROS2 domain ID
+                ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set the IMU sensor prim path
+                ("ROS2PublishImu.inputs:topicName", f"/{link}/imu_data"),  # ROS2 topic name
+                ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the ROS2 message
                 ("ROS2PublishImu.inputs:publishAngularVelocity", True),  # Enable angular velocity publishing
                 ("ROS2PublishImu.inputs:publishLinearAcceleration", True),  # Enable linear acceleration publishing
                 ("ROS2PublishImu.inputs:publishOrientation", True),  # Enable orientation publishing
-                ("ROS2PublishImu.inputs:qosProfile", "default"),  # QoS profile
-                ("ROS2PublishImu.inputs:queueSize", 10)  # Queue size
+                ("ROS2PublishImu.inputs:queueSize", 10)  # Set the queue size
             ],
         }
     )
@@ -923,6 +886,7 @@ def main(arg=None):
     while True:
         run()
         rclpy.spin_once(controller, timeout_sec=0.0)
+
     controller.destroy_node()
     rclpy.shutdown()
     return
