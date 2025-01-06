@@ -1,10 +1,10 @@
-ros2 service call isaac/urdf_to_usd isaacsim_msgs/srv/UrdfToUsd '{"name": "waffle_urdf", "urdf_path": "/opt/ros/humble/share/turtlebot3_description/urdf/turtlebot3_waffle.urdf"}'
+ros2 service call isaac/urdf_to_usd isaacsim_msgs/srv/UrdfToUsd '{"name": "waffle_urdf_2", "urdf_path": "/opt/ros/humble/share/turtlebot3_description/urdf/turtlebot3_waffle.urdf"}'
 
 ros2 service call isaac/sdf_to_usd isaacsim_msgs/srv/SdfToUsd '{"name": "chair", "sdf_path": "src/arena/simulation-setup/entities/obstacles/static/chair/sdf/chair.sdf"}'
 
 ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/waffle.usd', 'prim_path': '/World', 'control': True, 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}"
 
-ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/waffle_urdf.usd', 'prim_path': '/World', 'control': True}"
+ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle_2', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/turtlebot3_waffle.usd', 'prim_path': '/World', 'control': True}"
 
 ros2 service call isaac/delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waffle', 'prim_path': '/World/wall_2'}"
 

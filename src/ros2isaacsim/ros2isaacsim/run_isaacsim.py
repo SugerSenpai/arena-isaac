@@ -38,12 +38,13 @@ from isaacsim_msgs.msg import Euler, Quat, Env, Values
 from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, ScalePrim, SpawnWall, SdfToUsd
 from sensor_msgs.msg import JointState
 import usdrt.Sdf
+from omni.isaac.core.articulations import Articulation
 
 #======================================Base======================================
 # Setting up world and enable ros2_bridge extentions.
-BACKGROUND_STAGE_PATH = "/background"
+# BACKGROUND_STAGE_PATH = "/background"
 
-BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
+# BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
 extensions.enable_extension("omni.isaac.ros2_bridge")
@@ -51,10 +52,10 @@ simulation_app.update() #update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
 
 assets_root_path = nucleus.get_assets_root_path()
-stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH + BACKGROUND_USD_PATH)
+# stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH + BACKGROUND_USD_PATH)
 # Setting up URDF importer.
 status, import_config = omni.kit.commands.execute("URDFCreateImportConfig")
-import_config.merge_fixed_joints = True
+import_config.merge_fixed_joints = False
 import_config.convex_decomp = False
 import_config.import_inertia_tensor = False
 import_config.self_collision = False
@@ -107,7 +108,7 @@ def yaml_importer(request, response):
     response.ret = usd_response.ret
     return response
 
-#================================================================================
+#=================================================================================
 #============================urdf converter service===============================
 # URDF convert to usd (service) -> usd_path.
 def urdf_to_usd(request, response):
@@ -120,7 +121,7 @@ def urdf_to_usd(request, response):
         urdf_path=urdf_path,
         dest_path=usd_path,
         import_config=import_config,
-        get_articulation_root=False,
+        get_articulation_root=True,
     )
     
     response.usd_path = usd_path
@@ -132,36 +133,8 @@ def convert_urdf_to_usd(controller):
                         srv_name='isaac/urdf_to_usd', 
                         callback=urdf_to_usd)
     return service
-#================================================================================
-#============================sdf converter service===============================
-# URDF convert to usd (service) -> usd_path.
-def sdf_to_usd(request, response):
-    name = request.name
-    sdf_path = request.sdf_path
-    usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
-    
-    status, stage_path = omni.kit.commands.execute(
-        "SDFParseAndImportFile",
-        sdf_path=sdf_path,
-        dest_path=usd_path,
-        import_config=import_config,
-        get_articulation_root=False,
-    )
-    
-    response.usd_path = usd_path
-    return response
-    
-# Urdf importer service callback.
-def convert_sdf_to_usd(controller):
-    service = controller.create_service(srv_type=SdfToUsd, 
-                        srv_name='isaac/sdf_to_usd', 
-                        callback=sdf_to_usd)
-    return service
-#================================================================================
-
-
-
-#========================publish environment information=========================
+#=================================================================================
+#========================publish environment information==========================
 def publish_environemnt_information(node):
     msg = Env()
     msg.robots = robots
@@ -175,10 +148,6 @@ def publish_environemnt_information(node):
 def create_publish_environment_information(controller):
     controller.create_publisher()
 #================================================================================
-#=========================multiple usd importer service==========================
-## pass
-#================================================================================
-
 #=========================Get Prims attribute service============================
 def get_prim_attributes(request,response):
     name = request.name
@@ -310,38 +279,39 @@ def usd_importer(request, response):
     stage.add_reference_to_stage(usd_path, prim_path)
     set_prim_attribute_value(prim_path, attribute_name="xformOp:translate", value=np.array(position))
     set_prim_attribute_value(prim_path, attribute_name="xformOp:orient", value=np.array(orientation))
+    # controllable_robot = Articulation(prim_path)
     response.ret = True
     if not request.control:
         environments.append(prim_path)
         return response 
-    camera_prim_path = prim_path + "/" + "Camera"
+    # camera_prim_path = prim_path + "/" + "Camera"
 
-    camera = camera_set_up(camera_prim_path)
-    camera.initialize()
-    publish_camera_info(camera, 20)
-    publish_depth(camera, 20)
-    publish_rgb(camera, 20)
-    publish_pointcloud_from_depth(camera, 20)
-    publish_camera_tf(camera)
+    # camera = camera_set_up(camera_prim_path)
+    # camera.initialize()
+    # publish_camera_info(camera, 20)
+    # publish_depth(camera, 20)
+    # publish_rgb(camera, 20)
+    # publish_pointcloud_from_depth(camera, 20)
+    # publish_camera_tf(camera)
 
-    lidar_prim_path = prim_path + "/" + "Lidar"
-    lidar = lidar_setup(lidar_prim_path)
-    publish_lidar(lidar)
+    # lidar_prim_path = prim_path + "/" + "Lidar"
+    # lidar = lidar_setup(lidar_prim_path)
+    # publish_lidar(lidar)
 
-    links = ["wheel_left_link","wheel_right_link"]
-    for link in links:
-        imu_prim_path = prim_path + "/" + link + "/" + "IMU"
-        contact_prim_path = prim_path + "/" + link + "/" + "ContactSensor"
-        imu = imu_setup(imu_prim_path)
-        contact_sensor = contact_sensor_setup(contact_prim_path)
-        publish_contact_sensor_info(link,contact_sensor)
-        publish_imu(link,imu)
+    # links = ["wheel_left_link","wheel_right_link"]
+    # for link in links:
+        # imu_prim_path = prim_path + "/" + link + "/" + "IMU"
+        # contact_prim_path = prim_path + "/" + link + "/" + "ContactSensor"
+        # imu = imu_setup(imu_prim_path)
+        # contact_sensor = contact_sensor_setup(contact_prim_path)
+        # publish_contact_sensor_info(link,contact_sensor)
+        # publish_imu(link,imu)
 
     robots.append(prim_path)
     # create default graph.
     og.Controller.edit(
         # default graph name for robots.
-        {"graph_path": f"/{name}/controller"},
+        {"graph_path": f"{prim_path}/controller"},
         {
             #Create nodes for the OmniGraph
             og.Controller.Keys.CREATE_NODES: [
@@ -380,7 +350,7 @@ def usd_importer(request, response):
                 ("DifferentialController.inputs:maxAngularAcceleration", 0.0),
                 
                 #SubscribeJointState
-                ("PublishJointState.inputs:targetPrim",f"/{name}"),
+                ("PublishJointState.inputs:targetPrim",f"{prim_path}/root_joint"),
                 
                 # ArticulationController
                 ("ArticulationController.inputs:targetPrim", prim_path),
@@ -427,7 +397,7 @@ def usd_importer(request, response):
         }
     )
     og.Controller.edit(
-        {"graph_path": f"/{name}/JointState_Odom_Publisher", "evaluator_name": "execution"},
+        {"graph_path": f"{prim_path}/Odom_Publisher", "evaluator_name": "execution"},
         {
             og.Controller.Keys.CREATE_NODES: [
                 ("onPlaybackTick", "omni.graph.action.OnPlaybackTick"),
@@ -863,7 +833,6 @@ def create_controller(time=120):
     # init services.
     import_usd_service = import_usd(controller)
     urdf_to_usd_service = convert_urdf_to_usd(controller)
-    sdf_to_usd_service = convert_sdf_to_usd(controller)
     get_prim_attribute_service = get_prim_attr(controller)
     move_prim_service = move_prim(controller)
     delete_prim_service = _delete_prim(controller)
