@@ -4,7 +4,7 @@ ros2 service call isaac/sdf_to_usd isaacsim_msgs/srv/SdfToUsd '{"name": "chair",
 
 ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/waffle.usd', 'prim_path': '/World', 'control': True, 'position': [0, 0, 0], 'orientation': [1, 0, 0, 0]}"
 
-ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle_2', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/turtlebot3_waffle.usd', 'prim_path': '/World', 'control': True}"
+ros2 service call isaac/import_usd isaacsim_msgs/srv/ImportUsd "{'name': 'waffle_2', 'usd_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/waffle.usd', 'prim_path': '/World', 'control': True}"
 
 ros2 service call isaac/delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waffle', 'prim_path': '/World/wall_2'}"
 

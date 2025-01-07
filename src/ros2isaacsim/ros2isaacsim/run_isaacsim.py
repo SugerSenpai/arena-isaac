@@ -350,7 +350,7 @@ def usd_importer(request, response):
                 ("DifferentialController.inputs:maxAngularAcceleration", 0.0),
                 
                 #SubscribeJointState
-                ("PublishJointState.inputs:targetPrim",f"{prim_path}/root_joint"),
+                # ("PublishJointState.inputs:targetPrim",f"{prim_path}/root_joint"),
                 
                 # ArticulationController
                 ("ArticulationController.inputs:targetPrim", prim_path),
