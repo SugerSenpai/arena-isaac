@@ -3,5 +3,5 @@ log
 install
 build
 IsaacLab
-*.pv
+*.gv
 *.pdf

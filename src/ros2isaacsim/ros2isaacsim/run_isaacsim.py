@@ -16,7 +16,8 @@ import matplotlib.pyplot as plt
 import yaml
 from omni.isaac.core import SimulationContext
 from omni.isaac.core.utils.rotations import quat_to_euler_angles
-from omni.isaac.core.utils import extensions, stage, nucleus
+from omni.isaac.core.utils import extensions, stage
+import omni.isaac.nucleus as nucleus
 from omni.isaac.nucleus import get_assets_root_path
 from omni.kit.viewport.utility import get_active_viewport
 from omni.isaac.core.utils.extensions import get_extension_path_from_name
@@ -51,8 +52,10 @@ extensions.enable_extension("omni.isaac.ros2_bridge")
 simulation_app.update() #update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
 
-assets_root_path = nucleus.get_assets_root_path()
+assets_root_path = get_assets_root_path()
+print(assets_root_path)
 # stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH + BACKGROUND_USD_PATH)
+
 # Setting up URDF importer.
 status, import_config = omni.kit.commands.execute("URDFCreateImportConfig")
 import_config.merge_fixed_joints = False
@@ -328,11 +331,14 @@ def usd_importer(request, response):
                 ("PublishJointState", "omni.isaac.ros2_bridge.ROS2PublishJointState"),
                 ("SubscribeJointState", "omni.isaac.ros2_bridge.ROS2SubscribeJointState"),
                 ("ArticulationController","omni.isaac.core_nodes.IsaacArticulationController"),
-                ("ReadSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
+                # ("ReadSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
 
             ],
             
             og.Controller.Keys.SET_VALUES: [
+                #ROS2 domain ID
+                ("ROS2Context.inputs:domain_id", 30),
+
                 #MakeArray size
                 ("MakeArray.inputs:arraySize",2),
                 
@@ -349,8 +355,9 @@ def usd_importer(request, response):
                 ("DifferentialController.inputs:maxDeceleration", 0.0),
                 ("DifferentialController.inputs:maxAngularAcceleration", 0.0),
                 
+                
                 #SubscribeJointState
-                # ("PublishJointState.inputs:targetPrim",f"{prim_path}/root_joint"),
+                ("PublishJointState.inputs:targetPrim",f"{prim_path}/base_footprint"),
                 
                 # ArticulationController
                 ("ArticulationController.inputs:targetPrim", prim_path),
@@ -373,7 +380,7 @@ def usd_importer(request, response):
 
                 # -- ROS context to the subscriber
                 ("ROS2Context.outputs:context", "ROS2SubscribeTwist.inputs:context"),
-
+                ("ROS2Context.outputs:context", "PublishJointState.inputs:context"),
                 
                 # -- Scale the linear velocity before splitting it
                 ("ROS2SubscribeTwist.outputs:linearVelocity", "ScaleStageUnits.inputs:value"),
@@ -412,16 +419,23 @@ def usd_importer(request, response):
             ],
             og.Controller.Keys.SET_VALUES: [
                 ("context.inputs:domain_id", 30),
+                
                 ("computeOdom.inputs:chassisPrim", prim_path + '/base_link'),
+                
                 ("publishRawTF.inputs:childFrameId",'base_link'),
-                ("publishRawTF.inputs:topicName","/tf"),
+                # ("publishRawTF.inputs:topicName","/tf"),
                 ("publishRawTF.inputs:parentFrameId", 'odom'),
+            
                 ("publishOdom.inputs:odomFrameId", 'odom'),
-                ("publishTF.inputs:targetPrims", prim_path ),
+                ("publishOdom.inputs:chassisFrameId","base_link"),
+                
+                ("publishTF.inputs:targetPrims", prim_path + '/base_link'),
                 ("publishTF.inputs:parentPrim", prim_path + '/base_link'),
-                ("publishRawTF.inputs:childFrameId",'odom'),
-                ("publishRawTF.inputs:topicName","/tf"),
-                ("publishRawTF.inputs:parentFrameId", 'world'),
+                # ("publishTF.inputs:topicName","/tf"),
+                
+                ("publishRawTF2.inputs:childFrameId",'odom'),
+                # ("publishRawTF2.inputs:topicName","/tf"),
+                ("publishRawTF2.inputs:parentFrameId", 'world'),
             ],
             og.Controller.Keys.CONNECT: [
                 ("onPlaybackTick.outputs:tick", "computeOdom.inputs:execIn"),
@@ -446,6 +460,7 @@ def usd_importer(request, response):
                 ("computeOdom.outputs:position", "publishOdom.inputs:position"),
                 ("computeOdom.outputs:orientation", "publishRawTF.inputs:rotation"),
                 ("computeOdom.outputs:position", "publishRawTF.inputs:translation"),
+                
             ],
         }
     )
