@@ -3,56 +3,44 @@ from isaacsim import SimulationApp
 
 # Setting the config for simulation and make an simulation.
 CONFIG = {"renderer": "RayTracedLighting", "headless": False}
+#import parent directory
+from pathlib import Path
+import sys
 simulation_app = SimulationApp(CONFIG)
+parent_dir = Path(__file__).resolve().parent.parent
+sys.path.insert(0,str(parent_dir))
 
 # Import dependencies.
-import carb
-import math
 import omni
 import omni.graph.core as og
-import usdrt.Sdf
 import numpy as np
-import matplotlib.pyplot as plt
 import yaml
 import os
-import sys
 from omni.isaac.core import SimulationContext
-from omni.isaac.core.utils.rotations import quat_to_euler_angles
 from omni.isaac.core.utils import extensions, stage
 import omni.isaac.nucleus as nucleus
 from omni.isaac.nucleus import get_assets_root_path
-from omni.kit.viewport.utility import get_active_viewport
-from omni.isaac.core.utils.extensions import get_extension_path_from_name
-from omni.isaac.core.utils.prims import delete_prim,get_prim_at_path,set_prim_attribute_value,get_prim_attribute_value,get_prim_attribute_names, is_prim_path_valid
-from omni.isaac.core_nodes.scripts.utils import set_target_prims
+from omni.isaac.core.utils.prims import set_prim_attribute_value
 from omni.isaac.core.world import World
 from omni.importer.urdf import _urdf
-from omni.isaac.sensor import Camera, ContactSensor, IMUSensor
-from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
-import omni.isaac.core.utils.numpy.rotations as rot_utils
-from pxr import Gf, Usd, UsdGeom
 import omni.kit.commands as commands
 import numpy as np
 import rclpy
-from rclpy.node import Node
-from isaacsim_msgs.msg import Euler, Quat, Env, Values
-from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, SpawnWall, SdfToUsd
-from sensor_msgs.msg import JointState
-from omni.isaac.core.articulations import Articulation 
-from pathlib import Path
-parent_dir = Path(__file__).resolve().parent.parent
-sys.path.insert(0,str(parent_dir))
+from isaacsim_msgs.srv import ImportUsd, ImportYaml
+
 from utils.services.SpawnWall import spawn_wall
 from utils.services.MovePrim import move_prim
 from utils.services.GetPrimAttributes import get_prim_attr
 from utils.services.DeletePrim import _delete_prim
+from utils.services.UrdfToUsd import convert_urdf_to_usd
+
+from utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
 #======================================Base======================================
 # Setting up world and enable ros2_bridge extentions.
 # BACKGROUND_STAGE_PATH = "/background"
-
 # BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
@@ -65,7 +53,7 @@ print(assets_root_path)
 # stage.add_reference_to_stage(assets_root_path, BACKGROUND_STAGE_PATH + BACKGROUND_USD_PATH)
 
 # Setting up URDF importer.
-status, import_config = omni.kit.commands.execute("URDFCreateImportConfig")
+status, import_config = commands.execute("URDFCreateImportConfig")
 import_config.merge_fixed_joints = False
 import_config.convex_decomp = False
 import_config.import_inertia_tensor = False
@@ -130,33 +118,32 @@ def usd_importer(request, response):
     stage.add_reference_to_stage(usd_path, prim_path)
     set_prim_attribute_value(prim_path, attribute_name="xformOp:translate", value=np.array(position))
     set_prim_attribute_value(prim_path, attribute_name="xformOp:orient", value=np.array(orientation))
-    # controllable_robot = Articulation(prim_path)
     response.ret = True
     if not request.control:
         environments.append(prim_path)
         return response 
-    # camera_prim_path = prim_path + "/" + "Camera"
+    camera_prim_path = prim_path + "/" + "Camera"
 
-    # camera = camera_set_up(camera_prim_path)
-    # camera.initialize()
-    # publish_camera_info(camera, 20)
-    # publish_depth(camera, 20)
-    # publish_rgb(camera, 20)
-    # publish_pointcloud_from_depth(camera, 20)
-    # publish_camera_tf(camera)
+    camera = camera_set_up(camera_prim_path)
+    camera.initialize()
+    publish_camera_info(name, camera, 20)
+    publish_depth(name, camera, 20)
+    publish_rgb(name, camera, 20)
+    publish_pointcloud_from_depth(name, camera, 20)
+    publish_camera_tf(name,camera)
 
-    # lidar_prim_path = prim_path + "/" + "Lidar"
-    # lidar = lidar_setup(lidar_prim_path)
-    # publish_lidar(lidar)
+    lidar_prim_path = prim_path + "/" + "Lidar"
+    lidar = lidar_setup(lidar_prim_path)
+    publish_lidar(name, lidar)
 
-    # links = ["wheel_left_link","wheel_right_link"]
-    # for link in links:
-        # imu_prim_path = prim_path + "/" + link + "/" + "IMU"
-        # contact_prim_path = prim_path + "/" + link + "/" + "ContactSensor"
-        # imu = imu_setup(imu_prim_path)
-        # contact_sensor = contact_sensor_setup(contact_prim_path)
-        # publish_contact_sensor_info(link,contact_sensor)
-        # publish_imu(link,imu)
+    links = ["wheel_left_link","wheel_right_link"]
+    for link in links:
+        imu_prim_path = prim_path + "/" + link + "/" + "IMU"
+        contact_prim_path = prim_path + "/" + link + "/" + "ContactSensor"
+        imu = imu_setup(imu_prim_path)
+        contact_sensor = contact_sensor_setup(contact_prim_path)
+        publish_contact_sensor_info(name,prim_path,link,contact_sensor)
+        publish_imu(name,prim_path,link,imu)
 
     robots.append(prim_path)
     # create default graph.

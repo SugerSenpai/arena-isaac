@@ -26,6 +26,7 @@ setup(
             "run_isaacsim=ros2isaacsim.run_isaacsim:main",
             "convert_urdf_usd=ros2isaacsim.convert_urdf_usd:main",
             'navigation_controller = ros2isaacsim.navigation_controller:main',
+            'sdf_to_urdf=ros2isaacsim.SdftoUrdf:main',
             ],
     },
 )

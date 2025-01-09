@@ -1,30 +1,22 @@
 import omni
 import omni.graph.core as og
-from omni.isaac.core import SimulationContext
-from omni.isaac.core.utils.rotations import quat_to_euler_angles
-from omni.isaac.core.utils import extensions, stage, nucleus
-from omni.isaac.nucleus import get_assets_root_path
-from omni.kit.viewport.utility import get_active_viewport
-from omni.isaac.core.utils.extensions import get_extension_path_from_name
+from omni.isaac.core.utils import extensions
 from omni.isaac.core_nodes.scripts.utils import set_target_prims
-from omni.isaac.core.world import World
-from omni.importer.urdf import _urdf
 from omni.isaac.sensor import Camera, ContactSensor, IMUSensor
-from omni.isaac.range_sensor import _range_sensor
 import omni.replicator.core as rep
 import omni.syntheticdata._syntheticdata as sd
 import omni.isaac.core.utils.numpy.rotations as rot_utils
 import omni.kit.commands as commands
-from pxr import Gf, Usd, UsdGeom
-from isaacsim_msgs.msg import Euler, Quat, Env, Values
-from isaacsim_msgs.srv import ImportUsd, ImportUrdf, UrdfToUsd, DeletePrim, GetPrimAttributes, MovePrim, ImportYaml, ScalePrim, SpawnWall, SdfToUsd
-from sensor_msgs.msg import JointState
+from pxr import Gf
+from omni.isaac.core.utils.prims import is_prim_path_valid
+extensions.enable_extension("omni.isaac.ros2_bridge")
 
-#=================================================================================
-#===================================Sensors Lidar=================================
+from omni.isaac.ros2_bridge import read_camera_info
 
+
+#Lidar
 def lidar_setup(prim_path):
-    _, lidar = omni.kit.commands.execute(
+    _, lidar = commands.execute(
     "IsaacSensorCreateRtxLidar",
     path= prim_path,
     parent=None,
@@ -33,11 +25,11 @@ def lidar_setup(prim_path):
     )
     return lidar
 
-def publish_lidar(lidar):
+def publish_lidar(name,lidar):
     hydra_texture = rep.create.render_product(lidar.GetPath(), [1, 1], name="Isaac")
 
     writer = rep.writers.get("RtxLidar" + "ROS2PublishPointCloud")
-    writer.initialize(topicName="lidar_point_cloud", frameId="sim_lidar")
+    writer.initialize(topicName=f"{name}/lidar_point_cloud", frameId="sim_lidar")
     writer.attach([hydra_texture])
 
     # Create the debug draw pipeline in the post process graph
@@ -46,12 +38,12 @@ def publish_lidar(lidar):
 
     # Create LaserScan publisher pipeline in the post process graph
     writer = rep.writers.get("RtxLidar" + "ROS2PublishLaserScan")
-    writer.initialize(topicName="lidar_scan", frameId="sim_lidar")
+    writer.initialize(topicName=f"{name}/lidar_scan", frameId="sim_lidar")
     writer.attach([hydra_texture])
 
     return
-#=================================================================================
-#===================================Contact Sensor================================
+
+#Contact Sensor
 def contact_sensor_setup(prim_path):
     contact_sensor = ContactSensor(
 
@@ -65,10 +57,10 @@ def contact_sensor_setup(prim_path):
     contact_sensor.initialize()
     return contact_sensor
 
-def publish_contact_sensor_info(link, contact_sensor: ContactSensor):
+def publish_contact_sensor_info(name, prim_path,link, contact_sensor: ContactSensor):
     contact_sensor_prim = contact_sensor.prim_path
     (graph_handle,nodes,_,_) = og.Controller.edit(
-        {"graph_path": f"/{link}_Contact_Sensor"},
+        {"graph_path": f"{prim_path}/{link}_Contact_Sensor"},
         {
             # 2) Create the nodes needed
             og.Controller.Keys.CREATE_NODES: [
@@ -80,7 +72,7 @@ def publish_contact_sensor_info(link, contact_sensor: ContactSensor):
             og.Controller.Keys.SET_VALUES: [
                 ("ROS2Context.inputs:domain_id", 1),
                 ("ReadContactSensor.inputs:csPrim", contact_sensor_prim),
-                ("ROS2Publisher.inputs:topicName", f"/{link}/contact_sensor_data"),        # Set topic name
+                ("ROS2Publisher.inputs:topicName", f"{name}/{link}/contact_sensor_data"),        # Set topic name
                 ("ROS2Publisher.inputs:messagePackage", "isaacsim_msgs"),              # Message package
                 ("ROS2Publisher.inputs:messageName", "ContactSensor"),                   # ROS2 message type
             ],
@@ -108,9 +100,7 @@ def publish_contact_sensor_info(link, contact_sensor: ContactSensor):
 
     return
 
-#===================================Sensors IMU==================================
-
-#=================================================================================
+#IMU
 
 def imu_setup(prim_path):
     imu = IMUSensor(
@@ -124,10 +114,10 @@ def imu_setup(prim_path):
     # imu.initialize()
     return imu
 
-def publish_imu(link,imu):
+def publish_imu(name,prim_path,link,imu):
     imu_sensor_prim_path = imu.prim_path
     og.Controller.edit(
-        {"graph_path": f"/{link}_IMU"},  # Define the graph path
+        {"graph_path": f"{prim_path}/{link}_IMU"},  # Define the graph path
         {
             # Create the required nodes
             og.Controller.Keys.CREATE_NODES: [
@@ -153,7 +143,7 @@ def publish_imu(link,imu):
             og.Controller.Keys.SET_VALUES: [
                 ("ROS2Context.inputs:domain_id", 1),  # Set the ROS2 domain ID
                 ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set the IMU sensor prim path
-                ("ROS2PublishImu.inputs:topicName", f"/{link}/imu_data"),  # ROS2 topic name
+                ("ROS2PublishImu.inputs:topicName", f"{name}/{link}/imu_data"),  # ROS2 topic name
                 ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the ROS2 message
                 ("ROS2PublishImu.inputs:publishAngularVelocity", True),  # Enable angular velocity publishing
                 ("ROS2PublishImu.inputs:publishLinearAcceleration", True),  # Enable linear acceleration publishing
@@ -178,12 +168,11 @@ def camera_set_up(prim_path):
     camera.initialize()
     return camera
 
-def publish_camera_info(camera: Camera, freq):
-    from omni.isaac.ros2_bridge import read_camera_info
+def publish_camera_info( name,camera: Camera, freq):
     # The following code will link the camera's render product and publish the data to the specified topic name.
     render_product = camera._render_product_path
     step_size = int(60/freq)
-    topic_name = camera.name+"_camera_info"
+    topic_name = name + "/" + camera.name+"_camera_info"
     queue_size = 1
     node_namespace = ""
     frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
@@ -214,11 +203,11 @@ def publish_camera_info(camera: Camera, freq):
     og.Controller.attribute(gate_path + ".inputs:step").set(step_size)
     return
 
-def publish_pointcloud_from_depth(camera: Camera, freq):
+def publish_pointcloud_from_depth(name,camera: Camera, freq):
     # The following code will link the camera's render product and publish the data to the specified topic name.
     render_product = camera._render_product_path
     step_size = int(60/freq)
-    topic_name = camera.name+"_pointcloud" # Set topic name to the camera's name
+    topic_name = name + "/" + camera.name+"_pointcloud" # Set topic name to the camera's name
     queue_size = 1
     node_namespace = ""
     frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
@@ -246,11 +235,11 @@ def publish_pointcloud_from_depth(camera: Camera, freq):
 
     return
 
-def publish_rgb(camera: Camera, freq):
+def publish_rgb(name,camera: Camera, freq):
     # The following code will link the camera's render product and publish the data to the specified topic name.
     render_product = camera._render_product_path
     step_size = int(60/freq)
-    topic_name = camera.name+"_rgb"
+    topic_name = name + "/" + camera.name+"_rgb"
     queue_size = 1
     node_namespace = ""
     frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
@@ -273,11 +262,11 @@ def publish_rgb(camera: Camera, freq):
 
     return
 
-def publish_depth(camera: Camera, freq):
+def publish_depth(name, camera: Camera, freq):
     # The following code will link the camera's render product and publish the data to the specified topic name.
     render_product = camera._render_product_path
     step_size = int(60/freq)
-    topic_name = camera.name+"_depth"
+    topic_name = name + "/" + camera.name+"_depth"
     queue_size = 1
     node_namespace = ""
     frame_id = camera.prim_path.split("/")[-1] # This matches what the TF tree is publishing.
@@ -302,7 +291,7 @@ def publish_depth(camera: Camera, freq):
 
     return
 
-def publish_camera_tf(camera: Camera):
+def publish_camera_tf(name, camera: Camera):
     camera_prim = camera.prim_path
 
     if not is_prim_path_valid(camera_prim):
@@ -347,10 +336,10 @@ def publish_camera_tf(camera: Camera):
                     ("PublishRawTF_"+camera_frame_id+"_world", "omni.isaac.ros2_bridge.ROS2PublishRawTransformTree"),
                 ],
                 og.Controller.Keys.SET_VALUES: [
-                    ("PublishTF_"+camera_frame_id+".inputs:topicName", "/tf"),
+                    ("PublishTF_"+camera_frame_id+".inputs:topicName", f"{name}/camera_tf"),
                     # Note if topic_name is changed to something else besides "/tf",
                     # it will not be captured by the ROS tf broadcaster.
-                    ("PublishRawTF_"+camera_frame_id+"_world.inputs:topicName", "/tf"),
+                    ("PublishRawTF_"+camera_frame_id+"_world.inputs:topicName", f"{name}/camera_tf"),
                     ("PublishRawTF_"+camera_frame_id+"_world.inputs:parentFrameId", camera_frame_id),
                     ("PublishRawTF_"+camera_frame_id+"_world.inputs:childFrameId", camera_frame_id+"_world"),
                     # Static transform from ROS camera convention to world (+Z up, +X forward) convention:
