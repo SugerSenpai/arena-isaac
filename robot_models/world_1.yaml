@@ -15,11 +15,15 @@ robots:
 
 objects:
   table:
-    url: "/Isaac/Samples/Examples/FrankaNutBolt/SubUSDs/Shop_Table/Shop_Table.usd"
+    usd_path: "/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/table.usd"
     class: "table"
+    number: 2
+    type: "Local"
   cone:
     url: "/Isaac/Environments/Simple_Warehouse/Props/S_TrafficCone.usd"
     class: "cone"
+    number: 3
+    type: "Isaac"
 
 bounding_walls:
   bounding_wall_1:
@@ -38,5 +42,8 @@ bounding_walls:
     start: [-5.0, 5.0]
     end: [-5.0, -5.0]
     height: 2.0
+
+
+
 clear_previous_semantics: True
 close_app_after_run: False

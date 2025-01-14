@@ -180,9 +180,6 @@ def register_cone_placement(forklift_prim, assets_root_path, config):
         with cones:
             rep.modify.pose(position=rep.distribution.sequence(bottom_corners), rotation_z=obb_euler[2])
         return cones.node
-    print(
-        
-    )
     rep.randomizer.register(place_cones)
 
 

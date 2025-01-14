@@ -47,6 +47,8 @@ sys.path.insert(0,str(parent_dir))
 
 # Custom util functions for the example
 import numpy as np
+
+from isaac_utils import world_generation_utils
 from isaac_utils import scene_based_sdg_utils
 from isaac_utils.services.SpawnWall import wall_spawner
 from omni.isaac.core.utils import prims
@@ -57,10 +59,14 @@ from omni.isaac.nucleus import get_assets_root_path
 from omni.isaac.core.world import World
 from pxr import Gf
 
+NUM_FRAMES = 1000
+
 world = World()
 world.scene.add_default_ground_plane()
-    
+
+#spawn bounding walls
 bounding_walls = config.get("bounding_walls",[])
+objects = config.get("objects",[])
 for wall in bounding_walls.items():
     response = SpawnWall.Response()
     wall_name = wall[0]
@@ -72,8 +78,10 @@ for wall in bounding_walls.items():
     request.end =   params["end"]
     request.height = params["height"]
     wall_response = wall_spawner(request,response)
-    
+
+#reset world
 world.reset()
+
 # Get server path
 assets_root_path = get_assets_root_path()
 if assets_root_path is None:
@@ -104,6 +112,7 @@ robot_quat_gf = robot_tf.ExtractRotationQuat()
 robot_quat_xyzw = (robot_quat_gf.GetReal(), *robot_quat_gf.GetImaginary())
 
 # Register randomization graphs
+world_generation_utils.register_objects_spawner(objects,assets_root_path,NUM_FRAMES)
 scene_based_sdg_utils.register_cone_placement(robot_prim, assets_root_path, config)
 scene_based_sdg_utils.register_wall_spawner("/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/world_1.yaml")
 
@@ -130,7 +139,8 @@ for rp in rps:
 
 
 # Setup the randomizations to be triggered every frame
-# with rep.trigger.on_frame():
+with rep.trigger.on_frame():
+    rep.randomizer.spawn_objects()
     # rep.randomizer.spawn_walls()
 
 # Setup the randomizations to be triggered at every nth frame (interval)
@@ -143,18 +153,15 @@ with rep.trigger.on_frame(interval=4):
             rotation=rep.distribution.uniform((0, -90, -30), (0, -90, 30)),
         )
 
-rt_subframes = config.get("rt_subframes", -1)
-
 # Start the SDG
-num_frames = config.get("num_frames", 0)
-print(f"[scene_based_sdg] Running SDG for {num_frames} frames")
-for i in range(num_frames):
+for i in range(NUM_FRAMES):
     print(f"[scene_based_sdg] \t Capturing frame {i}")
     # Trigger the custom event to randomize the cones at specific frames
     if i % 2 == 0:
         rep.utils.send_og_event(event_name="randomize_cones")
     # Trigger any on_frame registered randomizers and the writers (delta_time=0.0 to avoid advancing the timeline)
     rep.orchestrator.step(delta_time=0.0)
+    i+=1
 
 # Wait for the data to be written to disk
 rep.orchestrator.wait_until_complete()
