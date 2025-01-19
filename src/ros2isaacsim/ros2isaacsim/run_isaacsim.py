@@ -39,11 +39,12 @@ from isaacsim_msgs.srv import ImportUsd, ImportYaml
 from isaac_utils.robot_graphs import assign_robot_model
 
 #Import services
-from isaac_utils.services.SpawnWall import spawn_wall
-from isaac_utils.services.MovePrim import move_prim
-from isaac_utils.services.GetPrimAttributes import get_prim_attr
-from isaac_utils.services.DeletePrim import _delete_prim
-from isaac_utils.services.UrdfToUsd import convert_urdf_to_usd
+from isaac_utils.services import spawn_wall
+from isaac_utils.services import move_prim
+from isaac_utils.services import get_prim_attr
+from isaac_utils.services import delete_prim
+from isaac_utils.services import convert_urdf_to_usd
+from isaac_utils.services import import_obstacle
 
 #Import sensors
 from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
@@ -201,9 +202,10 @@ def create_controller(time=120):
     urdf_to_usd_service = convert_urdf_to_usd(controller)
     get_prim_attribute_service = get_prim_attr(controller)
     move_prim_service = move_prim(controller)
-    delete_prim_service = _delete_prim(controller)
+    delete_prim_service = delete_prim(controller)
     wall_spawn_service = spawn_wall(controller)
     import_yaml_service = import_yaml(controller)
+    import_obstacle_service = import_obstacle(controller)
     return controller
 
 # update the simulation.

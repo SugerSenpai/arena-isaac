@@ -12,18 +12,15 @@ from yaml_utils import read_yaml_config
 def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path
-    config_path = request.config_path
-    
-    config = read_yaml_config(config_path)
-    
+    # config_path = request.config_path
+        
     status, import_config = commands.execute("URDFCreateImportConfig")
     import_config.merge_fixed_joints = False
     import_config.convex_decomp = False
     import_config.import_inertia_tensor = False
     import_config.make_default_prim = True
     import_config.distance_scale = 1
-    import_config.fix_base = config['type']
-    
+    import_config.fix_base = False
     
     
     usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
