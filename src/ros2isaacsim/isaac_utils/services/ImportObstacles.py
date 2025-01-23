@@ -1,4 +1,7 @@
 from omni.isaac.core.utils import prims
+from omni.isaac.core.prims import XFormPrim
+from omni.isaac.core.utils.stage import add_reference_to_stage
+
 from isaacsim_msgs.srv import ImportObstacles
 import os
 import numpy as np
@@ -9,11 +12,13 @@ def obstacle_importer(request, response):
     position = request.position
     orientation = request.orientation
     
-    model_prim = prims.create_prim(
-    prim_path=f"/World/{name}",
-    position=np.array(position),
-    orientation=np.array(orientation),
-    usd_path=os.path.abspath(usd_path),
+
+    add_reference_to_stage(usd_path=os.path.abspath(usd_path), prim_path=f"/World/{name}")
+
+    model_prim = XFormPrim(
+        prim_path=f"/World/{name}",
+        position=np.array(position),
+        orientation=np.array(orientation),
     )
     response.ret = True
     

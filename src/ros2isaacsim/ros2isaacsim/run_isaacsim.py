@@ -143,9 +143,8 @@ def usd_importer(request, response):
     if not request.control:
         environments.append(prim_path)
         return response 
-    camera_prim_path = prim_path + "/" + "Camera"
-
-    camera = camera_set_up(camera_prim_path)
+    camera_prim_path = prim_path + "/camera_link" 
+    camera = camera_set_up(camera_prim_path, "Camera")
     camera.initialize()
     publish_camera_info(name, camera, 20)
     publish_depth(name, camera, 20)
@@ -153,9 +152,9 @@ def usd_importer(request, response):
     publish_pointcloud_from_depth(name, camera, 20)
     publish_camera_tf(name,prim_path,camera)
 
-    lidar_prim_path = prim_path + "/" + "Lidar"
-    lidar = lidar_setup(lidar_prim_path)
-    publish_lidar(name, lidar)
+    lidar_prim_path = prim_path + "/base_scan"
+    lidar = lidar_setup(lidar_prim_path, "Lidar")
+    publish_lidar(name, prim_path, lidar)
 
     links = ["wheel_left_link","wheel_right_link"]
     for link in links:

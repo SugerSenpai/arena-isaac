@@ -30,7 +30,7 @@ def lidar_setup(prim_path, name):
     lidar = LidarRtx(
         prim_path = prim_path + "/Lidar",
         name = name,
-        config_file_name = 'Simple_Example_Solid_State',
+        config_file_name = 'Temp_Config_0',
     )
     return lidar
 
@@ -54,7 +54,6 @@ def publish_lidar(name,prim_path,lidar):
 
             ],
             keys.SET_VALUES: [
-                ("Context.inputs:domain_id", 30),
                 ("RenderProduct.inputs:cameraPrim", lidar_prim_path),
                 ("LidarPublisher.inputs:topicName", f"{name}/lidar_scan"),
                 ("LidarPublisher.inputs:frameId", f"base_scan"),               
@@ -130,7 +129,7 @@ def publish_contact_sensor_info(name, prim_path,link, contact_sensor: ContactSen
                 ("ROS2Publisher", "omni.isaac.ros2_bridge.ROS2Publisher"), # ROS2Publisher setup
             ],
             og.Controller.Keys.SET_VALUES: [
-                ("ROS2Context.inputs:domain_id", 30),
+                ("ROS2Context.inputs:domain_id", 1),
                 ("ReadContactSensor.inputs:csPrim", contact_sensor_prim),
                 ("ROS2Publisher.inputs:topicName", f"{name}/{link}/contact_sensor_data"),        # Set topic name
                 ("ROS2Publisher.inputs:messagePackage", "isaacsim_msgs"),              # Message package
@@ -201,7 +200,7 @@ def publish_imu(name,prim_path,link,imu):
             ],
             # Set the node parameters
             og.Controller.Keys.SET_VALUES: [
-                ("ROS2Context.inputs:domain_id", 30),  # Set the ROS2 domain ID
+                ("ROS2Context.inputs:domain_id", 1),  # Set the ROS2 domain ID
                 ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set the IMU sensor prim path
                 ("ROS2PublishImu.inputs:topicName", f"{name}/{link}/imu_data"),  # ROS2 topic name
                 ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the ROS2 message

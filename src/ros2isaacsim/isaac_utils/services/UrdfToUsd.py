@@ -15,25 +15,34 @@ def urdf_to_usd(request, response):
     # config_path = request.config_path
         
     status, import_config = commands.execute("URDFCreateImportConfig")
-    import_config.merge_fixed_joints = False
-    import_config.convex_decomp = False
-    import_config.import_inertia_tensor = False
-    import_config.make_default_prim = True
-    import_config.distance_scale = 1
-    import_config.fix_base = False
+    print(import_config)
+    import_config.set_merge_fixed_joints(False)
+    import_config.set_convex_decomp(False)
+    import_config.set_import_inertia_tensor(False)
+    import_config.set_make_default_prim(False)
+    import_config.set_distance_scale(1.0)
+    import_config.set_fix_base(False)
+    import_config.set_default_drive_type(2)
+    import_config.set_self_collision(False)
     
     
-    usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
+    # usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
     
-    status, stage_path = commands.execute(
+    
+    # print(robot_model)
+    
+    status, articulation_root_path = commands.execute(
         "URDFParseAndImportFile",
         urdf_path=urdf_path,
-        dest_path=usd_path,
+        # urdf_robot = robot_model,
         import_config=import_config,
+        dest_path="",
         get_articulation_root=True,
     )
     
-    response.usd_path = usd_path
+    # print(usd_path)
+    
+    response.usd_path = articulation_root_path
     return response
     
 # Urdf importer service callback.

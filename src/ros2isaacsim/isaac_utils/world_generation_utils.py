@@ -170,26 +170,21 @@ def register_objects_spawner(objects, assets_root_path,num_frames):
     rep.randomizer.register(spawn_objects)
 
 
-def register_wall_spawner(walls):
-    """
-    Registers a randomizer function that spawns walls around the forklift_prim.
-    Each time `rep.randomizer.spawn_walls()` is triggered, new walls are generated.
-    """
-    def spawn_walls():        
-        # 2) For each wall, pick a random angle and radius, then compute start & end in the XY plane
-        for wall in walls.items():
-            wall_name = wall[0]
-            params = wall[1]
-            request = {
-            "name": wall_name,
-            "world_path": "/World/Walls",  # A parent prim path for all walls
-            "start": params["start"],
-            "end":   params["end"],
-            "height": params["height"],
-            }
-            
-        
-        return None  # we return None or the node, but randomizers typically return a node handle
-
-    # Finally, register this spawn_walls function as a randomizer in Replicator
-    rep.randomizer.register(spawn_walls)
+def register_cube_spawner(count):
+    x_coords = np.random.uniform(-4.5, 4.5, 500).astype(float)
+    y_coords = np.random.uniform(-4.5, 4.5, 500).astype(float)
+    z_coords = np.zeros(500).astype(float)
+    pos = [
+    (float(x), float(y), float(z))
+    for x, y, z in zip(x_coords, y_coords, z_coords)
+    ]
+    def spawn_cubes():
+        objs = rep.create.cube(
+            count=count,
+            scale=(0.8 , 0.8, 1.6)
+        )
+        with objs:
+            rep.modify.pose(
+                position = rep.distribution.choice(pos)
+            )
+    rep.randomizer.register(spawn_cubes)
