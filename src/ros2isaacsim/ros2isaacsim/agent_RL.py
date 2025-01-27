@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import rclpy
+import rclpy.context
 import rclpy.executors
 from rclpy.node import Node
 import torch
@@ -44,8 +45,8 @@ from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, pub
 extensions.enable_extension("omni.isaac.ros2_bridge")
 
 class NavigationController(Node):
-    def __init__(self, name):
-        super().__init__('navigation_controller')
+    def __init__(self, name,context):
+        super().__init__('navigation_controller',context=context)
         """
         Initialize the NavigationController with the robot's name.
         
@@ -194,8 +195,8 @@ pt28 = (int((stage_W/2 + L/2 - 24)/pix2m), int((stage_H/2 - L/2 - 24)/pix2m))
 cv2.rectangle(rgb_image, pt27, pt28, (255, 0, 0), cv2.FILLED, cv2.LINE_8)
 
 class Get_Model_State(Node):
-    def __init__(self):
-        super().__init__('get_modelstate')
+    def __init__(self,context):
+        super().__init__('get_modelstate',context=context)
         self.subscription = self.create_subscription(
             TFMessage,
             '/tf',
@@ -219,8 +220,8 @@ class Get_Model_State(Node):
 
 class Lidar_Subscriber(Node):
 
-    def __init__(self,name):
-        super().__init__('lidar_subscriber')
+    def __init__(self,name,context):
+        super().__init__('lidar_subscriber',context=context)
         self.subscription = self.create_subscription(
             LaserScan,
             f'{name}/lidar_scan',
@@ -242,9 +243,8 @@ class Lidar_Subscriber(Node):
 
 
 class RGB_Subscriber(Node):
-    def __init__(self, name):
-        super().__init__('rgb_subscriber')
-        
+    def __init__(self,name,context):
+        super().__init__('rgb_subscriber',context=context)
         # Initialize the subscription to the RGB camera topic
         self.subscription = self.create_subscription(
             Image,
@@ -304,18 +304,21 @@ class RGB_Subscriber(Node):
             # self.get_logger().info(f"Collision detected with {collision_event.other_prim_path}")
 
 
-class Env():
+class Env(Node):
     def __init__(self,
-                 agent_name,
-                 world):
-        self.world = world
+                agent_name,
+                world,
+                context):
+        super().__init__('isaac_env',context=context)
 
+        self.world = world 
+        
         self.model = assign_robot_model(name=agent_name, prim_path="/World/waffle_1", model="waffle")
-        self.model.controller = NavigationController(name =agent_name)
+        self.model.controller = NavigationController(name=agent_name,context=context)
 
-        self.get_modelstate = Get_Model_State()
-        self.lidar_subscriber = Lidar_Subscriber(agent_name)
-        self.rgb_subscriber = RGB_Subscriber(agent_name)
+        self.get_model_state = Get_Model_State(context)
+        self.lidar_subscriber = Lidar_Subscriber(agent_name,context)
+        self.rgb_subscriber = RGB_Subscriber(agent_name,context)
 
         # self.collision_detector = CollisionDetector(self)
 
@@ -417,8 +420,10 @@ class Env():
 
     def reset(self):
         self.update_state()
-        self.world.reset()
+        simulation_context.reset()
         print('world resetting')
+        # context = rclpy.utilities.get_default_context(shutting_down=False)
+        # print(context)
         rep.utils.send_og_event(event_name="randomize_cubes")
         return
     
@@ -439,17 +444,6 @@ class Env():
     def check_terminated(self):
         self.done = False
         return False
-
-def main(args=None):
-    rclpy.init(args=args)
-    agent = RLAgent("waffle_1")
-    try:
-        rclpy.spin(agent)
-    except KeyboardInterrupt:
-        agent.get_logger().info('Shutting down RLAgent node.')
-    finally:
-        agent.destroy_node()
-        rclpy.shutdown()
 
 class RLAgent(Node):
     def __init__(self, name, num_steps):
@@ -524,17 +518,20 @@ class RLAgent(Node):
 
 
 def main():
-    rclpy.init()
-    env = Env(agent_name ="waffle_1", world=World.instance())
-    # executor = rclpy.executors.MultiThreadedExecutor()
-    # executor.add_node(env.get_modelstate)
-    # executor.add_node(env.lidar_subscriber)
-    # executor.add_node(env.rgb_subscriber)
+    context = rclpy.context.Context()
+    rclpy.init(context=context)
+    env = Env(agent_name ="waffle_1", world=World.instance(),context=context)
+    executor = rclpy.executors.MultiThreadedExecutor(context=context)
+    executor.add_node(env)
+    executor.add_node(env.get_model_state)
+    executor.add_node(env.lidar_subscriber)
+    executor.add_node(env.rgb_subscriber)
+    # executor.add_node(env.model.controller)
 
-    # executor_thread = threading.Thread(target=executor.spin, daemon=True)
-    # executor_thread.start()
+    executor_thread = threading.Thread(target=executor.spin, daemon=True)
+    executor_thread.start()
     
-    # agent = RLAgent("waffle", 500)
+    # # agent = RLAgent("waffle", 500)
 
     env.reset()
     while True:

@@ -1,10 +1,15 @@
-from omni.isaac.core.utils import prims
-from omni.isaac.core.prims import XFormPrim
-from omni.isaac.core.utils.stage import add_reference_to_stage
-
+from omni.isaac.core.utils import prims 
+from omni.isaac.core.utils import stage
+from omni.isaac.core.utils.rotations import euler_angles_to_quat
+import omni
+from rclpy.qos import QoSProfile
 from isaacsim_msgs.srv import ImportObstacles
 import os
 import numpy as np
+from pxr import Sdf
+
+profile = QoSProfile(depth=200)
+
 
 def obstacle_importer(request, response):
     name = request.name
@@ -12,20 +17,20 @@ def obstacle_importer(request, response):
     position = request.position
     orientation = request.orientation
     
+    model_prim = prims.create_prim(
+    prim_path=f"/World/{name}",
+    position=np.array(position),
+    orientation=euler_angles_to_quat(orientation),
+    usd_path=os.path.abspath(usd_path),
+    )    
 
-    add_reference_to_stage(usd_path=os.path.abspath(usd_path), prim_path=f"/World/{name}")
-
-    model_prim = XFormPrim(
-        prim_path=f"/World/{name}",
-        position=np.array(position),
-        orientation=np.array(orientation),
-    )
     response.ret = True
     
     return response
     
 def import_obstacle(controller):
     service = controller.create_service(srv_type=ImportObstacles, 
+                        qos_profile=profile,
                         srv_name='isaac/import_obstacle', 
                         callback=obstacle_importer)
     return service

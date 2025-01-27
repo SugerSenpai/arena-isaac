@@ -24,7 +24,7 @@ import omni.usd
 from omni.isaac.core.utils import prims
 from omni.isaac.core.utils.rotations import euler_angles_to_quat
 from omni.isaac.core.utils.stage import get_current_stage, open_stage
-from pxr import Gf
+from pxr import Gf, UsdLux, Sdf
 import random
 
 #Import world generation dependencies
@@ -55,12 +55,22 @@ from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, pub
 # BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
+world.scene.add_ground_plane(size=10000)
 extensions.enable_extension("omni.isaac.ros2_bridge")
 simulation_app.update() #update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
-
+light_1 = prims.create_prim(
+    "/World/Light_1",
+    "DomeLight",
+    position=np.array([1.0, 1.0, 1.0]),
+    attributes={
+        "inputs:texture:format": "latlong",
+        "inputs:intensity": 1000.0,
+        "inputs:color": (1.0, 1.0, 1.0)
+    }
+)
 assets_root_path = get_assets_root_path()
-print(assets_root_path)
+
 # stage.add_reference_to_stage(assets_root_path, BACKGROUND_USD_PATH)
 
 # Setting up URDF importer.
@@ -216,7 +226,6 @@ def run():
 #======================================main=======================================
 def main(arg=None):
     rclpy.init()
-    world.scene.add_default_ground_plane()
     controller = create_controller()
     while True:
         run()

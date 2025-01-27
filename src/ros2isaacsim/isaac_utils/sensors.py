@@ -54,7 +54,6 @@ def publish_lidar(name,prim_path,lidar):
 
             ],
             keys.SET_VALUES: [
-                ("Context.inputs:domain_id", 30),
                 ("RenderProduct.inputs:cameraPrim", lidar_prim_path),
                 ("LidarPublisher.inputs:topicName", f"{name}/lidar_scan"),
                 ("LidarPublisher.inputs:frameId", f"base_scan"),               
@@ -72,11 +71,13 @@ def publish_lidar(name,prim_path,lidar):
                 ("OnPlaybackTick.outputs:tick", "RunOnce.inputs:execIn"),
                 ("OnPlaybackTick.outputs:tick", "publishTF.inputs:execIn"),
                 ("readSimTime.outputs:simulationTime", "publishTF.inputs:timeStamp"),
-                ("RenderProduct.outputs:execOut","LidarPublisher.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick","LidarPublisher.inputs:execIn"),
+                ("OnPlaybackTick.outputs:tick","LidarPointCloudPublisher.inputs:execIn"),
                 ("RenderProduct.outputs:renderProductPath","LidarPublisher.inputs:renderProductPath"),
                 ("Context.outputs:context","LidarPublisher.inputs:context"),
                 ("Context.outputs:context","publishTF.inputs:context"),
                 ("RunOnce.outputs:step", "RenderProduct.inputs:execIn"),
+                ("RenderProduct.outputs:execOut","LidarPublisher.inputs:execIn"),
                 ("RenderProduct.outputs:execOut","LidarPointCloudPublisher.inputs:execIn"),
                 ("RenderProduct.outputs:renderProductPath","LidarPointCloudPublisher.inputs:renderProductPath"),
                 ("Context.outputs:context","LidarPointCloudPublisher.inputs:context"),
@@ -130,7 +131,6 @@ def publish_contact_sensor_info(name, prim_path,link, contact_sensor: ContactSen
                 ("ROS2Publisher", "omni.isaac.ros2_bridge.ROS2Publisher"), # ROS2Publisher setup
             ],
             og.Controller.Keys.SET_VALUES: [
-                ("ROS2Context.inputs:domain_id", 30),
                 ("ReadContactSensor.inputs:csPrim", contact_sensor_prim),
                 ("ROS2Publisher.inputs:topicName", f"{name}/{link}/contact_sensor_data"),        # Set topic name
                 ("ROS2Publisher.inputs:messagePackage", "isaacsim_msgs"),              # Message package

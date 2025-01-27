@@ -1,6 +1,6 @@
 string name
 string usd_path
 float32[3] position [0, 0, 0]
-float32[4] orientation [1, 0, 0, 0]
+float32[3] orientation [0, 0, 0]
 ---
 bool ret
