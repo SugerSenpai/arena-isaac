@@ -8,7 +8,7 @@ from omni.isaac.core.utils.rotations import euler_angles_to_quat, quat_to_euler_
 from omni.isaac.core.objects import DynamicCuboid, sphere, capsule, FixedCuboid
 from omni.isaac.core import World
 
-profile = QoSProfile(depth=200)
+profile = QoSProfile(depth=2000)
 def wall_spawner(request,response):
     #Get service attributes
     name = request.name

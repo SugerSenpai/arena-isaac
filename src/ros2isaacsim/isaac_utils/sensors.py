@@ -9,37 +9,241 @@ import omni.syntheticdata._syntheticdata as sd
 import omni.isaac.core.utils.numpy.rotations as rot_utils
 import omni.kit.commands as commands
 from pxr import Gf
+from sensor_msgs.msg import PointCloud2, PointField
+from geometry_msgs.msg import TransformStamped
+from sensor_msgs_py import point_cloud2
+from tf2_ros import TransformBroadcaster
+from rclpy.node import Node
+import subprocess
+import time
 from omni.isaac.core.utils.prims import is_prim_path_valid, get_prim_at_path
 extensions.enable_extension("omni.isaac.ros2_bridge")
 
 from omni.isaac.ros2_bridge import read_camera_info
 
 
+class LidarDataPublisher(Node):
+    def __init__(self, env, num_envs=1, lidar_config="Hesai_XT32_SD10"):
+        """
+        Initializes the LidarDataPublisher node.
+
+        :param env: The simulation environment.
+        :param num_envs: Number of robotic environments.
+        :param lidar_config: Configuration name for the LiDAR sensor.
+        """
+        super().__init__("lidar_data_publisher")
+        self.create_ros_time_graph()
+        self.env = env
+        self.num_envs = num_envs
+        self.lidar_config = lidar_config
+        self.lidar_annotators = []
+        self.lidar_publishers = []
+        
+        # Initialize Transform Broadcaster
+        self.broadcaster = TransformBroadcaster(self)
+        self.static_broadcaster = TransformBroadcaster(self)  # For static transforms
+        
+        # Initialize ROS2 Publishers and Annotators
+        self.initialize_publishers_and_lidars()
+        
+        # Initialize Timers
+        self.lidar_freq = 15.0  # Hz
+        self.lidar_timer = self.create_timer(1.0 / self.lidar_freq, self.publish_lidar_data)
+        
+        # Set ROS2 node to use simulation time
+        self.set_use_sim_time()
+        
+        # Create Static Transforms for LiDAR Frames
+        self.create_static_transforms()
+    
+    def create_ros_time_graph(self):
+        og.Controller.edit(
+            {"graph_path": "/ClockGraph", "evaluator_name": "execution"},
+            {
+                og.Controller.Keys.CREATE_NODES: [
+                    ("ReadSimTime", "omni.isaac.core_nodes.IsaacReadSimulationTime"),
+                    ("PublishClock", "omni.isaac.ros2_bridge.ROS2PublishClock"),
+                    ("OnPlayBack", "omni.graph.action.OnPlaybackTick"),
+                ],
+                og.Controller.Keys.CONNECT: [
+                    ("OnPlayBack.outputs:tick", "PublishClock.inputs:execIn"),
+                    ("ReadSimTime.outputs:simulationTime", "PublishClock.inputs:timeStamp"),
+                ],
+                og.Controller.Keys.SET_VALUES: [
+                    ("PublishClock.inputs:topicName", "/clock"),
+                ],
+            },
+        )
+
+    
+    def set_use_sim_time(self):
+        """
+        Configures the ROS2 node to use simulation time.
+        """
+        # Define the command as a list
+        command = ["ros2", "param", "set", "/lidar_data_publisher", "use_sim_time", "true"]
+
+        # Run the command in a non-blocking way
+        subprocess.Popen(command)
+        self.get_logger().info("Configured ROS2 node to use simulation time.")
+    
+    def initialize_publishers_and_lidars(self):
+        """
+        Initializes ROS2 publishers and LiDAR sensors with their annotators.
+        Ensures synchronization between publishers and annotators.
+        """
+        for env_idx in range(self.num_envs):
+            # Define the LiDAR sensor path
+            if self.num_envs == 1:
+                lidar_path = f"/World/envs/env_{env_idx}/Robot/left_shoulder_yaw_link/lidar"
+                topic_name = "Robot/lidar/point_cloud"
+                frame_id = "Robot/lidar_frame"
+            else:
+                lidar_path = f"/World/envs/env_{env_idx}/Robot/left_shoulder_yaw_link/lidar_{env_idx}"
+                topic_name = f"Robot_{env_idx}/lidar/point_cloud"
+                frame_id = f"Robot_{env_idx}/lidar_frame"
+            
+            # Create LiDAR sensor
+            result, sensor = omni.kit.commands.execute(
+                "IsaacSensorCreateRtxLidar",
+                path="Lidar",
+                parent=f"/World/envs/env_{env_idx}/Robot/left_shoulder_yaw_link",
+                config=self.lidar_config,
+                translation=(0.2, 0, 0.2),
+                orientation=Gf.Quatd(1.0, 0.0, 0.0, 0.0),  # w, x, y, z
+            )
+            
+            if not result:
+                self.get_logger().error(f"Failed to create LiDAR sensor at {lidar_path}")
+                continue  # Skip to the next environment
+            
+            # Create a ROS2 publisher for PointCloud2 messages
+            publisher = self.create_publisher(PointCloud2, topic_name, 10)
+            self.lidar_publishers.append((publisher, frame_id))
+            self.get_logger().info(f"Initialized LiDAR publisher on topic: {topic_name}")
+            
+            # Create Render Product
+            render_product = rep.create.render_product(sensor.GetPath(), [1, 1], name="Isaac")
+            
+            # Attach Annotator
+            annotator = rep.AnnotatorRegistry.get_annotator("RtxSensorCpuIsaacCreateRTXLidarScanBuffer")
+            if annotator is None:
+                self.get_logger().error(f"Failed to retrieve LiDAR annotator for {lidar_path}")
+                # Remove the publisher since annotator is unavailable
+                self.lidar_publishers.pop()
+                continue  # Skip to the next environment
+            
+            annotator.attach(render_product.path)
+            self.lidar_annotators.append(annotator)
+            self.get_logger().info(f"Attached annotator to LiDAR at {lidar_path}")
+    
+    def create_static_transforms(self):
+        """
+        Publishes static transforms for each LiDAR frame.
+        """
+        for i in range(len(self.lidar_publishers)):
+            publisher, frame_id = self.lidar_publishers[i]
+            
+            # Determine parent frame based on environment
+            if self.num_envs == 1:
+                parent_frame = "Robot/base_link"
+                child_frame = "Robot/lidar_frame"
+            else:
+                parent_frame = f"Robot_{i}/base_link"
+                child_frame = f"Robot_{i}/lidar_frame"
+            
+            # Define the static transform
+            static_transform = TransformStamped()
+            static_transform.header.stamp = self.get_clock().now().to_msg()
+            static_transform.header.frame_id = parent_frame
+            static_transform.child_frame_id = child_frame
+            
+            # Set translation relative to the base_link
+            static_transform.transform.translation.x = 0.2
+            static_transform.transform.translation.y = 0.0
+            static_transform.transform.translation.z = 0.2
+            
+            # Set rotation (identity quaternion)
+            static_transform.transform.rotation.x = 0.0
+            static_transform.transform.rotation.y = 0.0
+            static_transform.transform.rotation.z = 0.0
+            static_transform.transform.rotation.w = 1.0
+            
+            # Broadcast the static transform
+            self.static_broadcaster.sendTransform(static_transform)
+            self.get_logger().info(f"Published static transform from {parent_frame} to {child_frame}")
+    
+    def publish_lidar_data(self):
+        """
+        Retrieves LiDAR data from annotators and publishes as PointCloud2 messages.
+        """
+        for i in range(len(self.lidar_publishers)):
+            annotator = self.lidar_annotators[i]
+            publisher, frame_id = self.lidar_publishers[i]
+            
+            # Retrieve LiDAR data
+            data = annotator.get_data()
+            if data is None or "data" not in data:
+                self.get_logger().warn(f"No data available from LiDAR annotator {i}")
+                continue
+            
+            points = data["data"].reshape(-1, 3)  # Ensure shape is (N, 3)
+            
+            if points.size == 0:
+                self.get_logger().warn(f"No LiDAR points to publish for environment {i}")
+                continue
+            
+            # Create PointCloud2 message
+            point_cloud_msg = PointCloud2()
+            point_cloud_msg.header.stamp = self.get_clock().now().to_msg()
+            point_cloud_msg.header.frame_id = frame_id
+            point_cloud_msg.height = 1
+            point_cloud_msg.width = points.shape[0]
+            point_cloud_msg.is_dense = False
+            point_cloud_msg.is_bigendian = False
+            point_cloud_msg.fields = [
+                PointField(name='x', offset=0, datatype=PointField.FLOAT32, count=1),
+                PointField(name='y', offset=4, datatype=PointField.FLOAT32, count=1),
+                PointField(name='z', offset=8, datatype=PointField.FLOAT32, count=1),
+            ]
+            point_cloud_msg.point_step = 12  # 3 * 4 bytes
+            point_cloud_msg.row_step = point_cloud_msg.point_step * points.shape[0]
+            point_cloud_msg.data = points.astype(float).tobytes()
+            
+            # Publish the PointCloud2 message
+            publisher.publish(point_cloud_msg)
+            self.get_logger().debug(f"Published LiDAR PointCloud2 message for environment {i} with {points.shape[0]} points")
+
+
 #Lidar
 def lidar_setup(prim_path, name):
-    prim = Articulation(prim_path = prim_path)
-    pos, ori = prim.get_world_pose()
-    # _, lidar = commands.execute(
-    # "IsaacSensorCreateRtxLidar",
-    # path= prim_path + "/" + name,
-    # parent=None,
-    # config="Example_Rotary",
-    # # translation=pos,
-    # # orientation=Gf.Quatd(ori),
-    # )
-    lidar = LidarRtx(
-        prim_path = prim_path + "/Lidar",
-        name = name,
-        config_file_name = 'Simple_Example_Solid_State',
+    _, lidar = commands.execute(
+    "IsaacSensorCreateRtxLidar",
+    path= prim_path + "/" + name,
+    parent=None,
+    config="Example_Rotary",
     )
+    # _, lidar = omni.kit.commands.execute(
+    #     "IsaacSensorCreateRtxLidar",
+    #     path="/lidar",
+    #     parent=prim_path,
+    #     config="Hesai_XT32_SD10",
+    #     # config="Velodyne_VLS128",
+    #     translation=(0.2, 0, 0.2),
+    #     orientation=Gf.Quatd(1.0, 0.0, 0.0, 0.0),  # Gf.Quatd is w,i,j,k
+    # )
+    # lidar = LidarRtx(
+    #     prim_path = prim_path + "/Lidar",
+    #     name = name,
+    #     config_file_name = 'Temp_Config_0',
+    # )
     return lidar
 
 def publish_lidar(name,prim_path,lidar):
     lidar_prim_path = lidar.prim_path
-    print(lidar_prim_path)
     keys = og.Controller.Keys
     (graph_handle, nodes, _, _) = og.Controller.edit(
-        {"graph_path": f"{prim_path}/Lidar"},
+        {"graph_path": f"{prim_path}/Lidar_Graph"},
         {
             keys.CREATE_NODES: [
                 ("OnPlaybackTick", "omni.graph.action.OnPlaybackTick"),
@@ -65,19 +269,16 @@ def publish_lidar(name,prim_path,lidar):
                 # ("publishTF.inputs:topicName", f"{name}/tf"),
 
 
-
             ],
             keys.CONNECT: [
                 ("OnPlaybackTick.outputs:tick", "RunOnce.inputs:execIn"),
                 ("OnPlaybackTick.outputs:tick", "publishTF.inputs:execIn"),
                 ("readSimTime.outputs:simulationTime", "publishTF.inputs:timeStamp"),
-                ("OnPlaybackTick.outputs:tick","LidarPublisher.inputs:execIn"),
-                ("OnPlaybackTick.outputs:tick","LidarPointCloudPublisher.inputs:execIn"),
+                ("RenderProduct.outputs:execOut","LidarPublisher.inputs:execIn"),
                 ("RenderProduct.outputs:renderProductPath","LidarPublisher.inputs:renderProductPath"),
                 ("Context.outputs:context","LidarPublisher.inputs:context"),
                 ("Context.outputs:context","publishTF.inputs:context"),
                 ("RunOnce.outputs:step", "RenderProduct.inputs:execIn"),
-                ("RenderProduct.outputs:execOut","LidarPublisher.inputs:execIn"),
                 ("RenderProduct.outputs:execOut","LidarPointCloudPublisher.inputs:execIn"),
                 ("RenderProduct.outputs:renderProductPath","LidarPointCloudPublisher.inputs:renderProductPath"),
                 ("Context.outputs:context","LidarPointCloudPublisher.inputs:context"),
@@ -89,18 +290,11 @@ def publish_lidar(name,prim_path,lidar):
 
     # hydra_texture = rep.create.render_product(lidar.GetPath(), [1, 1], name="Isaac")
 
-    # writer = rep.writers.get("RtxLidar" + "ROS2PublishPointCloud")
-    # writer.initialize(topicName=f"{name}/lidar_point_cloud", frameId="sim_lidar")
-    # writer.attach([hydra_texture])
-
-    # # Create the debug draw pipeline in the post process graph
-    # writer = rep.writers.get("RtxLidar" + "DebugDrawPointCloud" + "Buffer")
-    # writer.attach([hydra_texture])
-
-    # # Create LaserScan publisher pipeline in the post process graph
-    # writer = rep.writers.get("RtxLidar" + "ROS2PublishLaserScan")
+    # annotator = rep.AnnotatorRegistry.get_annotator("RtxSensorCpuIsaacCreateRTXLidarScanBuffer")
+    # annotator.attach(hydra_texture)
+    # writer = rep.writers.get("RtxLidarDebugDrawPointCloudBuffer")
     # writer.initialize(topicName=f"{name}/lidar_scan", frameId="sim_lidar")
-    # writer.attach([hydra_texture])
+    # writer.attach(hydra_texture)
 
     return
 
@@ -131,6 +325,7 @@ def publish_contact_sensor_info(name, prim_path,link, contact_sensor: ContactSen
                 ("ROS2Publisher", "omni.isaac.ros2_bridge.ROS2Publisher"), # ROS2Publisher setup
             ],
             og.Controller.Keys.SET_VALUES: [
+                ("ROS2Context.inputs:domain_id", 1),
                 ("ReadContactSensor.inputs:csPrim", contact_sensor_prim),
                 ("ROS2Publisher.inputs:topicName", f"{name}/{link}/contact_sensor_data"),        # Set topic name
                 ("ROS2Publisher.inputs:messagePackage", "isaacsim_msgs"),              # Message package
@@ -201,7 +396,7 @@ def publish_imu(name,prim_path,link,imu):
             ],
             # Set the node parameters
             og.Controller.Keys.SET_VALUES: [
-                ("ROS2Context.inputs:domain_id", 30),  # Set the ROS2 domain ID
+                ("ROS2Context.inputs:domain_id", 1),  # Set the ROS2 domain ID
                 ("IsaacReadIMU.inputs:imuPrim", imu_sensor_prim_path),  # Set the IMU sensor prim path
                 ("ROS2PublishImu.inputs:topicName", f"{name}/{link}/imu_data"),  # ROS2 topic name
                 ("ROS2PublishImu.inputs:frameId", "imu_link"),  # Frame ID for the ROS2 message

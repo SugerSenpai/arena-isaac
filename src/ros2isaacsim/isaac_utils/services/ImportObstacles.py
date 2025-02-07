@@ -8,7 +8,7 @@ import os
 import numpy as np
 from pxr import Sdf
 
-profile = QoSProfile(depth=200)
+profile = QoSProfile(depth=2000)
 
 
 def obstacle_importer(request, response):
