@@ -8,14 +8,11 @@ parent_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0,str(parent_dir))
 from yaml_utils import read_yaml_config
 
-
 def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path
-    # config_path = request.config_path
         
     status, import_config = commands.execute("URDFCreateImportConfig")
-    print(import_config)
     import_config.set_merge_fixed_joints(False)
     import_config.set_convex_decomp(False)
     import_config.set_import_inertia_tensor(False)

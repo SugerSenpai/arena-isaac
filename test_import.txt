@@ -8,7 +8,7 @@ ros2 service call isaac/delete_prim isaacsim_msgs/srv/DeletePrim "{'name': 'waff
 
 ros2 service call isaac/get_prim_attributes isaacsim_msgs/srv/GetPrimAttributes "{'name': 'waffle', 'prim_path': '/World/waffle'}"
 
-ros2 service call isaac/move_prim isaacsim_msgs/srv/MovePrim "{name: 'waffle', prim_path: '/World/waffle', values: [{values: [-2.0, 0.0, 5.0]}, {values: [2.0, 0.0, 0.0, 1.0]}]}"
+ros2 service call isaac/move_prim isaacsim_msgs/srv/MovePrim "{name: 'jackal', prim_path: '/jackal', values: [{values: [-2.0, 0.0, 5.0]}, {values: [0.0, 0.0, 0.0]}]}"
 
 ros2 service call isaac/scale_prim isaacsim_msgs/srv/ScalePrim "{name: 'waffle', prim_path: '/World/waffle', values: [{values: [2.0, 2.0, 2.0]}]}"
 
