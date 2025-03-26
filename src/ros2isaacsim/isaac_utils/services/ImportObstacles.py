@@ -16,7 +16,6 @@ def obstacle_importer(request, response):
     usd_path = request.usd_path
     position = request.position
     orientation = request.orientation
-    
     model_prim = prims.create_prim(
     prim_path=f"/World/{name}",
     position=np.array(position),
