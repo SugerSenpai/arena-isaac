@@ -1,4 +1,12 @@
+# python
+__pycache__/
+*.py[cod]
+
+
+# ide
 .vscode/
+
+# build
 log
 install
 build
