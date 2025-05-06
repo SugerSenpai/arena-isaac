@@ -20,4 +20,4 @@ ros2 topic pub --once waffle/cmd_vel geometry_msgs/Twist "{'linear': {'x': 0.0, 
 
 ros2 service call isaac/import_yaml isaacsim_msgs/srv/ImportYaml '{'yaml_path': '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/demo.yaml'}'
 
-ros2 service call isaac/import_obstacle isaacsim_msgs/srv/ImportObstacles '{name: 'shelf', usd_path: '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/shelf.usd' }'
+ros2 service call isaac/import_obstacle isaacsim_msgs/srv/ImportObstacles '{name: 'shelf', usd_path: '/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/shelf.usd','position': [0, 0, 0], 'orientation': [1, 0, 0] }'
