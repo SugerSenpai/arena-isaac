@@ -1,4 +1,7 @@
 string name
 string urdf_path
+bool no_localization
+string base_frame
+string odom_frame
 ---
 string usd_path
