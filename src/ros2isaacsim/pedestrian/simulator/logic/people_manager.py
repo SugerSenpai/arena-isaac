@@ -1,14 +1,15 @@
-import carb
 from threading import Lock
 
+import carb
 import omni.kit.commands
+
 
 class PeopleManager:
     """The PeopleManager class is implemented following a singleton pattern. This means that once a person is spawned
     on the world or an instance of the PeopleManager is created, no either will be running at the same time.
 
     This class keeps track of all the people that are spawned in the simulation world, either trough the extension UI
-    or via Python script. Every time a new person object is created, the 'add_person' method is invoked. Additionally, 
+    or via Python script. Every time a new person object is created, the 'add_person' method is invoked. Additionally,
     a person is removed, i.e. 'remove_person' gets invoked, every time the '__del__' function of the "Person" object
     gets invoked.
     """
@@ -16,7 +17,7 @@ class PeopleManager:
     # The object instance of the people Manager
     _instance = None
     _is_initialized = False
-    
+
     # A dictionary of people that are spawned in the simulator
     _people = {}
 
@@ -47,12 +48,12 @@ class PeopleManager:
     Operations
     """
 
-    @staticmethod
-    def get_people_manager():
+    @classmethod
+    def get_people_manager(cls) -> "PeopleManager":
         """
         Method that returns the current people manager.
         """
-        return PeopleManager()
+        return cls()
 
     def add_person(self, stage_prefix: str, person):
         """
@@ -85,7 +86,7 @@ class PeopleManager:
         """
         try:
             PeopleManager._people.pop(stage_prefix)
-        except:
+        except BaseException:
             pass
 
     def remove_all_people(self):
@@ -95,7 +96,8 @@ class PeopleManager:
 
         PeopleManager._people.clear()
 
-    def rebuild_nav_mesh(height=1.5, radius=35.0, auto_rebake_on_changes=False, auto_rebake_delay_seconds=4, exclude_rigid_bodies=False, view_nav_mesh=False, dynamic_avoidance_enabled=True, navmesh_enabled=True):
+    @classmethod
+    def rebuild_nav_mesh(cls, height=1.5, radius=35.0, auto_rebake_on_changes=False, auto_rebake_delay_seconds=4, exclude_rigid_bodies=False, view_nav_mesh=False, dynamic_avoidance_enabled=True, navmesh_enabled=True):
         """
         Rebuild the navmesh with the correct settings. Used for the people to move around.
         Called only when the sim with people is requested.
@@ -157,7 +159,7 @@ class PeopleManager:
             else:
                 carb.log_info("People Manager is defined already, returning the previously defined one")
 
-            return PeopleManager._instance
+            return cls._instance
 
     def __del__(self):
         """Destructor for the object"""
