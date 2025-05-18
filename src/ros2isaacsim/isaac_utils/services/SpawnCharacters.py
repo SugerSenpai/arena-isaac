@@ -1,14 +1,17 @@
-import numpy as np
 import carb
+import numpy as np
+import omni.anim.navigation.core as nav
+from omni.isaac.core import World
 from pedestrian.simulator.logic.people.person import Person
 from rclpy.qos import QoSProfile
+
 from isaacsim_msgs.srv import Pedestrian
-from omni.isaac.core import World
-import omni.anim.navigation.core as nav
 
 profile = QoSProfile(depth=2000)
-def pedestrian_spawn(request,response):
-    #Get service attributes
+
+
+def pedestrian_spawn(request, response):
+    # Get service attributes
     world = World.instance()
     people = request.people
     for person in people:
@@ -29,9 +32,12 @@ def pedestrian_spawn(request,response):
     response.ret = True
     return response
 
+
 def spawn_ped(controller):
-    service = controller.create_service(srv_type=Pedestrian, 
-                        qos_profile = profile,
-                        srv_name='isaac/spawn_pedestrian', 
-                        callback=pedestrian_spawn)
+    service = controller.create_service(
+        srv_type=Pedestrian,
+        qos_profile=profile,
+        srv_name='isaac/spawn_pedestrian',
+        callback=pedestrian_spawn
+    )
     return service

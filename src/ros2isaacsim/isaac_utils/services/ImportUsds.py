@@ -1,19 +1,26 @@
-from omni.isaac.core.utils.prims import set_prim_attribute_value
-from isaacsim_msgs.srv import ImportUsd
+import os
+
 import numpy as np
+from isaac_utils.utils import xform
+from omni.isaac.core.utils.prims import set_prim_attribute_value
+
+from isaacsim_msgs.srv import ImportUsd
+
+
 def usd_importer(stage, request, response):
     name = request.name
     usd_path = request.usd_path
-    prim_path = request.prim_path + "/" + name
-    position = request.position
-    orientation = request.orientation
+    prim_path = os.path.join(request.prim_path, name)
     stage.add_reference_to_stage(usd_path, prim_path)
-    set_prim_attribute_value(prim_path, attribute_name="xformOp:translate", value=np.array(position))
-    set_prim_attribute_value(prim_path, attribute_name="xformOp:orient", value=np.array(orientation))
+    set_prim_attribute_value(prim_path, attribute_name="xformOp:translate", value=np.array(xform.Translation.parse(request.pose.position).tuple))
+    set_prim_attribute_value(prim_path, attribute_name="xformOp:orient", value=np.array(xform.Rotation.parse(request.pose.orientation).euler))
     response.ret = True
-    
+
+
 def import_usd(controller):
-    service = controller.create_service(srv_type=ImportUsd, 
-                        srv_name='isaac/import_usd', 
-                        callback=usd_importer)
+    service = controller.create_service(
+        srv_type=ImportUsd,
+        srv_name='isaac/import_usd',
+        callback=usd_importer
+    )
     return service

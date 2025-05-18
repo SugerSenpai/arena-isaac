@@ -1,3 +1,36 @@
+from isaac_utils.sensors import imu_setup, publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up, publish_camera_tf, publish_depth, publish_camera_info, publish_pointcloud_from_depth, publish_rgb, lidar_setup, publish_lidar
+from isaac_utils.sensors import imu_setup, publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up, publish_camera_tf, publish_depth, publish_camera_info, publish_pointcloud_from_depth, publish_rgb, lidar_setup, publish_lidar, LidarDataPublisher
+from omni.isaac.lab.assets import AssetBaseCfg  # , ArticulationCfg
+import omni.replicator.core as rep
+from isaac_utils.utils.assets import get_assets_root_path_safe
+from omni.isaac.core.utils.prims import define_prim, get_prim_at_path
+from omni.isaac.lab.sensors import CameraCfg, ContactSensorCfg, RayCasterCfg, patterns
+from omni.isaac.lab.utils.assets import ISAACLAB_NUCLEUS_DIR
+from omni.isaac.lab.utils import configclass
+from omni.isaac.lab.managers import TerminationTermCfg as DoneTerm
+from omni.isaac.lab.managers import SceneEntityCfg
+from omni.isaac.lab.managers import RewardTermCfg as RewTerm
+from omni.isaac.lab.managers import ObservationTermCfg as ObsTerm
+from omni.isaac.lab.managers import ObservationGroupCfg as ObsGroup
+from omni.isaac.lab.managers import EventTermCfg as EventTerm
+from omni.isaac.lab.scene import InteractiveScene, InteractiveSceneCfg
+from omni.isaac.lab.envs import mdp
+from omni.isaac.lab.envs import ManagerBasedRLEnvCfg
+from omni.isaac.lab.assets import ArticulationCfg
+from omni.isaac.lab.actuators import ImplicitActuatorCfg
+import omni.isaac.lab.sim as sim_utils
+from omni.isaac.lab.envs import ManagerBasedRLEnv
+import omni.isaac.core.utils.numpy.rotations as rot_utils
+from omni.isaac.sensor import Camera
+import rclpy
+import numpy as np
+import omni
+from pxr import Gf
+import os
+import math
+import torch
+import sys
+from pathlib import Path
 import argparse
 
 from omni.isaac.lab.app import AppLauncher
@@ -10,55 +43,21 @@ parser.add_argument("--num_envs", type=int, default=128, help="Number of environ
 AppLauncher.add_app_launcher_args(parser)
 # parse the arguments
 args_cli = parser.parse_args()
-from pathlib import Path
-import sys
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(parent_dir))
 # launch omniverse app
 app_launcher = AppLauncher(args_cli)
 simulation_app = app_launcher.app
 
-#import math
-import torch
-import math
-import os
-from pxr import Gf
-import omni
-import numpy as np
-import rclpy
-from omni.isaac.sensor import Camera
-import omni.isaac.core.utils.numpy.rotations as rot_utils
-from omni.isaac.lab.envs import ManagerBasedRLEnv
-import omni.isaac.lab.sim as sim_utils
-from omni.isaac.lab.actuators import ImplicitActuatorCfg
-from omni.isaac.lab.assets import ArticulationCfg
-from omni.isaac.lab.assets import AssetBaseCfg#, ArticulationCfg
-from omni.isaac.lab.envs import ManagerBasedRLEnvCfg
-from omni.isaac.lab.envs import mdp
-# 
-from omni.isaac.lab.scene import InteractiveScene, InteractiveSceneCfg
-from omni.isaac.lab.managers import EventTermCfg as EventTerm
-from omni.isaac.lab.managers import ObservationGroupCfg as ObsGroup
-from omni.isaac.lab.managers import ObservationTermCfg as ObsTerm
-from omni.isaac.lab.managers import RewardTermCfg as RewTerm
-from omni.isaac.lab.managers import SceneEntityCfg
-from omni.isaac.lab.managers import TerminationTermCfg as DoneTerm
-from omni.isaac.lab.utils import configclass
-from omni.isaac.lab.utils.assets import ISAACLAB_NUCLEUS_DIR
-from omni.isaac.lab.sensors import CameraCfg, ContactSensorCfg, RayCasterCfg, patterns
-from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar, LidarDataPublisher 
-from omni.isaac.core.utils.prims import define_prim, get_prim_at_path
-from omni.isaac.nucleus import get_assets_root_path
-import omni.replicator.core as rep
+# import math
+#
 
-from pathlib import Path
-import sys
+
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.append(str(parent_dir))
 
-from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
-def setup_sensors(prim_path,name):
+def setup_sensors(prim_path, name):
     camera_prim_path = prim_path
     camera = camera_set_up(camera_prim_path, "Camera")
     camera.initialize()
@@ -66,8 +65,8 @@ def setup_sensors(prim_path,name):
     publish_depth(name, camera, 20)
     publish_rgb(name, camera, 20)
     publish_pointcloud_from_depth(name, camera, 20)
-    publish_camera_tf(name,prim_path,camera)
-    # lidar_prim_path = prim_path 
+    publish_camera_tf(name, prim_path, camera)
+    # lidar_prim_path = prim_path
     # lidar = lidar_setup(lidar_prim_path, "Lidar")
     # publish_lidar(name, prim_path, lidar)
 
@@ -153,17 +152,18 @@ H1_CFG = ArticulationCfg(
     },
 )
 
+
 @configclass
 class UnitreeSceneCfg(InteractiveSceneCfg):
-    #ground
+    # ground
     ground = AssetBaseCfg(
-        prim_path = "/World/ground",
+        prim_path="/World/ground",
         spawn=sim_utils.GroundPlaneCfg(size=(100, 100)),
     )
 
     robot: ArticulationCfg = H1_CFG.replace(prim_path="{ENV_REGEX_NS}/Robot")
 
-    #light
+    # light
     dome_light = AssetBaseCfg(
         prim_path="/World/DomeLight",
         spawn=sim_utils.DomeLightCfg(color=(0.9, 0.9, 0.9), intensity=500.0),
@@ -176,16 +176,18 @@ class UnitreeSceneCfg(InteractiveSceneCfg):
 
     height_scanner = RayCasterCfg(
         prim_path="{ENV_REGEX_NS}/Robot/joints",
-        offset=RayCasterCfg.OffsetCfg(pos=(0.0, 0.0, 20)), 
+        offset=RayCasterCfg.OffsetCfg(pos=(0.0, 0.0, 20)),
         attach_yaw_only=True,
-        pattern_cfg=patterns.GridPatternCfg(resolution=0.1, size=[1.6, 1.0]), 
+        pattern_cfg=patterns.GridPatternCfg(resolution=0.1, size=[1.6, 1.0]),
         debug_vis=False,
         mesh_prim_paths=["/World/ground"],
     )
 
+
 @configclass
 class ActionsCfg:
     joint_pos = mdp.JointPositionActionCfg(asset_name="robot", joint_names=[".*"], scale=0.5, use_default_offset=True)
+
 
 @configclass
 class ObservationsCfg:
@@ -203,13 +205,14 @@ class ObservationsCfg:
         height_scan = ObsTerm(func=mdp.height_scan,
                               params={"sensor_cfg": SceneEntityCfg("height_scanner")},
                               clip=(-1.0, 1.0))
-        
+
         def __post_init__(self) -> None:
             self.enable_corruption = False
             self.concatenate_terms = True
 
     # observation groups
     policy: PolicyCfg = PolicyCfg()
+
 
 @configclass
 class EventCfg:
@@ -231,8 +234,9 @@ class RewardsCfg:
         func=mdp.base_height_l2,
         weight=1.0,
         params={"asset_cfg": SceneEntityCfg("robot"), "target_height": 0.828},
-        )
-    
+    )
+
+
 @configclass
 class TerminationsCfg:
     """Termination terms for the MDP."""
@@ -248,8 +252,9 @@ class TerminationsCfg:
     '''
     robot_on_the_ground = DoneTerm(
         func=mdp.bad_orientation,
-        params={"asset_cfg": SceneEntityCfg("robot"), "limit_angle": math.pi/3},
-    )    
+        params={"asset_cfg": SceneEntityCfg("robot"), "limit_angle": math.pi / 3},
+    )
+
 
 @configclass
 class CommandsCfg:
@@ -258,11 +263,13 @@ class CommandsCfg:
     # no commands for this MDP
     null = mdp.NullCommandCfg()
 
+
 @configclass
 class CurriculumCfg:
     """Configuration for the curriculum."""
 
     pass
+
 
 @configclass
 class UnitreeEnvCfg(ManagerBasedRLEnvCfg):
@@ -298,19 +305,23 @@ class UnitreeEnvCfg(ManagerBasedRLEnvCfg):
 
         if self.scene.height_scanner is not None:
             self.scene.height_scanner.update_period = self.decimation * self.sim.dt
+
+
 def create_office_env():
-    assets_root_path = get_assets_root_path()
+    assets_root_path = get_assets_root_path_safe()
     prim = get_prim_at_path("/World/Office")
     prim = define_prim("/World/Office", "Xform")
-    asset_path = assets_root_path+"/Isaac/Environments/Office/office.usd"
+    asset_path = assets_root_path + "/Isaac/Environments/Office/office.usd"
     prim.GetReferences().AddReference(asset_path)
 
+
 def create_warehouse_env():
-    assets_root_path = get_assets_root_path()
+    assets_root_path = get_assets_root_path_safe()
     prim = get_prim_at_path("/World/Warehouse")
     prim = define_prim("/World/Warehouse", "Xform")
-    asset_path = assets_root_path+"/Isaac/Environments/Simple_Warehouse/warehouse.usd"
+    asset_path = assets_root_path + "/Isaac/Environments/Simple_Warehouse/warehouse.usd"
     prim.GetReferences().AddReference(asset_path)
+
 
 def main():
     """Main function."""
@@ -322,7 +333,7 @@ def main():
     for i in range(8):
         prim_path = f"/World/envs/env_{i}/Robot/left_shoulder_yaw_link"
         name = f"Robot_{i}"
-        setup_sensors(prim_path,name)
+        setup_sensors(prim_path, name)
     # create_warehouse_env()
     # simulate physics
     count = 0
@@ -351,6 +362,7 @@ def main():
 
     # close the environment
     env.close()
+
 
 if __name__ == "__main__":
     # run the main function

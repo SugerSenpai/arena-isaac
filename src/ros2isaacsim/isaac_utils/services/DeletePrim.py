@@ -4,7 +4,6 @@ from isaacsim_msgs.srv import DeletePrim
 
 
 def prim_deleter(request, response):
-    name = request.name
     prim_path = request.prim_path
     commands.execute(
         "IsaacSimDestroyPrim",

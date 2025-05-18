@@ -2,5 +2,6 @@ string name
 string urdf_path
 string prim_path
 bool control
+geometry_msgs/Pose pose
 ---
 string usd_path

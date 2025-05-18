@@ -1,13 +1,28 @@
-config = {}
-import argparse
-import json
-import math
-import os
-import random
-import yaml
-
-from isaacsim import SimulationApp
+from pxr import Gf
+from omni.isaac.core.world import World
+from isaac_utils.utils.assets import get_assets_root_path_safe
+from isaacsim_msgs.srv import SpawnWall
+from omni.isaac.core.utils.stage import get_current_stage, open_stage
+from omni.isaac.core.utils.rotations import euler_angles_to_quat
+from omni.isaac.core.utils import prims
+from isaac_utils.services.SpawnWall import wall_spawner
+from isaac_utils import scene_based_sdg_utils
+from isaac_utils import world_generation_utils
+import numpy as np
+import sys
+from pathlib import Path
+import omni.usd
+import omni.replicator.core as rep
 import carb
+from isaacsim import SimulationApp
+import yaml
+import random
+import os
+import math
+import json
+import argparse
+config = {}
+
 
 # Check if there are any config files (yaml or json) are passed as arguments
 parser = argparse.ArgumentParser()
@@ -37,53 +52,38 @@ config.update(args_config)
 simulation_app = SimulationApp(launch_config=config["launch_config"])
 
 # Late import of runtime modules (the SimulationApp needs to be created before loading the modules)
-import omni.replicator.core as rep
-import omni.usd
 
-from pathlib import Path
-import sys
 parent_dir = Path(__file__).resolve().parent.parent
-sys.path.insert(0,str(parent_dir))
+sys.path.insert(0, str(parent_dir))
 
 # Custom util functions for the example
-import numpy as np
 
-from isaac_utils import world_generation_utils
-from isaac_utils import scene_based_sdg_utils
-from isaac_utils.services.SpawnWall import wall_spawner
-from omni.isaac.core.utils import prims
-from omni.isaac.core.utils.rotations import euler_angles_to_quat
-from omni.isaac.core.utils.stage import get_current_stage, open_stage
-from isaacsim_msgs.srv import SpawnWall
-from omni.isaac.nucleus import get_assets_root_path
-from omni.isaac.core.world import World
-from pxr import Gf
 
 NUM_FRAMES = 1000
 
 world = World()
 world.scene.add_default_ground_plane()
 
-#spawn bounding walls
-bounding_walls = config.get("bounding_walls",[])
-objects = config.get("objects",[])
+# spawn bounding walls
+bounding_walls = config.get("bounding_walls", [])
+objects = config.get("objects", [])
 for wall in bounding_walls.items():
     response = SpawnWall.Response()
     wall_name = wall[0]
     params = wall[1]
     request = SpawnWall.Request()
     request.name = wall_name
-    request.world_path =  "/World/BoundingWalls"  
+    request.world_path = "/World/BoundingWalls"
     request.start = params["start"]
-    request.end =   params["end"]
+    request.end = params["end"]
     request.height = params["height"]
-    wall_response = wall_spawner(request,response)
+    wall_response = wall_spawner(request, response)
 
-#reset world
+# reset world
 world.reset()
 
 # Get server path
-assets_root_path = get_assets_root_path()
+assets_root_path = get_assets_root_path_safe()
 if assets_root_path is None:
     carb.log_error("Could not get nucleus server path, closing application..")
     simulation_app.close()
@@ -103,7 +103,7 @@ robot_prim = prims.create_prim(
     position=(random.uniform(-20, -2), random.uniform(-1, 3), 0),
     orientation=euler_angles_to_quat([0, 0, random.uniform(0, math.pi)]),
     usd_path=config["robots"]['waffle']["usd_path"],
-    semantic_label= config["robots"]['waffle']["model"],
+    semantic_label=config["robots"]['waffle']["model"],
 )
 
 # Spawn the pallet in front of the robot with a random offset on the Y (pallet's forward) axis
@@ -112,7 +112,7 @@ robot_quat_gf = robot_tf.ExtractRotationQuat()
 robot_quat_xyzw = (robot_quat_gf.GetReal(), *robot_quat_gf.GetImaginary())
 
 # Register randomization graphs
-world_generation_utils.register_objects_spawner(objects,assets_root_path,NUM_FRAMES)
+world_generation_utils.register_objects_spawner(objects, assets_root_path, NUM_FRAMES)
 scene_based_sdg_utils.register_cone_placement(robot_prim, assets_root_path, config)
 scene_based_sdg_utils.register_wall_spawner("/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/world_1.yaml")
 
@@ -161,7 +161,7 @@ for i in range(NUM_FRAMES):
         rep.utils.send_og_event(event_name="randomize_cones")
     # Trigger any on_frame registered randomizers and the writers (delta_time=0.0 to avoid advancing the timeline)
     rep.orchestrator.step(delta_time=0.0)
-    i+=1
+    i += 1
 
 # Wait for the data to be written to disk
 rep.orchestrator.wait_until_complete()

@@ -1,5 +1,4 @@
-string name
 string prim_path
-Values[] values
+geometry_msgs/Pose pose
 ---
 bool ret

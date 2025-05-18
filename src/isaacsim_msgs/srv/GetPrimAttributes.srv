@@ -1,6 +1,4 @@
-string name
 string prim_path
 ---
-float32[3] translate
-float32[4] orient
+geometry_msgs/Pose pose
 float32[3] scale

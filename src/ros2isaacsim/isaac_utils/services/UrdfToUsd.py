@@ -6,6 +6,7 @@ from pathlib import Path
 import arena_simulation_setup
 import isaac_utils.graphs.nav2_tf as nav2_tf
 import omni.kit.commands as commands
+from isaac_utils.utils import xform
 
 from isaacsim_msgs.srv import UrdfToUsd
 
@@ -53,13 +54,22 @@ def urdf_to_usd(request, response):
         )
 
     response.usd_path = usd_path
+
+    xform.move(
+        prim_path=usd_path,
+        translation=xform.Translation.parse(request.pose.position),
+        rotation=xform.Rotation.parse(request.pose.orientation),
+    )
+
     return response
 
 # Urdf importer service callback.
 
 
 def convert_urdf_to_usd(controller):
-    service = controller.create_service(srv_type=UrdfToUsd,
-                                        srv_name='isaac/urdf_to_usd',
-                                        callback=urdf_to_usd)
+    service = controller.create_service(
+        srv_type=UrdfToUsd,
+        srv_name='isaac/urdf_to_usd',
+        callback=urdf_to_usd
+    )
     return service

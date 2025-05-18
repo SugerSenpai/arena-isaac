@@ -10,6 +10,15 @@
 """Generate offline synthetic dataset
 """
 
+from pxr import Gf
+from isaac_utils.utils.assets import get_assets_root_path_safe
+from omni.isaac.core.utils.stage import get_current_stage, open_stage
+from omni.isaac.core.utils.rotations import euler_angles_to_quat
+from omni.isaac.core.utils import prims
+import scene_based_sdg_utils
+import omni.usd
+import omni.replicator.core as rep
+import carb
 import argparse
 import json
 import math
@@ -59,7 +68,6 @@ config = {
     "close_app_after_run": True,
 }
 
-import carb
 
 # Check if there are any config files (yaml or json) are passed as arguments
 parser = argparse.ArgumentParser()
@@ -89,19 +97,11 @@ config.update(args_config)
 simulation_app = SimulationApp(launch_config=config["launch_config"])
 
 # Late import of runtime modules (the SimulationApp needs to be created before loading the modules)
-import omni.replicator.core as rep
-import omni.usd
 
 # Custom util functions for the example
-import scene_based_sdg_utils
-from omni.isaac.core.utils import prims
-from omni.isaac.core.utils.rotations import euler_angles_to_quat
-from omni.isaac.core.utils.stage import get_current_stage, open_stage
-from omni.isaac.nucleus import get_assets_root_path
-from pxr import Gf
 
 # Get server path
-assets_root_path = get_assets_root_path()
+assets_root_path = get_assets_root_path_safe()
 if assets_root_path is None:
     carb.log_error("Could not get nucleus server path, closing application..")
     simulation_app.close()
