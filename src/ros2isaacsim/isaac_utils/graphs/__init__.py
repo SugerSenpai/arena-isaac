@@ -38,6 +38,15 @@ class _Node:
     def type(self) -> str:
         return self._type
 
+    def create_attribute(self, attribute: str, type_: str):
+        self._master.add_action(
+            lambda: og.Controller.create_attribute(
+                self.path,
+                attribute,
+                type_
+            )
+        )
+
     def attribute(self, input_: str, value: typing.Any):
         self._master.add_action(
             lambda: og.Controller.attribute(

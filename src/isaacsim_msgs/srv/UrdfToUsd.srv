@@ -1,5 +1,6 @@
 string name
 string urdf_path
+string robot_model
 bool no_localization
 string base_frame
 string odom_frame

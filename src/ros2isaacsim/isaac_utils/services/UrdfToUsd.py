@@ -3,11 +3,12 @@ import os
 import sys
 from pathlib import Path
 
-import arena_simulation_setup
-import isaac_utils.graphs.nav2_tf as nav2_tf
+from isaac_utils.graphs import joint_states
+import isaac_utils.graphs.odom as odom
 import omni.kit.commands as commands
 
 from isaacsim_msgs.srv import UrdfToUsd
+from isaac_utils.graphs import control
 
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(parent_dir))
@@ -16,6 +17,7 @@ sys.path.insert(0, str(parent_dir))
 def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path
+    robot_model = request.robot_model
 
     status, import_config = commands.execute("URDFCreateImportConfig")
     import_config.set_merge_fixed_joints(False)
@@ -26,10 +28,6 @@ def urdf_to_usd(request, response):
     import_config.set_fix_base(False)
     import_config.set_default_drive_type(2)
     import_config.set_self_collision(False)
-
-    # usd_path = f"/home/ubuntu/arena4_ws/src/arena/isaac/robot_models/{request.name}.usd"
-
-    # print(robot_model)
 
     status, usd_path = commands.execute(
         "URDFParseAndImportFile",
@@ -43,14 +41,29 @@ def urdf_to_usd(request, response):
     if usd_path is None:
         return response
 
+    usd_path = os.path.abspath(usd_path)
+
     # print(usd_path)
     if not request.no_localization:
-        nav2_tf.create_odom_graph(
+        odom.odom(
             f'/{name}/odom_publisher',
-            prim_path=os.path.abspath(usd_path),
+            prim_path=usd_path,
             base_frame_id=f'{name}/{request.base_frame}',
             odom_frame_id=f'{name}/{request.odom_frame}',
         )
+
+    # joint_states.joint_states(
+    #     f'/{name}/joint_state_publisher',
+    #     robot_model=robot_model,
+    #     joint_states_topic=f"/task_generator_node/{name}/joint_states",
+    # )
+
+    control.Control(
+        prim_path=os.path.dirname(usd_path),
+        cmd_vel_topic=f"/task_generator_node/{name}/cmd_vel",
+    ).parse(
+        robot_model=robot_model,
+    )
 
     response.usd_path = usd_path
     return response

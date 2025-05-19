@@ -2,7 +2,7 @@ import omni.graph.core as og
 from isaac_utils.graphs import Graph
 
 
-def create_odom_graph(
+def odom(
     graph_path: str,
     prim_path: str,
     base_frame_id: str = 'base_link',

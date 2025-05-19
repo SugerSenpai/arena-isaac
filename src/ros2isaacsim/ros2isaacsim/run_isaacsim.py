@@ -1,8 +1,9 @@
 # Use the isaacsim to import SimulationApp
+#fmt: off
 from isaacsim import SimulationApp
 
 # Setting the config for simulation and make an simulation.
-CONFIG = {"renderer": "RayTracedLighting", "headless": False}
+CONFIG = {"renderer": "Wireframe", "headless": False}
 #import parent directory
 from pathlib import Path
 import sys
@@ -171,7 +172,7 @@ def yaml_importer(request, response):
     # Read configuration from YAML file
     yaml_path = request.yaml_path
     config = read_yaml_config(yaml_path)
-    
+
     # Extract parameters
     name = config['robot']['name']
     model = config['robot']['model']
@@ -192,7 +193,7 @@ def yaml_importer(request, response):
     yaml_request.orientation = np.array(orientation,dtype=np.float32)
 
     usd_response = usd_importer(yaml_request, response)
-    
+
     # Pass the response back (optional, depending on how you want to structure your service)
     response.ret = usd_response.ret
     return response
@@ -206,7 +207,7 @@ def usd_importer(request, response):
     prim_path = request.prim_path + "/" + name
     position = request.position
     orientation = request.orientation
-    
+
     model_prim = prims.create_prim(
     prim_path=f"/World/{name}",
     position=np.array(position),
@@ -214,7 +215,7 @@ def usd_importer(request, response):
     usd_path=usd_path,
     semantic_label=model,
     )
-    
+
 
     response.ret = True
     if not request.control:
@@ -243,14 +244,14 @@ def usd_importer(request, response):
         publish_imu(name,prim_path,link,imu)
 
     robots.append(prim_path)
-    
-    
+
+
     model = assign_robot_model(name,prim_path,model)
-    
+
     #publish joint_states and control
     model.control_and_publish_joint_states()
     model.publish_odom_and_tf()
-    
+
     world.reset()
     return response
 
@@ -259,7 +260,7 @@ def import_yaml(controller):
     service = controller.create_service(srv_type=ImportYaml, 
                         srv_name='isaac/import_yaml', 
                         callback=yaml_importer)
-    
+
 def import_usd(controller):
     service = controller.create_service(srv_type=ImportUsd, 
                         srv_name='isaac/import_usd', 
