@@ -5,8 +5,7 @@ from isaac_utils.utils.path import world_path
 
 
 def prim_deleter(request, response):
-    name = request.name
-    prim_path = world_path(request.prim_path)
+    prim_path = world_path(request.name)
     commands.execute(
         "IsaacSimDestroyPrim",
         prim_path=prim_path,

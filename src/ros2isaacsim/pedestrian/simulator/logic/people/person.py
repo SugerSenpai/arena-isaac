@@ -8,7 +8,8 @@ import omni.anim.graph.core as ag
 import omni.client
 from omni.anim.people import PeopleSettings
 from omni.isaac.core.utils import prims
-from omni.isaac.nucleus import get_assets_root_path
+from isaac_utils.utils.assets import get_assets_root_path_safe
+
 from omni.usd import get_stage_next_free_path
 from pedestrian.simulator.logic.interface.pedestrian_interface import \
     PedestrianInterface
@@ -38,9 +39,8 @@ class Person:
     if people_asset_folder:
         assets_root_path = people_asset_folder
     else:
-        root_path = get_assets_root_path()
-        if root_path is not None:
-            assets_root_path = os.path.join(root_path, 'Isaac/People/Characters')
+        root_path = get_assets_root_path_safe()
+        assets_root_path = os.path.join(root_path, 'Isaac/People/Characters')
 
     character_skel_root_stage_path: str | None
 

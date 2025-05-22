@@ -2,12 +2,11 @@ import os
 
 import numpy as np
 import omni
-from omni.isaac.core.utils.rotations import euler_angles_to_quat
+from isaac_utils.utils import geom, prim
+from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile
 
 from isaacsim_msgs.srv import ImportObstacles
-from isaac_utils.utils.xform import create_prim_safe
-from isaac_utils.utils.path import world_path
 
 profile = QoSProfile(depth=2000)
 
@@ -15,12 +14,10 @@ profile = QoSProfile(depth=2000)
 def obstacle_importer(request, response):
     name = request.name
     usd_path = request.usd_path
-    position = request.position
-    orientation = request.orientation
-    model_prim = create_prim_safe(
+    model_prim = prim.create_prim_safe(
         prim_path=world_path(name),
-        position=np.array(position),
-        orientation=euler_angles_to_quat(orientation),
+        position=np.array(geom.Translation.parse(request.pose.position).tuple()),
+        orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
         usd_path=os.path.abspath(usd_path),
     )
 
@@ -30,8 +27,10 @@ def obstacle_importer(request, response):
 
 
 def import_obstacle(controller):
-    service = controller.create_service(srv_type=ImportObstacles,
-                                        qos_profile=profile,
-                                        srv_name='isaac/import_obstacle',
-                                        callback=obstacle_importer)
+    service = controller.create_service(
+        srv_type=ImportObstacles,
+        qos_profile=profile,
+        srv_name='isaac/import_obstacle',
+        callback=obstacle_importer
+    )
     return service

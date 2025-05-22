@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-import omni.isaac.nucleus as nucleus
+from isaac_utils.utils.assets import get_assets_root_path_safe
 
 # Get the current directory of where this extension is located
 EXTENSION_FOLDER_PATH = Path(os.path.dirname(os.path.realpath(__file__)))
@@ -12,10 +12,11 @@ ASSET_PATH = ROOT + "/pegasus.simulator/pegasus/simulator/assets"
 ROBOTS_ASSETS = ASSET_PATH + "/Robots"
 
 # Define the built in robots of the extension
-ROBOTS = {"Iris": ROBOTS_ASSETS + "/Iris/iris.usd"} #, "Flying Cube": ROBOTS_ASSETS + "/iris_cube.usda"}
+ROBOTS = {"Iris": ROBOTS_ASSETS + "/Iris/iris.usd"}  # , "Flying Cube": ROBOTS_ASSETS + "/iris_cube.usda"}
 
 # Setup the default simulation environments path
-NVIDIA_ASSETS_PATH = str(nucleus.get_assets_root_path())
+NVIDIA_ASSETS_PATH = get_assets_root_path_safe()
+
 ISAAC_SIM_ENVIRONMENTS = "/Isaac/Environments"
 NVIDIA_SIMULATION_ENVIRONMENTS = {
     "Default Environment": "Grid/default_environment.usd",
@@ -43,7 +44,7 @@ SIMULATION_ENVIRONMENTS = {}
 # Add the Isaac Sim assets to the list
 for asset in NVIDIA_SIMULATION_ENVIRONMENTS:
     SIMULATION_ENVIRONMENTS[asset] = (
-        NVIDIA_ASSETS_PATH + ISAAC_SIM_ENVIRONMENTS + "/" + NVIDIA_SIMULATION_ENVIRONMENTS[asset]
+        os.path.join(NVIDIA_ASSETS_PATH, ISAAC_SIM_ENVIRONMENTS, NVIDIA_SIMULATION_ENVIRONMENTS[asset])
     )
 
 # Add the omniverse assets to the list

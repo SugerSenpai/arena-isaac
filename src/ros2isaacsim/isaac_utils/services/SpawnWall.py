@@ -1,13 +1,15 @@
-import os
-import omni
-import numpy as np
-from pxr import Gf, UsdGeom, Usd, Sdf, UsdShade
 import math
-from rclpy.qos import QoSProfile
-from isaacsim_msgs.srv import SpawnWall
-from omni.isaac.core.utils.rotations import euler_angles_to_quat, quat_to_euler_angles
-from omni.isaac.core.objects import DynamicCuboid, sphere, capsule, FixedCuboid
+import os
+
+import numpy as np
+import omni
 from omni.isaac.core import World
+from omni.isaac.core.objects import FixedCuboid
+from omni.isaac.core.utils.rotations import (euler_angles_to_quat)
+from pxr import Gf
+from rclpy.qos import QoSProfile
+
+from isaacsim_msgs.srv import SpawnWall
 from isaac_utils.utils.path import world_path
 
 profile = QoSProfile(depth=2000)
@@ -62,8 +64,10 @@ def wall_spawner(request, response):
 
 
 def spawn_wall(controller):
-    service = controller.create_service(srv_type=SpawnWall,
-                                        qos_profile=profile,
-                                        srv_name='isaac/spawn_wall',
-                                        callback=wall_spawner)
+    service = controller.create_service(
+        srv_type=SpawnWall,
+        qos_profile=profile,
+        srv_name='isaac/spawn_wall',
+        callback=wall_spawner
+    )
     return service

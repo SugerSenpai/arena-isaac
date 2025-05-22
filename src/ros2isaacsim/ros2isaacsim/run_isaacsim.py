@@ -1,5 +1,6 @@
+
+# fmt: off
 # Use the isaacsim to import SimulationApp
-#fmt: off
 from isaacsim import SimulationApp
 
 # Setting the config for simulation and make an simulation.
@@ -22,7 +23,8 @@ from omni.isaac.core import SimulationContext
 from pxr import Sdf, Gf, UsdLux
 import yaml
 from omni.isaac.core.utils import extensions, stage
-from omni.isaac.nucleus import get_assets_root_path
+from isaac_utils.utils.assets import get_assets_root_path_safe
+
 from omni.isaac.core.utils.prims import set_prim_attribute_value
 from omni.importer.urdf import _urdf
 import omni.kit.commands as commands
@@ -90,15 +92,20 @@ from isaac_utils.services import spawn_ped
 #Import sensors
 from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
-#======================================Base======================================
+# other imports
+from isaac_utils.utils import geom
+
+
+# fmt: on
+# ======================================Base======================================
 # Setting up world and enable ros2_bridge extentions.
 # BACKGROUND_STAGE_PATH = "/background"
 # BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
-world.scene.add_ground_plane(size=100,z_position=0.1)
-simulation_app.update() #update the simulation once for update ros2_bridge.
-simulation_context = SimulationContext(stage_units_in_meters=1.0) #currently we use 1m for simulation.
+world.scene.add_ground_plane(size=100, z_position=0.1)
+simulation_app.update()  # update the simulation once for update ros2_bridge.
+simulation_context = SimulationContext(stage_units_in_meters=1.0)  # currently we use 1m for simulation.
 light_1 = prims.create_prim(
     "/World/Light_1",
     "DomeLight",
@@ -109,31 +116,31 @@ light_1 = prims.create_prim(
         "inputs:color": (1.0, 1.0, 1.0)
     }
 )
-assets_root_path = get_assets_root_path()
+assets_root_path = get_assets_root_path_safe()
 
-#Navmesh config and baking
+# Navmesh config and baking
 simulation_app.update()
 stage = omni.usd.get_context().get_stage()
 
 omni.kit.commands.execute("CreateNavMeshVolumeCommand",
-    parent_prim_path=Sdf.Path("/World"),
-    layer=stage.GetRootLayer()
-)
+                          parent_prim_path=Sdf.Path("/World"),
+                          layer=stage.GetRootLayer()
+                          )
 simulation_app.update()
 
 omni.kit.commands.execute(
-            'ChangeSetting',
-            path='/exts/omni.anim.navigation.core/navMesh/config/agentRadius',
-            value=35.0)
+    'ChangeSetting',
+    path='/exts/omni.anim.navigation.core/navMesh/config/agentRadius',
+    value=35.0)
 
 omni.kit.commands.execute(
-            'ChangeSetting',
-            path='/exts/omni.anim.people/navigation_settings/dynamic_avoidance_enabled',
-            value=True)
+    'ChangeSetting',
+    path='/exts/omni.anim.people/navigation_settings/dynamic_avoidance_enabled',
+    value=True)
 omni.kit.commands.execute(
-            'ChangeSetting',
-            path='/exts/omni.anim.people/navigation_settings/navmesh_enabled',
-            value=True)
+    'ChangeSetting',
+    path='/exts/omni.anim.people/navigation_settings/navmesh_enabled',
+    value=True)
 
 inav = nav.acquire_interface()
 x = inav.start_navmesh_baking()
@@ -161,12 +168,15 @@ robot_orientation = []
 environment_positions = []
 environment_orientation = []
 
-#================================================================================
-#============================read yaml file===============================
+# ================================================================================
+# ============================read yaml file===============================
+
+
 def read_yaml_config(yaml_path):
     with open(yaml_path, 'r') as file:
         config = yaml.safe_load(file)
     return config
+
 
 def yaml_importer(request, response):
     # Read configuration from YAML file
@@ -189,8 +199,8 @@ def yaml_importer(request, response):
     yaml_request.usd_path = usd_path
     yaml_request.prim_path = prim_path
     yaml_request.control = control
-    yaml_request.position = np.array(position,dtype=np.float32)
-    yaml_request.orientation = np.array(orientation,dtype=np.float32)
+    yaml_request.position = np.array(position, dtype=np.float32)
+    yaml_request.orientation = np.array(orientation, dtype=np.float32)
 
     usd_response = usd_importer(yaml_request, response)
 
@@ -198,57 +208,55 @@ def yaml_importer(request, response):
     response.ret = usd_response.ret
     return response
 
-#============================usd importer service================================
+# ============================usd importer service================================
 # Usd importer (service) -> bool.
+
+
 def usd_importer(request, response):
     name = request.name
     model = request.model
     usd_path = request.usd_path
     prim_path = request.prim_path + "/" + name
-    position = request.position
-    orientation = request.orientation
 
     model_prim = prims.create_prim(
-    prim_path=f"/World/{name}",
-    position=np.array(position),
-    orientation=np.array(orientation),
-    usd_path=usd_path,
-    semantic_label=model,
+        prim_path=f"/World/{name}",
+        position=np.array(geom.Translation.parse(request.pose.position).tuple()),
+        orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
+        usd_path=usd_path,
+        semantic_label=model,
     )
-
 
     response.ret = True
     if not request.control:
         environments.append(prim_path)
-        return response 
-    camera_prim_path = prim_path + "/camera_link" 
+        return response
+    camera_prim_path = prim_path + "/camera_link"
     camera = camera_set_up(camera_prim_path, "Camera")
     camera.initialize()
     publish_camera_info(name, camera, 20)
     publish_depth(name, camera, 20)
     publish_rgb(name, camera, 20)
     publish_pointcloud_from_depth(name, camera, 20)
-    publish_camera_tf(name,prim_path,camera)
+    publish_camera_tf(name, prim_path, camera)
 
     lidar_prim_path = prim_path + "/base_scan"
     lidar = lidar_setup(lidar_prim_path, "Lidar")
     publish_lidar(name, prim_path, lidar)
 
-    links = ["wheel_left_link","wheel_right_link"]
+    links = ["wheel_left_link", "wheel_right_link"]
     for link in links:
         imu_prim_path = prim_path + "/" + link + "/" + "IMU"
         contact_prim_path = prim_path + "/" + link + "/" + "ContactSensor"
         imu = imu_setup(imu_prim_path)
         contact_sensor = contact_sensor_setup(contact_prim_path)
-        publish_contact_sensor_info(name,prim_path,link,contact_sensor)
-        publish_imu(name,prim_path,link,imu)
+        publish_contact_sensor_info(name, prim_path, link, contact_sensor)
+        publish_imu(name, prim_path, link, imu)
 
     robots.append(prim_path)
 
+    model = assign_robot_model(name, prim_path, model)
 
-    model = assign_robot_model(name,prim_path,model)
-
-    #publish joint_states and control
+    # publish joint_states and control
     model.control_and_publish_joint_states()
     model.publish_odom_and_tf()
 
@@ -256,20 +264,30 @@ def usd_importer(request, response):
     return response
 
 # Usd importer service callback.
+
+
 def import_yaml(controller):
-    service = controller.create_service(srv_type=ImportYaml, 
-                        srv_name='isaac/import_yaml', 
-                        callback=yaml_importer)
+    service = controller.create_service(
+        srv_type=ImportYaml,
+        srv_name='isaac/import_yaml',
+        callback=yaml_importer
+    )
+    return service
+
 
 def import_usd(controller):
-    service = controller.create_service(srv_type=ImportUsd, 
-                        srv_name='isaac/import_usd', 
-                        callback=usd_importer)
+    service = controller.create_service(
+        srv_type=ImportUsd,
+        srv_name='isaac/import_usd',
+        callback=usd_importer
+    )
     return service
-#=================================================================================
+# =================================================================================
 
-#===================================controller====================================
+# ===================================controller====================================
 # create controller node for isaacsim.
+
+
 def create_controller(time=120):
     # init controller.
     controller = rclpy.create_node('controller')
@@ -287,22 +305,34 @@ def create_controller(time=120):
     return controller
 
 # update the simulation.
+
+
 def run():
     simulation_app.update()
     simulation_context.play()
-#=================================================================================
+# =================================================================================
 
-#======================================main=======================================
+# ======================================main=======================================
+
+
 def main(arg=None):
     rclpy.init()
     controller = create_controller()
     while True:
-        run()
-        rclpy.spin_once(controller, timeout_sec=0.0)
+        try:
+            run()
+            rclpy.spin_once(controller, timeout_sec=0.0)
+        except KeyboardInterrupt:
+            controller.get_logger().warn('received KeyboardInterrupt, shutting down')
+            break
+        except BaseException as e:
+            controller.get_logger().warn(f'encountered {repr(e)}, ignoring')
 
     controller.destroy_node()
-    rclpy.shutdown()
+    # rclpy.shutdown()
     return
-#=================================================================================
+
+
+# =================================================================================
 if __name__ == "__main__":
     main()

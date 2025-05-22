@@ -8,35 +8,19 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
 
-set(msg_files
-  "msg/PrimPath.msg"
-  "msg/Quat.msg"
-  "msg/Euler.msg"
-  "msg/Env.msg"
-  "msg/Values.msg"
-  "msg/ContactSensor.msg"
-  "msg/Person.msg"
-  )
-
-set(srv_files
-  "srv/ImportUsd.srv"
-  "srv/UrdfToUsd.srv"
-  "srv/ImportUrdf.srv"
-  "srv/DeletePrim.srv"
-  "srv/GetPrimAttributes.srv"
-  "srv/MovePrim.srv"
-  "srv/ImportYaml.srv"
-  "srv/ScalePrim.srv"
-  "srv/SpawnWall.srv"
-  "srv/ImportObstacles.srv"
-  "srv/Pedestrian.srv"
-  )
+file(GLOB MSG_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "msg/*.msg")
+file(GLOB SRV_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "srv/*.srv")
+file(GLOB ACTION_FILES RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} "action/*.action")
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  ${msg_files}
-  ${srv_files}
- )
+  ${MSG_FILES}
+  ${SRV_FILES}
+  ${ACTION_FILES}
+  DEPENDENCIES std_msgs geometry_msgs
+)
 # uncomment the following section in order to fill in
 # further dependencies manually.
 # find_package(<dependency> REQUIRED)

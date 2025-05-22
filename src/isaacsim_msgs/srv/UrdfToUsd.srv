@@ -4,5 +4,6 @@ string robot_model
 bool no_localization
 string base_frame
 string odom_frame
+geometry_msgs/Pose pose
 ---
 string usd_path
