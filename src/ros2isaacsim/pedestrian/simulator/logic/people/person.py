@@ -338,12 +338,12 @@ class Person:
     def get_path_for_character_prim(agent_name):
 
         # Check if a folder with agent_name exists. If exists we load the character, else we load a random character
-        agent_folder = "{}/{}".format(Person.assets_root_path, agent_name)
+        agent_folder = os.path.join(Person.assets_root_path, agent_name)
         result, properties = omni.client.stat(agent_folder)
 
         # Attempt to load the character if it exists, otherwise load a random character
         if result != omni.client.Result.OK:
-            carb.log_error("Character folder does not exist.")
+            carb.log_error(f"Character folder does not exist: {agent_name}. Available: {Person.get_character_asset_list()}")
             return None
 
         # Get the usd present in the character folder
