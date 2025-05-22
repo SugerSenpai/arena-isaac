@@ -2,12 +2,12 @@ import os
 
 import numpy as np
 import omni
-from omni.isaac.core.utils import prims, stage
 from omni.isaac.core.utils.rotations import euler_angles_to_quat
-from pxr import Sdf
 from rclpy.qos import QoSProfile
 
 from isaacsim_msgs.srv import ImportObstacles
+from isaac_utils.utils.xform import create_prim_safe
+from isaac_utils.utils.path import world_path
 
 profile = QoSProfile(depth=2000)
 
@@ -17,8 +17,8 @@ def obstacle_importer(request, response):
     usd_path = request.usd_path
     position = request.position
     orientation = request.orientation
-    model_prim = prims.create_prim(
-        prim_path=f"/World/{name}",
+    model_prim = create_prim_safe(
+        prim_path=world_path(name),
         position=np.array(position),
         orientation=euler_angles_to_quat(orientation),
         usd_path=os.path.abspath(usd_path),

@@ -3,12 +3,13 @@ import os
 import sys
 from pathlib import Path
 
-from isaac_utils.graphs import joint_states
 import isaac_utils.graphs.odom as odom
 import omni.kit.commands as commands
 
 from isaacsim_msgs.srv import UrdfToUsd
 from isaac_utils.graphs import control
+from isaac_utils.utils.path import world_path
+from isaac_utils.utils.xform import ensure_path
 
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(parent_dir))
@@ -18,6 +19,8 @@ def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path
     robot_model = request.robot_model
+
+    prim_path = world_path(name)
 
     status, import_config = commands.execute("URDFCreateImportConfig")
     import_config.set_merge_fixed_joints(False)
@@ -29,24 +32,28 @@ def urdf_to_usd(request, response):
     import_config.set_default_drive_type(2)
     import_config.set_self_collision(False)
 
+    ensure_path(os.path.dirname(prim_path))
     status, usd_path = commands.execute(
         "URDFParseAndImportFile",
         urdf_path=urdf_path,
-        # urdf_robot = robot_model,
         import_config=import_config,
-        dest_path=f"",
-        get_articulation_root=True,
+        dest_path='',
     )
 
     if usd_path is None:
         return response
 
-    usd_path = os.path.abspath(usd_path)
+    commands.execute(
+        "MovePrim",
+        path_from=usd_path,
+        path_to=prim_path,
+        keep_world_transform=True  # Optional: to maintain the prim's world position
+    )
 
     # print(usd_path)
     if not request.no_localization:
         odom.odom(
-            f'/{name}/odom_publisher',
+            os.path.join(prim_path, 'odom_publisher'),
             prim_path=usd_path,
             base_frame_id=f'{name}/{request.base_frame}',
             odom_frame_id=f'{name}/{request.odom_frame}',
@@ -59,13 +66,13 @@ def urdf_to_usd(request, response):
     # )
 
     control.Control(
-        prim_path=os.path.dirname(usd_path),
+        prim_path=prim_path,
         cmd_vel_topic=f"/task_generator_node/{name}/cmd_vel",
     ).parse(
         robot_model=robot_model,
     )
 
-    response.usd_path = usd_path
+    response.usd_path = prim_path
     return response
 
 # Urdf importer service callback.

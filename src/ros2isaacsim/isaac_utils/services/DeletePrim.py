@@ -1,11 +1,12 @@
 import omni.kit.commands as commands
 
 from isaacsim_msgs.srv import DeletePrim
+from isaac_utils.utils.path import world_path
 
 
 def prim_deleter(request, response):
     name = request.name
-    prim_path = request.prim_path
+    prim_path = world_path(request.prim_path)
     commands.execute(
         "IsaacSimDestroyPrim",
         prim_path=prim_path,
