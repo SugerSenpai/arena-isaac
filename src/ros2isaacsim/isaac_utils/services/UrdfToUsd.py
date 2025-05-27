@@ -66,12 +66,13 @@ def urdf_to_usd(request, response):
     #     joint_states_topic=f"/task_generator_node/{name}/joint_states",
     # )
 
-    control.Control(
-        prim_path=prim_path,
-        cmd_vel_topic=f"/task_generator_node/{name}/cmd_vel",
-    ).parse(
-        robot_model=robot_model,
-    )
+    if request.cmd_vel_topic:
+        control.Control(
+            prim_path=prim_path,
+            cmd_vel_topic=request.cmd_vel_topic,
+        ).parse(
+            robot_model=robot_model,
+        )
 
     response.usd_path = prim_path
 
