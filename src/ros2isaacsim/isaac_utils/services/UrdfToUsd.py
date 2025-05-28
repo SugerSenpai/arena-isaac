@@ -6,9 +6,10 @@ from pathlib import Path
 import isaac_utils.graphs.odom as odom
 import omni.kit.commands as commands
 from isaac_utils.graphs import control
+import isaac_utils.graphs.sensors.sensors as sensors
 from isaac_utils.utils import geom
-from isaac_utils.utils.prim import ensure_path
 from isaac_utils.utils.path import world_path
+from isaac_utils.utils.prim import ensure_path
 
 from isaacsim_msgs.srv import UrdfToUsd
 
@@ -55,7 +56,7 @@ def urdf_to_usd(request, response):
     if not request.no_localization:
         odom.odom(
             os.path.join(prim_path, 'odom_publisher'),
-            prim_path=prim_path,
+            prim_path=os.path.join(prim_path, request.base_frame),
             base_frame_id=f'{name}/{request.base_frame}',
             odom_frame_id=f'{name}/{request.odom_frame}',
         )
@@ -73,6 +74,12 @@ def urdf_to_usd(request, response):
         ).parse(
             robot_model=robot_model,
         )
+
+    with open(request.urdf_path, 'r') as f:
+        sensors.Sensors(
+            prim_path=prim_path,
+            base_topic=os.path.dirname(request.cmd_vel_topic)
+        ).parse_gazebo(f.read())
 
     response.usd_path = prim_path
 

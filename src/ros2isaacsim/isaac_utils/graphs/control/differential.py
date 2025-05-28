@@ -1,6 +1,12 @@
 import omni.graph.core as og
 from isaac_utils.graphs import Graph
 
+from omni.isaac.core.utils import extensions
+
+extensions.enable_extension("omni.isaac.core_nodes")
+extensions.enable_extension("omni.isaac.ros2_bridge")
+extensions.enable_extension("omni.isaac.wheeled_robots")
+
 
 def differential(
     graph_path: str,

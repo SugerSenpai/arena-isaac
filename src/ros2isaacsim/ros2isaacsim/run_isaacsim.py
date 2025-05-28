@@ -3,6 +3,7 @@
 # Use the isaacsim to import SimulationApp
 from isaacsim import SimulationApp
 
+
 # Setting the config for simulation and make an simulation.
 CONFIG = {"renderer": "Wireframe", "headless": False}
 #import parent directory
@@ -94,6 +95,9 @@ from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, pub
 
 # other imports
 from isaac_utils.utils import geom
+
+from isaac_utils.graphs.time import PublishTime
+
 
 
 # fmt: on
@@ -282,6 +286,12 @@ def import_usd(controller):
         callback=usd_importer
     )
     return service
+
+
+def time_publisher(controller):
+    PublishTime('/World/publish_time')
+
+
 # =================================================================================
 
 # ===================================controller====================================
@@ -291,17 +301,17 @@ def import_usd(controller):
 def create_controller(time=120):
     # init controller.
     controller = rclpy.create_node('controller')
-    controller.create_publisher
     # init services.
-    import_usd_service = import_usd(controller)
-    urdf_to_usd_service = convert_urdf_to_usd(controller)
-    get_prim_attribute_service = get_prim_attr(controller)
-    move_prim_service = move_prim(controller)
-    delete_prim_service = delete_prim(controller)
-    wall_spawn_service = spawn_wall(controller)
-    import_yaml_service = import_yaml(controller)
-    import_obstacle_service = import_obstacle(controller)
-    import_pedpub_service = spawn_ped(controller)
+    time_publisher(controller)
+    import_usd(controller)
+    convert_urdf_to_usd(controller)
+    get_prim_attr(controller)
+    move_prim(controller)
+    delete_prim(controller)
+    spawn_wall(controller)
+    import_yaml(controller)
+    import_obstacle(controller)
+    spawn_ped(controller)
     return controller
 
 # update the simulation.
@@ -327,6 +337,7 @@ def main(arg=None):
             break
         except BaseException as e:
             controller.get_logger().warn(f'encountered {repr(e)}, ignoring')
+            # raise
 
     controller.destroy_node()
     # rclpy.shutdown()
