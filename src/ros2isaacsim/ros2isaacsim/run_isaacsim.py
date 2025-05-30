@@ -107,7 +107,7 @@ from isaac_utils.graphs.time import PublishTime
 # BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 
 world = World()
-world.scene.add_ground_plane(size=100, z_position=0.1)
+world.scene.add_ground_plane(size=100, z_position=0.0)
 simulation_app.update()  # update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0)  # currently we use 1m for simulation.
 light_1 = prims.create_prim(
