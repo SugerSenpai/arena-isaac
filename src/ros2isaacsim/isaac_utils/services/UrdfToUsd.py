@@ -12,6 +12,8 @@ from isaac_utils.utils.path import world_path
 from isaac_utils.utils.prim import ensure_path
 
 from isaacsim_msgs.srv import UrdfToUsd
+from rclpy.qos import QoSProfile
+profile = QoSProfile(depth=2000)
 
 parent_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(parent_dir))
@@ -97,6 +99,7 @@ def urdf_to_usd(request, response):
 def convert_urdf_to_usd(controller):
     service = controller.create_service(
         srv_type=UrdfToUsd,
+        qos_profile=profile,
         srv_name='isaac/urdf_to_usd',
         callback=urdf_to_usd
     )

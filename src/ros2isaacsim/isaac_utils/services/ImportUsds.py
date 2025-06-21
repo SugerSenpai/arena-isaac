@@ -5,7 +5,9 @@ from isaac_utils.utils import geom
 from omni.isaac.core.utils.prims import set_prim_attribute_value
 
 from isaacsim_msgs.srv import ImportUsd
+from rclpy.qos import QoSProfile
 
+profile = QoSProfile(depth=2000)
 
 def usd_importer(stage, request, response):
     name = request.name
@@ -20,6 +22,7 @@ def usd_importer(stage, request, response):
 def import_usd(controller):
     service = controller.create_service(
         srv_type=ImportUsd,
+        profile=qos_profile,
         srv_name='isaac/import_usd',
         callback=usd_importer
     )

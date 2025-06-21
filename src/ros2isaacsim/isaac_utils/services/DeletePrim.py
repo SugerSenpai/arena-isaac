@@ -2,7 +2,9 @@ import omni.kit.commands as commands
 
 from isaacsim_msgs.srv import DeletePrim
 from isaac_utils.utils.path import world_path
+from rclpy.qos import QoSProfile
 
+profile = QoSProfile(depth=2000)
 
 def prim_deleter(request, response):
     prim_path = world_path(request.name)
@@ -17,6 +19,7 @@ def prim_deleter(request, response):
 def delete_prim(controller):
     service = controller.create_service(
         srv_type=DeletePrim,
+        qos_profile=profile,
         srv_name='isaac/delete_prim',
         callback=prim_deleter
     )

@@ -2,7 +2,8 @@ import numpy as np
 from omni.isaac.core.utils.prims import get_prim_at_path
 
 from isaacsim_msgs.srv import GetPrimAttributes
-
+from rclpy.qos import QoSProfile
+profile = QoSProfile(depth=2000)
 
 def get_prim_attributes(request, response):
     prim = get_prim_at_path(request.prim_path)
@@ -27,6 +28,7 @@ def get_prim_attributes(request, response):
 def get_prim_attr(controller):
     service = controller.create_service(
         srv_type=GetPrimAttributes,
+        qos_profile=profile,
         srv_name='isaac/get_prim_attributes',
         callback=get_prim_attributes
     )

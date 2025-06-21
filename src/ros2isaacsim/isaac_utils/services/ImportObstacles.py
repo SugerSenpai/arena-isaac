@@ -15,7 +15,7 @@ def obstacle_importer(request, response):
     name = request.name
     usd_path = request.usd_path
     model_prim = prim.create_prim_safe(
-        prim_path=world_path(name),
+        prim_path=world_path('obstacles',name),
         position=np.array(geom.Translation.parse(request.pose.position).tuple()),
         orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
         usd_path=os.path.abspath(usd_path),
