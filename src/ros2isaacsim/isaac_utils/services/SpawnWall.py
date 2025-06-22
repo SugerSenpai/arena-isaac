@@ -46,18 +46,18 @@ def wall_spawner(request, response):
         color=np.array([0, 0, 0.02]),
     ))
 
-    mdl_path = "/home/brainfucker/arena4_ws/src/arena/simulation-setup/entities/obstacles/static/canteen_wall/usd/Collected_SM_Wall_2m_198/Materials/MI_Props.mdl"
-    mtl_path = "/World/Looks/WallMaterial"
-    mtl = stage.GetPrimAtPath(mtl_path)
-    if not (mtl and mtl.IsValid()):
-        create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
-                                               mtl_url=mdl_path,
-                                               mtl_name='MI_Props',
-                                               mtl_path=mtl_path)
+    # mdl_path = "/home/brainfucker/arena4_ws/src/arena/simulation-setup/entities/obstacles/static/canteen_wall/usd/Collected_SM_Wall_2m_198/Materials/MI_Props.mdl"
+    # mtl_path = "/World/Looks/WallMaterial"
+    # mtl = stage.GetPrimAtPath(mtl_path)
+    # if not (mtl and mtl.IsValid()):
+    #     create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
+    #                                            mtl_url=mdl_path,
+    #                                            mtl_name='MI_Props',
+    #                                            mtl_path=mtl_path)
 
-    bind_res = omni.kit.commands.execute('BindMaterialCommand',
-                                         prim_path=prim_path,
-                                         material_path=mtl_path)
+    # bind_res = omni.kit.commands.execute('BindMaterialCommand',
+    #                                      prim_path=prim_path,
+    #                                      material_path=mtl_path)
 
     response.ret = True
     return response
