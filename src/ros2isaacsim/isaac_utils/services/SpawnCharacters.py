@@ -1,3 +1,4 @@
+from .safety import safe
 import carb
 import numpy as np
 import omni.anim.navigation.core as nav
@@ -11,6 +12,7 @@ from isaac_utils.utils.path import world_path
 profile = QoSProfile(depth=2000)
 
 
+@safe()
 def pedestrian_spawn(request, response):
     # Get service attributes
     world = World.instance()

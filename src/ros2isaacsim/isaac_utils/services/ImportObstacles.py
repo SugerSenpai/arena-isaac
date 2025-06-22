@@ -1,3 +1,4 @@
+from .safety import safe
 import os
 
 import numpy as np
@@ -11,6 +12,7 @@ from isaacsim_msgs.srv import ImportObstacles
 profile = QoSProfile(depth=2000)
 
 
+@safe()
 def obstacle_importer(request, response):
     name = request.name
     usd_path = request.usd_path

@@ -1,3 +1,4 @@
+from .safety import safe
 import os
 
 import numpy as np
@@ -10,6 +11,7 @@ from rclpy.qos import QoSProfile
 profile = QoSProfile(depth=2000)
 
 
+@safe()
 def usd_importer(stage, request, response):
     name = request.name
     usd_path = request.usd_path

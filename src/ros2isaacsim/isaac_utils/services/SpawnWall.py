@@ -1,3 +1,4 @@
+from .safety import safe
 import math
 import os
 
@@ -15,6 +16,7 @@ from rclpy.qos import QoSProfile
 profile = QoSProfile(depth=2000)
 
 
+@safe()
 def wall_spawner(request, response):
     # Get service attributes
     prim_path = world_path('walls', request.name)

@@ -1,3 +1,4 @@
+from .safety import safe
 from isaac_utils.utils import geom
 
 from isaacsim_msgs.srv import MovePrim
@@ -6,6 +7,8 @@ from rclpy.qos import QoSProfile
 
 profile = QoSProfile(depth=2000)
 
+
+@safe()
 def prim_mover(request, response):
     prim_path = world_path(request.name)
     position = request.pose.position

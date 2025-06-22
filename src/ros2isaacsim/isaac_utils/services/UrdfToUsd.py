@@ -1,4 +1,5 @@
 # TODO: Work across different robots % work with yaml
+from .safety import safe
 import os
 import sys
 from pathlib import Path
@@ -19,6 +20,7 @@ parent_dir = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(parent_dir))
 
 
+@safe()
 def urdf_to_usd(request, response):
     name = request.name
     urdf_path = request.urdf_path

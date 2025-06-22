@@ -4,8 +4,12 @@ from isaacsim_msgs.srv import DeletePrim
 from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile
 
+from .safety import safe
+
 profile = QoSProfile(depth=2000)
 
+
+@safe()
 def prim_deleter(request, response):
     prim_path = world_path(request.name)
     commands.execute(

@@ -1,3 +1,4 @@
+from .safety import safe
 import numpy as np
 from omni.isaac.core.utils.prims import get_prim_at_path
 
@@ -5,6 +6,8 @@ from isaacsim_msgs.srv import GetPrimAttributes
 from rclpy.qos import QoSProfile
 profile = QoSProfile(depth=2000)
 
+
+@safe()
 def get_prim_attributes(request, response):
     prim = get_prim_at_path(request.prim_path)
 
