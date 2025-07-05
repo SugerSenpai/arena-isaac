@@ -1,6 +1,8 @@
 import omni.kit.commands as commands
 from isaacsim_msgs.srv import DeletePrim
 from pedestrian.simulator.logic.people_manager import PeopleManager
+import time
+
 
 def characters_delete(request, response):
     commands.execute(
@@ -8,6 +10,7 @@ def characters_delete(request, response):
         prim_path=request.name,
     )
     PeopleManager.get_people_manager().remove_all_people()
+    time.sleep(0.5)
 
     response.ret = True
     return response

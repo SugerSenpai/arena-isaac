@@ -211,8 +211,8 @@ class Person:
         if self._backend:
             self._backend.update(self._state, dt)
 
-        if self.character_skel_root_stage_path is not None:
-            PeopleManager.get_people_manager().add_person(self.character_skel_root_stage_path, self)
+        # if self.character_skel_root_stage_path is not None:
+        #     PeopleManager.get_people_manager().add_person(self.character_skel_root_stage_path, self)
 
     def update_target_position(self, position, walk_speed=1.0):
         """
