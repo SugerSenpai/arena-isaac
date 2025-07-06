@@ -4,7 +4,8 @@ def safe():
             try:
                 return fun(request, response)
             except Exception as e:
-                print(f"Error in {fun.__name__}: {e}")
+                import sys
+                print(f"Error in {fun.__name__}: {e}", file=sys.stderr)
                 response.ret = False
             return response
         return wrapper
