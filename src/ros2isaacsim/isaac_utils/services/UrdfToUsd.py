@@ -1,19 +1,20 @@
-# TODO: Work across different robots % work with yaml
-from .safety import safe
 import os
 import sys
 from pathlib import Path
 
 import isaac_utils.graphs.odom as odom
+import isaac_utils.graphs.sensors.sensors as sensors
 import omni.kit.commands as commands
 from isaac_utils.graphs import control
-import isaac_utils.graphs.sensors.sensors as sensors
 from isaac_utils.utils import geom
 from isaac_utils.utils.path import world_path
 from isaac_utils.utils.prim import ensure_path
+from rclpy.qos import QoSProfile
 
 from isaacsim_msgs.srv import UrdfToUsd
-from rclpy.qos import QoSProfile
+
+from .utils import safe
+
 profile = QoSProfile(depth=2000)
 
 parent_dir = Path(__file__).resolve().parent.parent

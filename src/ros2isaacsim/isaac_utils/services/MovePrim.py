@@ -1,9 +1,10 @@
-from .safety import safe
 from isaac_utils.utils import geom
-
-from isaacsim_msgs.srv import MovePrim
 from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile
+
+from isaacsim_msgs.srv import MovePrim
+
+from .utils import safe
 
 profile = QoSProfile(depth=2000)
 

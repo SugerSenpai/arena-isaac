@@ -1,19 +1,18 @@
 import carb
-import numpy as np
 import omni.anim.navigation.core as nav
-from omni.isaac.core import World
 from pedestrian.simulator.logic.people.person import Person
 from pedestrian.simulator.logic.people_manager import PeopleManager
 from rclpy.qos import QoSProfile
 
-from isaacsim_msgs.srv import MovePed
 from isaacsim_msgs.msg import NavPed
-from isaac_utils.utils.path import world_path
+from isaacsim_msgs.srv import MovePed
 
+from .utils import safe
 
 profile = QoSProfile(depth=2000)
 
 
+@safe()
 def move_pedestrian(request: MovePed.Request, response: MovePed.Response):
     for nav_command in request.nav_list:
         nav_command: NavPed

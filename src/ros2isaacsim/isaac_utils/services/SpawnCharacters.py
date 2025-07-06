@@ -1,13 +1,11 @@
-from .safety import safe
-import carb
-import numpy as np
-import omni.anim.navigation.core as nav
+from isaac_utils.utils.path import world_path
 from omni.isaac.core import World
 from pedestrian.simulator.logic.people.person import Person
 from rclpy.qos import QoSProfile
 
 from isaacsim_msgs.srv import Pedestrian
-from isaac_utils.utils.path import world_path
+
+from .utils import safe
 
 profile = QoSProfile(depth=2000)
 

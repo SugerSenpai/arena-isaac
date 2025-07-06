@@ -1,8 +1,7 @@
-from .safety import safe
+from .utils import safe
 import os
 
 import numpy as np
-import omni
 from isaac_utils.utils import geom, prim
 from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile

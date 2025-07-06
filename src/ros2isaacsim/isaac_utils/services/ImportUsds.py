@@ -1,4 +1,4 @@
-from .safety import safe
+from .utils import safe
 import os
 
 import numpy as np

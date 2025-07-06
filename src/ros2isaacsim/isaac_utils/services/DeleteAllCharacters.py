@@ -1,9 +1,14 @@
-import omni.kit.commands as commands
-from isaacsim_msgs.srv import DeletePrim
-from pedestrian.simulator.logic.people_manager import PeopleManager
 import time
 
+import omni.kit.commands as commands
+from pedestrian.simulator.logic.people_manager import PeopleManager
 
+from isaacsim_msgs.srv import DeletePrim
+
+from .utils import safe
+
+
+@safe()
 def characters_delete(request, response):
     commands.execute(
         "IsaacSimDestroyPrim",
