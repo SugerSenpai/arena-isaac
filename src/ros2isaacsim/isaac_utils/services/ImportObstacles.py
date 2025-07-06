@@ -1,3 +1,4 @@
+from .safety import safe
 import os
 
 import numpy as np
@@ -11,11 +12,12 @@ from isaacsim_msgs.srv import ImportObstacles
 profile = QoSProfile(depth=2000)
 
 
+@safe()
 def obstacle_importer(request, response):
     name = request.name
     usd_path = request.usd_path
     model_prim = prim.create_prim_safe(
-        prim_path=world_path('obstacles',name),
+        prim_path=world_path('obstacles', name),
         position=np.array(geom.Translation.parse(request.pose.position).tuple()),
         orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
         usd_path=os.path.abspath(usd_path),
