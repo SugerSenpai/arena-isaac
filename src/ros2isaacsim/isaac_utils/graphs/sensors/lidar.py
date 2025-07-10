@@ -163,7 +163,6 @@ class SensorLidar(SensorBase):
                 )
             )
             import sys
-            print(f"TEMPFILE IS {f.name}", file=sys.stderr)
             return os.path.join(cls.config_base_prefix, os.path.splitext(os.path.basename(f.name))[0])
 
     def __init__(

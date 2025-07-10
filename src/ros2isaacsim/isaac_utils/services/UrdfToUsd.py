@@ -61,6 +61,7 @@ def urdf_to_usd(request, response):
     if not request.no_localization:
         odom.odom(
             os.path.join(prim_path, 'odom_publisher'),
+            tf_prefix=name,
             prim_path=os.path.join(prim_path, request.base_frame),
             base_frame_id=f'{name}/{request.base_frame}',
             odom_frame_id=f'{name}/{request.odom_frame}',
