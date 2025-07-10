@@ -3,6 +3,8 @@ import sys
 from pathlib import Path
 
 import isaac_utils.graphs.odom as odom
+import isaac_utils.graphs.joint_states as joint_states
+import isaac_utils.graphs.tf as tf
 import isaac_utils.graphs.sensors.sensors as sensors
 import omni.kit.commands as commands
 from isaac_utils.graphs import control
@@ -61,17 +63,22 @@ def urdf_to_usd(request, response):
     if not request.no_localization:
         odom.odom(
             os.path.join(prim_path, 'odom_publisher'),
-            tf_prefix=name,
             prim_path=os.path.join(prim_path, request.base_frame),
-            base_frame_id=f'{name}/{request.base_frame}',
-            odom_frame_id=f'{name}/{request.odom_frame}',
+            base_frame_id=os.path.join(name, request.base_frame),
+            odom_frame_id=os.path.join(name, request.odom_frame),
         )
 
-    # joint_states.joint_states(
-    #     f'/{name}/joint_state_publisher',
-    #     robot_model=robot_model,
-    #     joint_states_topic=f"/task_generator_node/{name}/joint_states",
-    # )
+    tf.tf(
+        os.path.join(prim_path, 'tf_publisher'),
+        prim_path=os.path.join(prim_path, request.base_frame),
+        tf_prefix=name,
+    )
+
+    joint_states.joint_states(
+        os.path.join(prim_path, 'joint_states_publisher'),
+        prim_path=os.path.join(prim_path, request.base_frame),
+        joint_states_topic=f"/task_generator_node/{name}/joint_states",
+    )
 
     if request.cmd_vel_topic:
         control.Control(

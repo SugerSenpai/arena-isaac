@@ -4,7 +4,7 @@ from isaac_utils.graphs import Graph
 
 def joint_states(
     graph_path: str,
-    robot_model: str,
+    prim_path: str,
     joint_states_topic: str
 ) -> bool:
     """
@@ -30,7 +30,7 @@ def joint_states(
     read_sim_time = graph.node('read_sim_time', 'omni.isaac.core_nodes.IsaacReadSimulationTime')
 
     # Set values
-    publish_joint_state.attribute('targetPrim', f"{graph_path}/base_footprint")
+    publish_joint_state.attribute('targetPrim', prim_path)
     publish_joint_state.attribute('topicName', joint_states_topic)
 
     # Connect nodes
