@@ -49,9 +49,17 @@ EXTENSIONS_PEOPLE = [
     'omni.anim.navigation.core'
 ]
 
+EXTENSIONS_MATERIAL = [
+    'omni.kit.material.library',
+    'omni.kit.browser.material',
+    'omni.kit.browser.asset',
+    'omni.kit.window.material'
+]
 for ext_people in EXTENSIONS_PEOPLE:
     extensions.enable_extension(ext_people)
 
+for ext_material in EXTENSIONS_MATERIAL:
+    extensions.enable_extension(ext_material)
 # Update the simulation app with the new extensions
 simulation_app.update()
 
