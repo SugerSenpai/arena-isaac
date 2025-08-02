@@ -99,7 +99,7 @@ from isaac_utils.services import import_obstacle
 from isaac_utils.services import spawn_ped
 from isaac_utils.services import move_ped
 from isaac_utils.services import delete_all_characters
-
+from isaac_utils.services import spawn_floor
 #Import sensors
 from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
@@ -341,6 +341,7 @@ def create_controller(time=120):
     import_obstacle(controller)
     spawn_ped(controller)
     move_ped(controller)
+    spawn_floor(controller)
     delete_all_characters(controller)
     
     return controller

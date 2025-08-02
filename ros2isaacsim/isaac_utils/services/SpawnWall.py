@@ -22,7 +22,7 @@ def wall_spawner(request, response):
     # Get service attributes
     prim_path = world_path('Walls', request.name)
     height = request.height
-
+    material = request.material
     # start = np.append(np.array(request.start), height / 2 + 0.1)
     # end = np.append(np.array(request.end), height / 2 + 0.1)
     start = np.append(np.array(request.start), height / 2)
@@ -50,18 +50,18 @@ def wall_spawner(request, response):
         orientation=euler_angles_to_quat([0, 0, angle]),
     ))
 
-    mdl_path = "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/Mahogany.mdl"
+    mdl_path = f"https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/{material}.mdl"
     mtl_path = "/World/Looks/WallMaterial"
     mtl = stage.GetPrimAtPath(mtl_path)
     if not (mtl and mtl.IsValid()):
         create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
                                                mtl_url=mdl_path,
-                                               mtl_name='Mahogany',
+                                               mtl_name=material,
                                                mtl_path=mtl_path)
 
-    # bind_res = omni.kit.commands.execute('BindMaterialCommand',
-    #                                      prim_path=prim_path,
-    #                                      material_path=mtl_path)
+    bind_res = omni.kit.commands.execute('BindMaterialCommand',
+                                         prim_path=prim_path,
+                                         material_path=mtl_path)
 
     response.ret = True
     return response
