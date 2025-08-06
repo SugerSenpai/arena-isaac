@@ -1,4 +1,3 @@
-
 # fmt: off
 # Use the isaacsim to import SimulationApp
 from isaacsim import SimulationApp
@@ -90,7 +89,7 @@ from pedestrian.simulator.logic.people_manager import PeopleManager
 from isaac_utils.robot_graphs import assign_robot_model
 
 #Import services
-from isaac_utils.services import spawn_wall
+from isaac_utils.services import spawn_wall, spawn_door
 from isaac_utils.services import move_prim
 from isaac_utils.services import get_prim_attr
 from isaac_utils.services import delete_prim
@@ -337,6 +336,7 @@ def create_controller(time=120):
     move_prim(controller)
     delete_prim(controller)
     spawn_wall(controller)
+    spawn_door_service = spawn_door(controller)
     import_yaml(controller)
     import_obstacle(controller)
     spawn_ped(controller)

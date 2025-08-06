@@ -1,4 +1,3 @@
-
 import typing
 
 import omni.graph.core as og
