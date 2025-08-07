@@ -371,7 +371,7 @@ def run():
 
 
 def main(arg=None):
-    rclpy.init()
+    # rclpy.init()
     controller = create_controller()
     while simulation_app.is_running():
         try:
@@ -385,7 +385,7 @@ def main(arg=None):
             # raise
         simulation_app.update()
     controller.destroy_node()
-    # rclpy.shutdown()
+    rclpy.shutdown()
     return
 
 
