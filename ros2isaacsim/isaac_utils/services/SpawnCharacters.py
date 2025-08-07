@@ -6,6 +6,7 @@ from pedestrian.simulator.logic.people.person import Person
 from rclpy.qos import QoSProfile
 
 from isaacsim_msgs.srv import Pedestrian
+from isaac_utils.managers.door_manager import door_manager
 
 from .utils import safe
 
@@ -34,6 +35,8 @@ def pedestrian_spawn(request, response):
             #         carb.log_error(f"NavMesh could not query points")
         else:
             p = Person(world, usd_path, person.character_name, person.initial_pose, person.orientation, person.controller_name)
+        
+        door_manager.add_pedestrian(usd_path)
 
     response.ret = True
     return response

@@ -1,4 +1,3 @@
-
 # fmt: off
 # Use the isaacsim to import SimulationApp
 from isaacsim import SimulationApp
@@ -100,6 +99,8 @@ from isaac_utils.services import spawn_ped
 from isaac_utils.services import move_ped
 from isaac_utils.services import delete_all_characters
 from isaac_utils.services import spawn_floor
+from isaac_utils.services import spawn_door
+from isaac_utils.managers.door_manager import door_manager
 #Import sensors
 from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
@@ -257,6 +258,7 @@ def usd_importer(request, response):
         usd_path=usd_path,
         semantic_label=model,
     )
+    door_manager.add_robot(f"/World/{name}")
 
     response.ret = True
     if not request.control:
@@ -327,31 +329,42 @@ def time_publisher(controller):
 
 
 def create_controller(time=120):
-    # init controller.
-    controller = rclpy.create_node('controller')
-    # init services.
-    time_publisher(controller)
+    rclpy.init()
+    controller = rclpy.create_node("isaac_controller")
     import_usd(controller)
-    convert_urdf_to_usd(controller)
-    get_prim_attr(controller)
-    move_prim(controller)
-    delete_prim(controller)
-    spawn_wall(controller)
     import_yaml(controller)
+    spawn_wall(controller)
+    move_prim(controller)
+    get_prim_attr(controller)
+    delete_prim(controller)
+    convert_urdf_to_usd(controller)
     import_obstacle(controller)
     spawn_ped(controller)
     move_ped(controller)
-    spawn_floor(controller)
     delete_all_characters(controller)
-    
+    spawn_floor(controller)
+    spawn_door(controller)
+    time_publisher(controller)
     return controller
 
 # update the simulation.
 
 
 def run():
-    simulation_app.update()
-    simulation_context.play()
+    timeline = omni.timeline.get_timeline_interface()
+    # Create a ROS2 node.
+    controller = create_controller()
+    while simulation_app.is_running():
+        # Run with a fixed step size.
+        simulation_app.update()
+        # Tick the ROS2 node.
+        rclpy.spin_once(controller, timeout_sec=0.0)
+        door_manager.update()
+    # Destory the ROS2 node.
+    controller.destroy_node()
+    # Shutdown the simulation.
+    simulation_app.close()
+
 # =================================================================================
 
 # ======================================main=======================================
