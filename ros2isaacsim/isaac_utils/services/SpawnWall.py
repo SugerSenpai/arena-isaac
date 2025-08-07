@@ -23,6 +23,8 @@ def wall_spawner(request, response):
     prim_path = world_path('Walls', request.name)
     height = request.height
     material = request.material
+    if not material:
+        material = "Adobe_Bricks_01"
     # start = np.append(np.array(request.start), height / 2 + 0.1)
     # end = np.append(np.array(request.end), height / 2 + 0.1)
     start = np.append(np.array(request.start), height / 2)
