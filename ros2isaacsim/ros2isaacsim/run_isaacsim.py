@@ -347,47 +347,38 @@ def create_controller(time=120):
     time_publisher(controller)
     return controller
 
-# update the simulation.
-
-
-def run():
-    timeline = omni.timeline.get_timeline_interface()
-    # Create a ROS2 node.
-    controller = create_controller()
-    while simulation_app.is_running():
-        # Run with a fixed step size.
-        simulation_app.update()
-        # Tick the ROS2 node.
-        rclpy.spin_once(controller, timeout_sec=0.0)
-        door_manager.update()
-    # Destory the ROS2 node.
-    controller.destroy_node()
-    # Shutdown the simulation.
-    simulation_app.close()
-
 # =================================================================================
 
 # ======================================main=======================================
 
-
-def main(arg=None):
-    # rclpy.init()
+def main(args=None):
+    """
+    Main function to initialize the simulation, create the ROS 2 node,
+    and run the simulation loop.
+    """
+    # Create the ROS 2 controller node. This also calls rclpy.init().
     controller = create_controller()
-    while simulation_app.is_running():
-        try:
-            run()
-            rclpy.spin_once(controller, timeout_sec=0.0)
-        except KeyboardInterrupt:
-            controller.get_logger().warn('received KeyboardInterrupt, shutting down')
-            break
-        except BaseException as e:
-            controller.get_logger().warn(f'encountered {repr(e)}, ignoring')
-            # raise
-        simulation_app.update()
-    controller.destroy_node()
-    rclpy.shutdown()
-    return
 
+    try:
+        # Main simulation loop
+        while simulation_app.is_running():
+            # Step the simulation
+            simulation_app.update()
+
+            # Update door logic
+            door_manager.update()
+
+            # Tick the ROS 2 node
+            rclpy.spin_once(controller, timeout_sec=0.0)
+
+    except KeyboardInterrupt:
+        controller.get_logger().info('Received KeyboardInterrupt, shutting down.')
+    finally:
+        # Cleanly shut down the simulation and ROS 2
+        controller.get_logger().info('Shutting down ROS 2 node and simulation.')
+        controller.destroy_node()
+        rclpy.shutdown()
+        simulation_app.close()
 
 # =================================================================================
 if __name__ == "__main__":
