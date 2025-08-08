@@ -1,7 +1,7 @@
 import typing
 import omni
 import numpy as np
-from pxr import Gf, UsdGeom
+from pxr import Gf, UsdGeom, Sdf
 
 class DoorManager:
     def __init__(self):
@@ -21,10 +21,18 @@ class DoorManager:
                 "open": False
             }
             # Store initial scale
-            xformable = UsdGeom.Xformable(prim)
-            scale_attr = xformable.GetScaleAttr()
+            scale_attr = prim.GetAttribute('xformOp:scale')
             if scale_attr:
                 self._doors[prim_path]["initial_scale"] = scale_attr.Get()
+            else:
+                # If no scale attribute exists, try to get it from the xform
+                xformable = UsdGeom.Xformable(prim)
+                transform = xformable.GetLocalTransformation()
+                # Extract scale from transformation matrix
+                scale_x = transform.GetRow(0).GetLength()
+                scale_y = transform.GetRow(1).GetLength() 
+                scale_z = transform.GetRow(2).GetLength()
+                self._doors[prim_path]["initial_scale"] = Gf.Vec3f(scale_x, scale_y, scale_z)
 
     def add_robot(self, prim_path: str):
         self._robots.append(prim_path)
@@ -71,16 +79,27 @@ class DoorManager:
 
     def _open_door(self, door_data):
         if door_data["kind"] == 'sliding':
-            xformable = UsdGeom.Xformable(door_data["prim"])
-            # Slide open by reducing scale on one axis (e.g., Y)
+            prim = door_data["prim"]
             target_scale = Gf.Vec3f(door_data["initial_scale"][0], 0.1, door_data["initial_scale"][2])
-            xformable.GetScaleAttr().Set(target_scale)
+            scale_attr = prim.GetAttribute('xformOp:scale')
+            if scale_attr:
+                scale_attr.Set(target_scale)
+            else:
+                # Create the attribute if it doesn't exist
+                scale_attr = prim.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
+                scale_attr.Set(target_scale)
             door_data["open"] = True
 
     def _close_door(self, door_data):
         if door_data["kind"] == 'sliding':
-            xformable = UsdGeom.Xformable(door_data["prim"])
-            xformable.GetScaleAttr().Set(door_data["initial_scale"])
+            prim = door_data["prim"]
+            scale_attr = prim.GetAttribute('xformOp:scale')
+            if scale_attr:
+                scale_attr.Set(door_data["initial_scale"])
+            else:
+                # Create the attribute if it doesn't exist
+                scale_attr = prim.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
+                scale_attr.Set(door_data["initial_scale"])
             door_data["open"] = False
 
 door_manager = DoorManager()

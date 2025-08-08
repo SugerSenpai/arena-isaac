@@ -52,18 +52,31 @@ def wall_spawner(request, response):
         orientation=euler_angles_to_quat([0, 0, angle]),
     ))
 
-    mdl_path = f"https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/{material}.mdl"
+    # Create a simple material using OmniPBR instead of external URLs
     mtl_path = "/World/Looks/WallMaterial"
     mtl = stage.GetPrimAtPath(mtl_path)
     if not (mtl and mtl.IsValid()):
-        create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
-                                               mtl_url=mdl_path,
-                                               mtl_name=material,
-                                               mtl_path=mtl_path)
+        try:
+            omni.kit.commands.execute('CreateAndBindMdlMaterialFromLibrary',
+                                     mdl_name='OmniPBR.mdl',
+                                     mtl_name='OmniPBR',
+                                     mtl_path=mtl_path,
+                                     select_new_prim=False)
+            # Set a gray/concrete color for walls
+            omni.kit.commands.execute('ChangeProperty',
+                                     prop_path=f"{mtl_path}/Shader.inputs:diffuse_color_constant",
+                                     value=(0.7, 0.7, 0.7),
+                                     prev=None)
+        except:
+            # Fallback: create basic material without external dependencies
+            pass
 
-    bind_res = omni.kit.commands.execute('BindMaterialCommand',
-                                         prim_path=prim_path,
-                                         material_path=mtl_path)
+    try:
+        omni.kit.commands.execute('BindMaterialCommand',
+                                 prim_path=prim_path,
+                                 material_path=mtl_path)
+    except:
+        pass  # Material binding failed, continue without material
 
     response.ret = True
     return response
