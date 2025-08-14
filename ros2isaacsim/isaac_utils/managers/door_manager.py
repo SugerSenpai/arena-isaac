@@ -75,7 +75,8 @@ class DoorManager:
         self._door_open_distance = 3.0  # open when entity is closer than this
         self._door_close_margin = 0.5   # hysteresis margin; close when farther than open_distance + margin
         # Minimum seconds between toggles for a given door to avoid rapid spam
-        self._door_min_toggle_interval = 0.5
+        # For instantaneous open/close set interval to 0.0
+        self._door_min_toggle_interval = 0.0
 
         # Controller node (set by register_node)
         self._controller = None
@@ -90,6 +91,9 @@ class DoorManager:
         # Example: door_manager._log_entity_filter = ['gazebo_actor']
         # or door_manager._log_entity_filter = ['jackal']
         self._log_entity_filter: list[str] | None = None
+        # If True, hide door geometry by setting visibility instead of translating/scale
+        # Useful for debugging and avoids moving shared ancestors (walls).
+        self._use_visibility_toggle: bool = True
 
     def register_node(self, controller):
         """Attach rclpy subscriptions to the provided controller node so DoorManager
@@ -203,6 +207,8 @@ class DoorManager:
                 "kind": kind,
                 "initial_scale": Gf.Vec3f(1, 1, 1),
                 "initial_translate": Gf.Vec3f(0, 0, 0),
+                # move_prim_path: the actual prim we will translate/scale when opening/closing
+                "move_prim_path": prim_path,
                 "open": False
                 ,"last_toggle_time": 0.0
             }
@@ -236,6 +242,21 @@ class DoorManager:
                 except Exception:
                     wp = self._get_prim_position(prim)
                     self._doors[prim_path]["initial_translate"] = Gf.Vec3f(float(wp[0]), float(wp[1]), float(wp[2]))
+
+            # Choose a sensible move target: prefer a child geometry/xform so we don't move parents (walls)
+            try:
+                for child in prim.GetAllChildren():
+                    if not child or not child.IsValid():
+                        continue
+                    # Prefer a child that is xformable (likely geometry holder)
+                    try:
+                        _ = UsdGeom.Xformable(child)
+                        self._doors[prim_path]["move_prim_path"] = child.GetPath().pathString
+                        break
+                    except Exception:
+                        continue
+            except Exception:
+                pass
 
             _log_debug(f"Added door to door manager: {prim_path}")
         else:
@@ -336,70 +357,232 @@ class DoorManager:
             translation = xformable.GetLocalTransformation().GetRow(3)
             return np.array([translation[0], translation[1], translation[2]])
 
+    def _dump_prim_transform_info(self, prim):
+        """Diagnostic: log transform ops and attributes for prim, parents and children."""
+        try:
+            if not prim or not prim.IsValid():
+                _log_info('Diagnostic: prim invalid or not found')
+                return
+            _log_info(f'Diagnostic for prim: {prim.GetPath().pathString}')
+            try:
+                _log_info(f'  typeName={prim.GetTypeName()}, IsInstance={prim.IsInstance()}')
+            except Exception:
+                pass
+            # Xform ops for the prim
+            try:
+                xf = UsdGeom.Xformable(prim)
+                ops = xf.GetOrderedXformOps()
+                _log_info('  ordered xform ops: ' + str([o.GetOpName() for o in ops]))
+            except Exception as e:
+                _log_info(f'  prim not xformable: {e}')
+
+            # common transform attributes
+            for name in ('xformOp:translate', 'xformOp:scale', 'xformOp:transform'):
+                try:
+                    a = prim.GetAttribute(name)
+                    if a and a.HasAuthoredValue():
+                        _log_info(f'  {name} = {a.Get()}')
+                    else:
+                        _log_info(f'  {name} = <not authored>')
+                except Exception as e:
+                    _log_debug(f'  reading {name} failed: {e}')
+
+            # walk parents up to a few levels
+            parent = prim.GetParent()
+            depth = 0
+            while parent and parent.IsValid() and depth < 5:
+                try:
+                    _log_info(f'  parent: {parent.GetPath().pathString} type={parent.GetTypeName()} IsInstance={parent.IsInstance()}')
+                    try:
+                        pxf = UsdGeom.Xformable(parent)
+                        pops = pxf.GetOrderedXformOps()
+                        _log_info('    ordered xform ops: ' + str([o.GetOpName() for o in pops]))
+                    except Exception:
+                        _log_info('    parent not xformable')
+                    for name in ('xformOp:translate', 'xformOp:scale', 'xformOp:transform'):
+                        try:
+                            a = parent.GetAttribute(name)
+                            if a and a.HasAuthoredValue():
+                                _log_info(f'    {name} = {a.Get()}')
+                            else:
+                                _log_info(f'    {name} = <not authored>')
+                        except Exception:
+                            pass
+                except Exception as e:
+                    _log_debug(f'  parent info failed: {e}')
+                parent = parent.GetParent()
+                depth += 1
+
+            # list children attributes
+            for child in prim.GetAllChildren():
+                try:
+                    _log_info(f'  child: {child.GetPath().pathString} type={child.GetTypeName()} IsInstance={child.IsInstance()}')
+                    try:
+                        cxf = UsdGeom.Xformable(child)
+                        cops = cxf.GetOrderedXformOps()
+                        _log_info('    ordered xform ops: ' + str([o.GetOpName() for o in cops]))
+                    except Exception:
+                        _log_info('    child not xformable')
+                    for name in ('xformOp:translate', 'xformOp:scale', 'xformOp:transform'):
+                        try:
+                            a = child.GetAttribute(name)
+                            if a and a.HasAuthoredValue():
+                                _log_info(f'    {name} = {a.Get()}')
+                            else:
+                                _log_info(f'    {name} = <not authored>')
+                        except Exception:
+                            pass
+                except Exception as e:
+                    _log_debug(f'  child info failed: {e}')
+        except Exception as e:
+            _log_debug(f'_dump_prim_transform_info error: {e}')
+
+    def _set_visibility(self, prim, visible: bool, recursive: bool = False):
+        """Set Usd visibility on prim. visible=True -> 'inherited', False -> 'invisible'.
+        If recursive=True, apply to all descendants as well.
+        """
+        try:
+            if prim is None or not prim.IsValid():
+                return False
+            try:
+                img = UsdGeom.Imageable(prim)
+            except Exception:
+                img = None
+            if img is not None:
+                val = 'inherited' if visible else 'invisible'
+                try:
+                    img.GetVisibilityAttr().Set(val)
+                except Exception as e:
+                    _log_debug(f'Failed to set visibility on {prim.GetPath().pathString}: {e}')
+            # optionally apply to children
+            if recursive:
+                for child in prim.GetAllChildren():
+                    try:
+                        self._set_visibility(child, visible, recursive=True)
+                    except Exception:
+                        pass
+            _log_debug(f"Set visibility {val} on {prim.GetPath().pathString}")
+            return True
+        except Exception as e:
+            _log_debug(f'_set_visibility error: {e}')
+            return False
+
     def _open_door(self, door_data):
         if door_data["kind"] == 'sliding':
+            stage = omni.usd.get_context().get_stage()
             prim = door_data["prim"]
-            # Slide the door along its local X axis by a sensible offset based on its size
+            move_prim = stage.GetPrimAtPath(door_data.get("move_prim_path", prim.GetPath().pathString))
+             # Determine target translate/scale
+            init_scale = door_data.get("initial_scale", Gf.Vec3f(1, 1, 1))
             try:
-                size_x = float(door_data.get("initial_scale")[0]) if door_data.get("initial_scale") is not None else 1.0
-                opening_offset = max(0.5, size_x * 0.9)
-                init_t = door_data.get("initial_translate", Gf.Vec3f(0, 0, 0))
-                target_t = Gf.Vec3f(init_t[0] + opening_offset, init_t[1], init_t[2])
-                # Use XformCommonAPI to set translate so we respect xformOp order
-                xform_api = UsdGeom.XformCommonAPI(prim)
-                xform_api.SetTranslate((float(target_t[0]), float(target_t[1]), float(target_t[2])))
+                size_x = float(init_scale[0])
+            except Exception:
+                size_x = 1.0
+            opening_offset = max(0.5, size_x * 0.9)
+            init_t = door_data.get("initial_translate", Gf.Vec3f(0, 0, 0))
+            target_t = (float(init_t[0]) + opening_offset, float(init_t[1]), float(init_t[2]))
 
-                # Verify translate took effect; if not, fallback to scale-based shrink (some doors are animated by scale)
+            moved = False
+
+            # Try setting translate on the prim itself
+            try:
+                # operate on the chosen move_prim to avoid affecting parent walls
+                target = move_prim if move_prim and move_prim.IsValid() else prim
+                xform_api = UsdGeom.XformCommonAPI(target)
+                xform_api.SetTranslate(target_t)
                 try:
-                    translate_attr = prim.GetAttribute('xformOp:translate')
-                    current_t = translate_attr.Get() if translate_attr is not None else None
+                    t_attr = target.GetAttribute('xformOp:translate')
+                    t_val = t_attr.Get() if t_attr is not None else None
                 except Exception:
-                    current_t = None
+                    t_val = None
+                if t_val is not None and any(abs(float(t_val[i]) - target_t[i]) > 1e-6 for i in range(3)):
+                    _log_info(f"Door {prim.GetPath().pathString} opened -> prim translated to {t_val} (moved {target.GetPath().pathString})")
+                    moved = True
+            except Exception as e:
+                _log_debug(f"Prim translate attempt failed for {prim.GetPath().pathString}: {e}")
 
-                moved = False
-                if current_t is not None:
-                    try:
-                        # compare components with a small tolerance
-                        moved = any(abs(float(current_t[i]) - float(target_t[i])) > 1e-3 for i in range(3))
-                    except Exception:
-                        # conservative: assume moved
-                        moved = True
-
-                if not moved:
-                    # Fallback: use scale (shrink width) to simulate opening
-                    _log_debug(f"Translation did not visibly change door {prim.GetPath().pathString}; falling back to scale-based opening")
-                    target_scale = Gf.Vec3f(door_data["initial_scale"][0], 0.1, door_data["initial_scale"][2])
-                    scale_attr = prim.GetAttribute('xformOp:scale')
+            # Final fallback: shrink target scale
+            if not moved:
+                try:
+                    target = move_prim if move_prim and move_prim.IsValid() else prim
+                    target_scale = Gf.Vec3f(init_scale[0], 0.01, init_scale[2])
+                    scale_attr = target.GetAttribute('xformOp:scale')
                     if scale_attr:
                         scale_attr.Set(target_scale)
                     else:
-                        scale_attr = prim.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
+                        scale_attr = target.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
                         scale_attr.Set(target_scale)
+                    _log_info(f"Door {prim.GetPath().pathString} opened via scale fallback on {target.GetPath().pathString}")
+                    moved = True
+                except Exception as e:
+                    _log_warn(f"Failed scale fallback for {prim.GetPath().pathString}: {e}")
+
+            if moved:
                 door_data["open"] = True
-                _log_info(f"Door {prim.GetPath().pathString} opened -> translate set to {target_t}")
-            except Exception as e:
-                _log_warn(f"Failed to open door {prim.GetPath().pathString}: {e}")
+                # If enabled, hide the door geometry instead of relying on transforms
+                if getattr(self, '_use_visibility_toggle', False):
+                    try:
+                        target = move_prim if 'move_prim' in locals() and move_prim and move_prim.IsValid() else prim
+                        ok = self._set_visibility(target, visible=False, recursive=True)
+                        if ok:
+                            _log_info(f"Door {prim.GetPath().pathString} hidden via visibility on {target.GetPath().pathString}")
+                    except Exception as e:
+                        _log_debug(f'Visibility toggle failed for {prim.GetPath().pathString}: {e}')
+            else:
+                _log_warn(f"Door {prim.GetPath().pathString} did not move or scale; no visible opening performed")
 
     def _close_door(self, door_data):
         if door_data["kind"] == 'sliding':
+            stage = omni.usd.get_context().get_stage()
             prim = door_data["prim"]
+            move_prim = stage.GetPrimAtPath(door_data.get("move_prim_path", prim.GetPath().pathString))
+            init_scale = door_data.get("initial_scale", Gf.Vec3f(1, 1, 1))
+            init_t = door_data.get("initial_translate", Gf.Vec3f(0, 0, 0))
+            restored = False
+
+            # Try reset translate on target (move_prim if available)
             try:
-                init_t = door_data.get("initial_translate", Gf.Vec3f(0, 0, 0))
-                xform_api = UsdGeom.XformCommonAPI(prim)
+                target = move_prim if move_prim and move_prim.IsValid() else prim
+                xform_api = UsdGeom.XformCommonAPI(target)
                 xform_api.SetTranslate((float(init_t[0]), float(init_t[1]), float(init_t[2])))
-
-                # Also restore scale if fallback was used previously
                 try:
-                    scale_attr = prim.GetAttribute('xformOp:scale')
-                    if scale_attr:
-                        scale_attr.Set(door_data.get("initial_scale", Gf.Vec3f(1,1,1)))
+                    t_attr = target.GetAttribute('xformOp:translate')
+                    t_val = t_attr.Get() if t_attr is not None else None
                 except Exception:
-                    pass
-
-                door_data["open"] = False
-                _log_info(f"Door {prim.GetPath().pathString} closed -> translate reset to {init_t}")
+                    t_val = None
+                if t_val is not None and any(abs(float(t_val[i]) - float(init_t[i])) > 1e-6 for i in range(3)):
+                    restored = True
+                    _log_info(f"Door {prim.GetPath().pathString} closed -> translate reset on {target.GetPath().pathString} to {t_val}")
             except Exception as e:
-                _log_warn(f"Failed to close door {prim.GetPath().pathString}: {e}")
+                _log_debug(f"Prim translate reset failed for {prim.GetPath().pathString}: {e}")
+
+            # Final fallback: restore target scale
+            if not restored:
+                try:
+                    target = move_prim if move_prim and move_prim.IsValid() else prim
+                    sc_attr = target.GetAttribute('xformOp:scale')
+                    if sc_attr:
+                        sc_attr.Set(init_scale)
+                    else:
+                        sc_attr = target.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
+                        sc_attr.Set(init_scale)
+                    restored = True
+                    _log_info(f"Door {prim.GetPath().pathString} closed via target-scale restore on {target.GetPath().pathString}")
+                except Exception as e:
+                    _log_warn(f"Failed prim-scale restore for {prim.GetPath().pathString}: {e}")
+
+            if restored:
+                door_data["open"] = False
+                if getattr(self, '_use_visibility_toggle', False):
+                    try:
+                        target = move_prim if 'move_prim' in locals() and move_prim and move_prim.IsValid() else prim
+                        ok = self._set_visibility(target, visible=True, recursive=True)
+                        if ok:
+                            _log_info(f"Door {prim.GetPath().pathString} visibility restored on {target.GetPath().pathString}")
+                    except Exception as e:
+                        _log_debug(f'Visibility restore failed for {prim.GetPath().pathString}: {e}')
+            else:
+                _log_warn(f"Door {prim.GetPath().pathString} did not restore transforms/scale; remains in open state")
 
     def _resolve_entity_prim(self, prim_path: str) -> str:
         """Try to resolve a dynamic/moving sub-prim for a given USD prim path.
