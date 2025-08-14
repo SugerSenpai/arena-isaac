@@ -344,6 +344,18 @@ def create_controller(time=120):
     delete_all_characters(controller)
     spawn_floor(controller)
     spawn_door(controller)
+    # Let the DoorManager subscribe to ROS topics on this controller node
+    try:
+        door_manager.register_node(controller)
+    except Exception as e:
+        controller.get_logger().warning(f'Failed to register DoorManager with controller: {e}')
+    # Enable per-entity logging and filter to show only jackal-related outputs
+    try:
+        door_manager._log_every_tick = False
+        door_manager._log_entity_filter = ['jackal']
+        controller.get_logger().info('DoorManager per-tick logging enabled (filter=jackal)')
+    except Exception as e:
+        controller.get_logger().warning(f'Failed to set DoorManager logging flags: {e}')
     time_publisher(controller)
     return controller
 

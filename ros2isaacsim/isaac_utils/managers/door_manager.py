@@ -2,6 +2,7 @@ import typing
 import omni
 import numpy as np
 from pxr import Gf, UsdGeom, Sdf, Usd
+import time
 
 # try to import rclpy and message types for subscribing to external pose topics
 try:
@@ -9,11 +10,13 @@ try:
     from rclpy.qos import QoSProfile
     from people_msgs.msg import People
     from nav_msgs.msg import Odometry
+    from std_msgs.msg import String as StdString
 except Exception:
     rclpy = None
     People = None
     Odometry = None
     QoSProfile = None
+    StdString = None
 
 # Prefer rclpy logger when available so messages appear in ros2/launch logs; fallback to print
 try:
@@ -68,7 +71,11 @@ class DoorManager:
         self._doors = {}
         self._robots = []
         self._pedestrians = []
-        self._door_open_distance = 3.0  # meters
+        # Distance thresholds (meters)
+        self._door_open_distance = 3.0  # open when entity is closer than this
+        self._door_close_margin = 0.5   # hysteresis margin; close when farther than open_distance + margin
+        # Minimum seconds between toggles for a given door to avoid rapid spam
+        self._door_min_toggle_interval = 0.5
 
         # Controller node (set by register_node)
         self._controller = None
@@ -76,6 +83,13 @@ class DoorManager:
         self._entity_poses: dict[str, np.ndarray] = {}
         # robot subscriptions by registered prim path
         self._robot_subs: dict[str, object] = {}
+        # control verbose per-tick logging (DOOR_POS and DISTANCE). Set to False to silence.
+        self._log_every_tick = False
+        # Optional list of substrings to filter per-entity logs. If set, DISTANCE
+        # logs will only be printed when any substring matches entity_path.
+        # Example: door_manager._log_entity_filter = ['gazebo_actor']
+        # or door_manager._log_entity_filter = ['jackal']
+        self._log_entity_filter: list[str] | None = None
 
     def register_node(self, controller):
         """Attach rclpy subscriptions to the provided controller node so DoorManager
@@ -92,6 +106,16 @@ class DoorManager:
                 _log_warn(f'Failed to subscribe to people topic: {e}')
         else:
             _log_warn('people_msgs.People message type not available; pedestrian topic not subscribed')
+
+        # Also subscribe to simple registration topic so external processes can register prims
+        if StdString is not None:
+            try:
+                controller.create_subscription(StdString, '/isaac/register_entity', self._register_entity_cb, 10)
+                _log_info('Subscribed to /isaac/register_entity for external entity registrations')
+            except Exception as e:
+                _log_warn(f'Failed to subscribe to /isaac/register_entity: {e}')
+        else:
+            _log_warn('std_msgs.String not available; registration topic not subscribed')
 
         # ensure robot subscriptions for already-registered robots
         for prim_path in list(self._robots):
@@ -134,11 +158,13 @@ class DoorManager:
             if pos is None:
                 return
             self._entity_poses[prim_path] = np.array([pos.x, pos.y, pos.z])
+            _log_debug(f'odom update for {prim_path}: {self._entity_poses[prim_path]}')
         except Exception as e:
             _log_debug(f'odom_cb error: {e}')
 
     def _people_cb(self, msg):
         try:
+            _log_debug('people topic message received')
             people = getattr(msg, 'people', None)
             if people is None:
                 return
@@ -176,7 +202,9 @@ class DoorManager:
                 "prim": prim,
                 "kind": kind,
                 "initial_scale": Gf.Vec3f(1, 1, 1),
+                "initial_translate": Gf.Vec3f(0, 0, 0),
                 "open": False
+                ,"last_toggle_time": 0.0
             }
             # Store initial scale
             scale_attr = prim.GetAttribute('xformOp:scale')
@@ -191,6 +219,24 @@ class DoorManager:
                 scale_y = transform.GetRow(1).GetLength()
                 scale_z = transform.GetRow(2).GetLength()
                 self._doors[prim_path]["initial_scale"] = Gf.Vec3f(scale_x, scale_y, scale_z)
+
+            # Store initial local translation if present (fallback to local xform translation)
+            translate_attr = prim.GetAttribute('xformOp:translate')
+            if translate_attr and translate_attr.Get() is not None:
+                self._doors[prim_path]["initial_translate"] = translate_attr.Get()
+            else:
+                # fallback: use local xform translation (preferred over world position)
+                try:
+                    xformable = UsdGeom.Xformable(prim)
+                    transform = xformable.GetLocalTransformation()
+                    tx = transform.GetRow(3)[0]
+                    ty = transform.GetRow(3)[1]
+                    tz = transform.GetRow(3)[2]
+                    self._doors[prim_path]["initial_translate"] = Gf.Vec3f(float(tx), float(ty), float(tz))
+                except Exception:
+                    wp = self._get_prim_position(prim)
+                    self._doors[prim_path]["initial_translate"] = Gf.Vec3f(float(wp[0]), float(wp[1]), float(wp[2]))
+
             _log_debug(f"Added door to door manager: {prim_path}")
         else:
             _log_warn(f"Failed to add door - invalid prim: {prim_path}")
@@ -216,45 +262,66 @@ class DoorManager:
                 continue
 
             door_pos = self._get_prim_position(door_prim)
-            # Print door world position every tick
-            _log_info(f"DOOR_POS: {door_path} = ({door_pos[0]:.3f}, {door_pos[1]:.3f}, {door_pos[2]:.3f})")
+            # Optionally print door world position every tick
+            if self._log_every_tick:
+                _log_info(f"DOOR_POS: {door_path} = ({door_pos[0]:.3f}, {door_pos[1]:.3f}, {door_pos[2]:.3f})")
 
             if entities_to_check:
+                # Compute positions for all entities and their distances to the door
+                distances = []
+                entity_positions = {}
                 for entity_path in entities_to_check:
-                    # prefer ROS-published pose cache if available
-                    if entity_path in self._entity_poses:
-                        entity_pos = self._entity_poses[entity_path]
-                    else:
-                        # ensure we operate on the resolved prim if possible
-                        entity_prim = stage.GetPrimAtPath(entity_path)
-                        if not (entity_prim and entity_prim.IsValid()):
-                            # try to resolve an alternative sub-prim dynamically
-                            resolved_path = self._resolve_entity_prim(entity_path)
-                            entity_prim = stage.GetPrimAtPath(resolved_path)
-                            if entity_prim and entity_prim.IsValid():
-                                _log_debug(f"Resolved entity prim for distance checks: {entity_path} -> {resolved_path}")
-                                entity_path = resolved_path
+                    try:
+                        if entity_path in self._entity_poses:
+                            entity_pos = self._entity_poses[entity_path]
+                        else:
+                            entity_prim = stage.GetPrimAtPath(entity_path)
+                            if not (entity_prim and entity_prim.IsValid()):
+                                resolved_path = self._resolve_entity_prim(entity_path)
+                                entity_prim = stage.GetPrimAtPath(resolved_path)
+                                if entity_prim and entity_prim.IsValid():
+                                    _log_debug(f"Resolved entity prim for distance checks: {entity_path} -> {resolved_path}")
+                                    entity_path = resolved_path
                         if not (entity_prim and entity_prim.IsValid()):
                             _log_warn(f"Entity prim invalid or missing: {entity_path}")
                             continue
                         entity_pos = self._get_prim_position(entity_prim)
+                        dist = float(np.linalg.norm(door_pos - entity_pos))
+                        distances.append((dist, entity_path))
+                        entity_positions[entity_path] = entity_pos
+                    except Exception as e:
+                        _log_debug(f'Error computing distance for {entity_path}: {e}')
 
-                    distance = float(np.linalg.norm(door_pos - entity_pos))
-                    # Always print the distance (per your request)
-                    _log_info(f"DISTANCE: Door {door_path} -> Entity {entity_path} = {distance:.3f} m (open={door_data['open']})")
+                if not distances:
+                    if self._log_every_tick:
+                        _log_info(f"DISTANCE: Door {door_path} -> (no valid entities found)")
+                    continue
 
-                    # Maintain open/close behavior based on threshold
-                    if distance < self._door_open_distance:
-                        if not door_data["open"]:
-                            _log_info(f"Opening door {door_path} (entity within {self._door_open_distance}m)")
-                            self._open_door(door_data)
-                    else:
-                        if door_data["open"]:
-                            _log_info(f"Closing door {door_path} (no entities within {self._door_open_distance}m)")
-                            self._close_door(door_data)
+                # Use the minimum distance across all entities to decide open/close
+                distances.sort(key=lambda x: x[0])
+                min_distance, closest_entity = distances[0]
+
+                # Optionally print per-entity distance for the closest entity only
+                if self._log_every_tick:
+                    if (self._log_entity_filter is None or any(substr in closest_entity for substr in self._log_entity_filter)):
+                        _log_info(f"DISTANCE: Door {door_path} -> Entity {closest_entity} = {min_distance:.3f} m (open={door_data['open']})")
+
+                # Hysteresis + cooldown: decide once per door using min_distance
+                now = time.time()
+                if min_distance < self._door_open_distance:
+                    if (not door_data["open"] and (now - door_data.get("last_toggle_time", 0.0) > self._door_min_toggle_interval)):
+                        _log_info(f"Opening door {door_path} (closest entity {closest_entity} within {self._door_open_distance}m)")
+                        self._open_door(door_data)
+                        door_data["last_toggle_time"] = now
+                elif min_distance > (self._door_open_distance + self._door_close_margin):
+                    if (door_data["open"] and (now - door_data.get("last_toggle_time", 0.0) > self._door_min_toggle_interval)):
+                        _log_info(f"Closing door {door_path} (no entities within {self._door_open_distance}m)")
+                        self._close_door(door_data)
+                        door_data["last_toggle_time"] = now
             else:
-                # No entities registered — print a placeholder distance message every tick
-                _log_info(f"DISTANCE: Door {door_path} -> (no entities registered)")
+                # No entities registered — optionally print a placeholder distance message
+                if self._log_every_tick:
+                    _log_info(f"DISTANCE: Door {door_path} -> (no entities registered)")
 
     def _get_prim_position(self, prim):
         try:
@@ -272,27 +339,67 @@ class DoorManager:
     def _open_door(self, door_data):
         if door_data["kind"] == 'sliding':
             prim = door_data["prim"]
-            target_scale = Gf.Vec3f(door_data["initial_scale"][0], 0.1, door_data["initial_scale"][2])
-            scale_attr = prim.GetAttribute('xformOp:scale')
-            if scale_attr:
-                scale_attr.Set(target_scale)
-            else:
-                # Create the attribute if it doesn't exist
-                scale_attr = prim.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
-                scale_attr.Set(target_scale)
-            door_data["open"] = True
+            # Slide the door along its local X axis by a sensible offset based on its size
+            try:
+                size_x = float(door_data.get("initial_scale")[0]) if door_data.get("initial_scale") is not None else 1.0
+                opening_offset = max(0.5, size_x * 0.9)
+                init_t = door_data.get("initial_translate", Gf.Vec3f(0, 0, 0))
+                target_t = Gf.Vec3f(init_t[0] + opening_offset, init_t[1], init_t[2])
+                # Use XformCommonAPI to set translate so we respect xformOp order
+                xform_api = UsdGeom.XformCommonAPI(prim)
+                xform_api.SetTranslate((float(target_t[0]), float(target_t[1]), float(target_t[2])))
+
+                # Verify translate took effect; if not, fallback to scale-based shrink (some doors are animated by scale)
+                try:
+                    translate_attr = prim.GetAttribute('xformOp:translate')
+                    current_t = translate_attr.Get() if translate_attr is not None else None
+                except Exception:
+                    current_t = None
+
+                moved = False
+                if current_t is not None:
+                    try:
+                        # compare components with a small tolerance
+                        moved = any(abs(float(current_t[i]) - float(target_t[i])) > 1e-3 for i in range(3))
+                    except Exception:
+                        # conservative: assume moved
+                        moved = True
+
+                if not moved:
+                    # Fallback: use scale (shrink width) to simulate opening
+                    _log_debug(f"Translation did not visibly change door {prim.GetPath().pathString}; falling back to scale-based opening")
+                    target_scale = Gf.Vec3f(door_data["initial_scale"][0], 0.1, door_data["initial_scale"][2])
+                    scale_attr = prim.GetAttribute('xformOp:scale')
+                    if scale_attr:
+                        scale_attr.Set(target_scale)
+                    else:
+                        scale_attr = prim.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
+                        scale_attr.Set(target_scale)
+                door_data["open"] = True
+                _log_info(f"Door {prim.GetPath().pathString} opened -> translate set to {target_t}")
+            except Exception as e:
+                _log_warn(f"Failed to open door {prim.GetPath().pathString}: {e}")
 
     def _close_door(self, door_data):
         if door_data["kind"] == 'sliding':
             prim = door_data["prim"]
-            scale_attr = prim.GetAttribute('xformOp:scale')
-            if scale_attr:
-                scale_attr.Set(door_data["initial_scale"])
-            else:
-                # Create the attribute if it doesn't exist
-                scale_attr = prim.CreateAttribute('xformOp:scale', Sdf.ValueTypeNames.Float3)
-                scale_attr.Set(door_data["initial_scale"])
-            door_data["open"] = False
+            try:
+                init_t = door_data.get("initial_translate", Gf.Vec3f(0, 0, 0))
+                xform_api = UsdGeom.XformCommonAPI(prim)
+                xform_api.SetTranslate((float(init_t[0]), float(init_t[1]), float(init_t[2])))
+
+                # Also restore scale if fallback was used previously
+                try:
+                    scale_attr = prim.GetAttribute('xformOp:scale')
+                    if scale_attr:
+                        scale_attr.Set(door_data.get("initial_scale", Gf.Vec3f(1,1,1)))
+                except Exception:
+                    pass
+
+                door_data["open"] = False
+                _log_info(f"Door {prim.GetPath().pathString} closed -> translate reset to {init_t}")
+            except Exception as e:
+                _log_warn(f"Failed to close door {prim.GetPath().pathString}: {e}")
 
     def _resolve_entity_prim(self, prim_path: str) -> str:
         """Try to resolve a dynamic/moving sub-prim for a given USD prim path.
@@ -355,6 +462,34 @@ class DoorManager:
         if resolved not in self._pedestrians:
             self._pedestrians.append(resolved)
         _log_debug(f"Added pedestrian to door manager: {prim_path} -> resolved: {resolved}")
+
+    def _register_entity_cb(self, msg):
+        """Handle simple registration messages published on /isaac/register_entity.
+        Expected payload: '<role>|<prim_path>' where role is 'robot' or 'pedestrian'.
+        """
+        try:
+            data = getattr(msg, 'data', '')
+            _log_info(f'REGISTER_ENTITY received: {data}')
+            if not data:
+                return
+            parts = data.split('|', 1)
+            if len(parts) != 2:
+                _log_warn(f'Invalid register_entity payload: {data}')
+                return
+            role, prim_path = parts[0].strip().lower(), parts[1].strip()
+            if role == 'robot':
+                self.add_robot(prim_path)
+                _log_info(f'Robot registered with DoorManager: {prim_path}')
+            elif role == 'pedestrian' or role == 'ped':
+                self.add_pedestrian(prim_path)
+                _log_info(f'Pedestrian registered with DoorManager: {prim_path}')
+            else:
+                _log_warn(f'Unknown role in register_entity payload: {role}')
+                return
+            # show current registry
+            _log_debug(f'Current robots: {self._robots}, pedestrians: {self._pedestrians}')
+        except Exception as e:
+            _log_debug(f'_register_entity_cb error: {e}')
 
 
 door_manager = DoorManager()
