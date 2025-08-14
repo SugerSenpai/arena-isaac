@@ -125,6 +125,19 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
         _log_warn(f"DEBUG SpawnDoor: diagnostics failed: {e}")
         door_prim_path = prim_path
 
+    # Persist door endpoint metadata so wall spawner can cut walls
+    try:
+        door_prim = stage.GetPrimAtPath(door_prim_path)
+        if door_prim and door_prim.IsValid():
+            # store full XYZ endpoints (start/end already include height/2)
+            door_prim.SetMetadata('door_start', list(start))
+            door_prim.SetMetadata('door_end', list(end))
+            _log_debug(f"DEBUG SpawnDoor: set metadata door_start={list(start)} door_end={list(end)} on {door_prim_path}")
+        else:
+            _log_warn(f"DEBUG SpawnDoor: prim {door_prim_path} invalid, cannot set metadata")
+    except Exception as e:
+        _log_warn(f"DEBUG SpawnDoor: failed to set metadata on {door_prim_path}: {e}")
+
     # Create a simple material using OmniPBR instead of external URLs
     mtl_path = f"/World/Looks/DoorMaterial_{request.name}"
     mtl = stage.GetPrimAtPath(mtl_path)
