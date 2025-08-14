@@ -76,34 +76,29 @@ class DoorManager:
         self._entity_poses: dict[str, np.ndarray] = {}
         # robot subscriptions by registered prim path
         self._robot_subs: dict[str, object] = {}
-        # Dirty flag to trigger distance computation only when needed
-        self._dirty = False
 
     def register_node(self, controller):
         """Attach rclpy subscriptions to the provided controller node so DoorManager
         receives live poses for pedestrians and robots published by the task_generator.
         """
-        try:
-            self._controller = controller
-            # subscribe to people topic if available
-            # Pedestrian/topic-based pose updates are disabled for now. Keep code
-            # around for later – currently we only use robot odometry for door logic.
-            if People is not None:
-                _log_debug('people_msgs available but pedestrian subscriptions are disabled in this build')
-            else:
-                _log_debug('people_msgs not available; pedestrian subscriptions skipped')
+        self._controller = controller
+        # subscribe to people topic if available
+        if People is not None:
+            try:
+                qos_depth = 10
+                controller.create_subscription(People, '/task_generator_node/people', self._people_cb, qos_depth)
+                _log_info('Subscribed to /task_generator_node/people for pedestrian poses')
+            except Exception as e:
+                _log_warn(f'Failed to subscribe to people topic: {e}')
+        else:
+            _log_warn('people_msgs.People message type not available; pedestrian topic not subscribed')
 
-            # ensure robot subscriptions for already-registered robots
-            for prim_path in list(self._robots):
-                try:
-                    self._ensure_robot_subscription(prim_path)
-                except Exception as e:
-                    _log_warn(f'Failed to ensure robot subscription for {prim_path}: {e}')
-        except Exception as e:
-            # Catch any unexpected errors during registration to avoid crashing the IsaacSim process
-            _log_error(f'register_node failed: {e}')
-            # leave controller unset on failure
-            self._controller = None
+        # ensure robot subscriptions for already-registered robots
+        for prim_path in list(self._robots):
+            try:
+                self._ensure_robot_subscription(prim_path)
+            except Exception as e:
+                _log_warn(f'Failed to ensure robot subscription for {prim_path}: {e}')
 
     def _ensure_robot_subscription(self, prim_path: str):
         if self._controller is None:
@@ -119,19 +114,13 @@ class DoorManager:
                 if Odometry is not None:
                     try:
                         qos_depth = 10
-                        # ensure controller exposes create_subscription before calling
-                        if hasattr(self._controller, 'create_subscription'):
-                            sub = self._controller.create_subscription(Odometry, topic, lambda msg, rp=prim_path: self._odom_cb(msg, rp), qos_depth)
-                            self._robot_subs[prim_path] = sub
-                            _log_info(f'Subscribed to {topic} for robot {robot_name}')
-                        else:
-                            _log_warn('Controller does not support create_subscription; skipping robot subscription')
+                        sub = self._controller.create_subscription(Odometry, topic, lambda msg, rp=prim_path: self._odom_cb(msg, rp), qos_depth)
+                        self._robot_subs[prim_path] = sub
+                        _log_info(f'Subscribed to {topic} for robot {robot_name}')
                     except Exception as e:
                         _log_warn(f'Failed to subscribe to {topic}: {e}')
                 else:
                     _log_warn('nav_msgs/Odometry type not available; robot odom not subscribed')
-            else:
-                _log_warn(f'Could not derive robot name from prim path: {prim_path}')
         except Exception:
             pass
 
@@ -145,8 +134,6 @@ class DoorManager:
             if pos is None:
                 return
             self._entity_poses[prim_path] = np.array([pos.x, pos.y, pos.z])
-            # mark dirty so update() will compute distances on next tick
-            self._dirty = True
         except Exception as e:
             _log_debug(f'odom_cb error: {e}')
 
@@ -216,16 +203,12 @@ class DoorManager:
 
     def update(self):
         stage = omni.usd.get_context().get_stage()
-        # Only run distance computations when flagged dirty to avoid per-tick checks
-        if not self._dirty:
-            return
-
         entities_to_check = self._robots + self._pedestrians
 
         if not self._doors:
             _log_debug("No doors registered with DoorManager.")
 
-        # Compute distances once; clear dirty flag after processing
+        # Always print something each tick. If there are no entities, still print door positions.
         for door_path, door_data in self._doors.items():
             door_prim = door_data["prim"]
             if not door_prim.IsValid():
@@ -236,8 +219,6 @@ class DoorManager:
             # Print door world position every tick
             _log_info(f"DOOR_POS: {door_path} = ({door_pos[0]:.3f}, {door_pos[1]:.3f}, {door_pos[2]:.3f})")
 
-            # Only consider robots for now (ignore pedestrians)
-            entities_to_check = list(self._robots)
             if entities_to_check:
                 for entity_path in entities_to_check:
                     # prefer ROS-published pose cache if available
@@ -272,11 +253,8 @@ class DoorManager:
                             _log_info(f"Closing door {door_path} (no entities within {self._door_open_distance}m)")
                             self._close_door(door_data)
             else:
-                # No robots registered — keep a minimal placeholder
-                _log_info(f"DISTANCE: Door {door_path} -> (no robots registered)")
-
-        # Completed computation; clear dirty so we don't repeat every tick
-        self._dirty = False
+                # No entities registered — print a placeholder distance message every tick
+                _log_info(f"DISTANCE: Door {door_path} -> (no entities registered)")
 
     def _get_prim_position(self, prim):
         try:
@@ -362,26 +340,11 @@ class DoorManager:
         resolved = self._resolve_entity_prim(prim_path)
         if resolved not in self._robots:
             self._robots.append(resolved)
-            _log_info(f'Robot registered with DoorManager: {resolved}')
-        else:
-            _log_debug(f'Robot already registered: {resolved}')
-
-        # Check whether the prim exists; warn if not found
-        try:
-            stage = omni.usd.get_context().get_stage()
-            prim = stage.GetPrimAtPath(resolved)
-            if not (prim and prim.IsValid()):
-                _log_warn(f'Robot prim not found in stage: {resolved}')
-        except Exception:
-            pass
-
+        _log_debug(f"Added robot to door manager: {prim_path} -> resolved: {resolved}")
         try:
             self._ensure_robot_subscription(resolved)
         except Exception as e:
             _log_warn(f'Failed to ensure robot subscription on add: {e}')
-
-        # trigger a distance check after registration
-        self._dirty = True
 
     def add_pedestrian(self, prim_path: str):
         """Register a pedestrian prim for distance checks. Poses for
@@ -392,4 +355,6 @@ class DoorManager:
         if resolved not in self._pedestrians:
             self._pedestrians.append(resolved)
         _log_debug(f"Added pedestrian to door manager: {prim_path} -> resolved: {resolved}")
-        # pedestrian handling is currently disabled
+
+
+door_manager = DoorManager()
