@@ -6,6 +6,7 @@ import numpy as np
 import omni
 from isaac_utils.managers.door_manager import door_manager
 from isaac_utils.utils.path import world_path
+from isaac_utils.utils.prim import ensure_path
 from omni.isaac.core import World
 from omni.isaac.core.objects import FixedCuboid
 from omni.isaac.core.utils.rotations import euler_angles_to_quat
@@ -17,12 +18,56 @@ from isaacsim_msgs.srv import SpawnDoor
 from .utils import safe
 
 profile = QoSProfile(depth=2000)
+try:
+    import rclpy
+    from rclpy.logging import get_logger
+    _LOGGER = get_logger('isaac_spawn_door')
+except Exception:
+    _LOGGER = None
+
+
+def _log_debug(msg: str):
+    try:
+        if _LOGGER:
+            _LOGGER.debug(msg)
+            return
+    except Exception:
+        pass
+    print(msg)
+
+
+def _log_info(msg: str):
+    try:
+        if _LOGGER:
+            _LOGGER.info(msg)
+            return
+    except Exception:
+        pass
+    print(msg)
+
+
+def _log_warn(msg: str):
+    try:
+        if _LOGGER:
+            _LOGGER.warn(msg)
+            return
+    except Exception:
+        pass
+    print(msg)
 
 
 @safe()
 def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
     # Get service attributes
     prim_path = world_path('Doors', request.name)
+    _log_debug(f"DEBUG SpawnDoor called for '{request.name}' -> prim_path: {prim_path}")
+
+    # Ensure parent path exists so creation won't fail silently
+    try:
+        ensure_path(os.path.dirname(prim_path))
+    except Exception:
+        pass
+
     height = request.height
     material = request.material
     kind = request.kind
@@ -52,7 +97,7 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
         existing_object = world.scene.get_object(unique_name)
         if existing_object is not None:
             world.scene.remove_object(unique_name)
-    except:
+    except Exception:
         pass  # Object doesn't exist, which is fine
     
     world.scene.add(FixedCuboid(
@@ -62,6 +107,23 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
         scale=scale,
         orientation=euler_angles_to_quat([0, 0, angle]),
     ))
+
+    # Diagnostic: list prims under the door path
+    try:
+        created = stage.GetPrimAtPath(prim_path)
+        _log_debug(f"DEBUG SpawnDoor: prim at {prim_path} valid={bool(created and created.IsValid())}")
+        # list any prims that start with this path
+        found = []
+        for p in stage.Traverse():
+            pstr = str(p.GetPath())
+            if pstr.startswith(str(prim_path)):
+                found.append(pstr)
+        _log_debug(f"DEBUG SpawnDoor: prims under {prim_path}: {found}")
+        # If create resulted in a deeper prim, pick the first found prim as door_prim_path
+        door_prim_path = prim_path if (created and created.IsValid()) else (found[0] if found else prim_path)
+    except Exception as e:
+        _log_warn(f"DEBUG SpawnDoor: diagnostics failed: {e}")
+        door_prim_path = prim_path
 
     # Create a simple material using OmniPBR instead of external URLs
     mtl_path = f"/World/Looks/DoorMaterial_{request.name}"
@@ -89,7 +151,12 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
     except:
         pass  # Material binding failed, continue without material
 
-    door_manager.add_door(prim_path, kind)
+    # Register the actual prim path with DoorManager
+    try:
+        _log_info(f"DEBUG SpawnDoor: registering door prim with DoorManager: {door_prim_path}")
+        door_manager.add_door(door_prim_path, kind)
+    except Exception as e:
+        _log_warn(f"DEBUG SpawnDoor: failed to register door: {e}")
 
     response.ret = True
     return response
