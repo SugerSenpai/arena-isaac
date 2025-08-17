@@ -6,14 +6,16 @@ import time
 
 # try to import rclpy and message types for subscribing to external pose topics
 try:
-    import rclpy
     from rclpy.qos import QoSProfile
     from people_msgs.msg import People
+    # support the new topic type used by task_generator
+    from arena_people_msgs.msg import Pedestrians as ArenaPedestrians
     from nav_msgs.msg import Odometry
     from std_msgs.msg import String as StdString
 except Exception:
     rclpy = None
     People = None
+    ArenaPedestrians = None
     Odometry = None
     QoSProfile = None
     StdString = None
@@ -100,7 +102,7 @@ class DoorManager:
         receives live poses for pedestrians and robots published by the task_generator.
         """
         self._controller = controller
-        # subscribe to people topic if available
+        # subscribe to legacy people topic if available
         if People is not None:
             try:
                 qos_depth = 10
@@ -110,6 +112,16 @@ class DoorManager:
                 _log_warn(f'Failed to subscribe to people topic: {e}')
         else:
             _log_warn('people_msgs.People message type not available; pedestrian topic not subscribed')
+
+        # subscribe to new arena people topic if available
+        if ArenaPedestrians is not None:
+            try:
+                controller.create_subscription(ArenaPedestrians, '/task_generator_node/arena_peds', self._people_cb, 10)
+                _log_info('Subscribed to /task_generator_node/arena_peds for pedestrian poses')
+            except Exception as e:
+                _log_warn(f'Failed to subscribe to arena_peds topic: {e}')
+        else:
+            _log_debug('arena_people_msgs.Pedestrians not available; /task_generator_node/arena_peds not subscribed')
 
         # Also subscribe to simple registration topic so external processes can register prims
         if StdString is not None:
@@ -141,16 +153,20 @@ class DoorManager:
                 topic = f'/task_generator_node/{robot_name}/odom'
                 if Odometry is not None:
                     try:
-                        qos_depth = 10
-                        sub = self._controller.create_subscription(Odometry, topic, lambda msg, rp=prim_path: self._odom_cb(msg, rp), qos_depth)
+                        sub = self._controller.create_subscription(
+                            Odometry,
+                            topic,
+                            lambda msg, p=prim_path: self._odom_cb(msg, p),
+                            10
+                        )
                         self._robot_subs[prim_path] = sub
                         _log_info(f'Subscribed to {topic} for robot {robot_name}')
                     except Exception as e:
                         _log_warn(f'Failed to subscribe to {topic}: {e}')
                 else:
-                    _log_warn('nav_msgs/Odometry type not available; robot odom not subscribed')
-        except Exception:
-            pass
+                    _log_warn('nav_msgs.Odometry not available; robot odom not subscribed')
+        except Exception as e:
+            _log_debug(f'_ensure_robot_subscription error: {e}')
 
     def _odom_cb(self, msg, prim_path: str):
         try:
@@ -167,34 +183,76 @@ class DoorManager:
             _log_debug(f'odom_cb error: {e}')
 
     def _people_cb(self, msg):
+        """Unified people callback supporting multiple message types.
+
+        Handles:
+          - people_msgs/People (msg.people list)
+          - arena_people_msgs/Pedestrians (msg.pedestrians list with nested position.position)
+        """
         try:
             _log_debug('people topic message received')
-            people = getattr(msg, 'people', None)
-            if people is None:
+            # support both attribute names
+            people = getattr(msg, 'people', None) or getattr(msg, 'pedestrians', None)
+            if not people:
                 return
+
+            def _extract_xyz_from_field(field) -> np.ndarray | None:
+                if field is None:
+                    return None
+                # common direct x,y,z
+                if hasattr(field, 'x') and hasattr(field, 'y') and hasattr(field, 'z'):
+                    return np.array([float(getattr(field, 'x', 0.0)),
+                                     float(getattr(field, 'y', 0.0)),
+                                     float(getattr(field, 'z', 0.0))])
+                # nested .position (e.g. arena_people_msgs -> position.position)
+                inner = getattr(field, 'position', None)
+                if inner and hasattr(inner, 'x'):
+                    return np.array([float(getattr(inner, 'x', 0.0)),
+                                     float(getattr(inner, 'y', 0.0)),
+                                     float(getattr(inner, 'z', 0.0))])
+                # nested .pose.position
+                pose = getattr(field, 'pose', None)
+                if pose:
+                    inner2 = getattr(pose, 'position', None)
+                    if inner2 and hasattr(inner2, 'x'):
+                        return np.array([float(getattr(inner2, 'x', 0.0)),
+                                         float(getattr(inner2, 'y', 0.0)),
+                                         float(getattr(inner2, 'z', 0.0))])
+                return None
+
             for p in people:
-                # try several common field names
+                # identifier: prefer stage_prefix, then name, then id
                 stage_prefix = getattr(p, 'stage_prefix', None) or getattr(p, 'name', None) or getattr(p, 'id', None)
-                # get pose
-                pose = getattr(p, 'pose', None) or getattr(p, 'position', None)
-                if pose is None:
+
+                # fields vary: try common ones
+                pose_field = getattr(p, 'pose', None) or getattr(p, 'position', None)
+                xyz = _extract_xyz_from_field(pose_field)
+                if xyz is None:
+                    # some messages have nested structure: p.position.position
+                    alt = getattr(p, 'position', None)
+                    xyz = _extract_xyz_from_field(alt)
+
+                if xyz is None:
+                    _log_debug(f'Could not extract position for pedestrian entry: {stage_prefix}')
                     continue
-                pb = getattr(pose, 'position', None) or getattr(pose, 'pose', None) or pose
-                if pb is None:
-                    continue
-                x = getattr(pb, 'x', None) or getattr(pb, 'x', 0.0)
-                y = getattr(pb, 'y', None) or getattr(pb, 'y', 0.0)
-                z = getattr(pb, 'z', None) or getattr(pb, 'z', 0.0)
-                # match to registered pedestrian prims
+
+                # Map to a registered pedestrian prim path if any contains the name/id
+                matched_prim = None
                 if stage_prefix is not None:
                     for reg in self._pedestrians:
-                        if reg.endswith('/' + str(stage_prefix)) or reg.endswith(str(stage_prefix)):
-                            self._entity_poses[reg] = np.array([float(x), float(y), float(z)])
-                            _log_debug(f'Updated pose for {reg} from people topic')
-                else:
-                    # fallback: try to update closest registered pedestrian by name similarity
-                    for reg in self._pedestrians:
-                        self._entity_poses[reg] = np.array([float(x), float(y), float(z)])
+                        if stage_prefix in reg or reg in str(stage_prefix):
+                            matched_prim = reg
+                            break
+                # fallback to use stage_prefix as prim path if it looks like a usd path
+                if matched_prim is None and isinstance(stage_prefix, str) and stage_prefix.startswith('/'):
+                    matched_prim = stage_prefix
+
+                # if still None, use a name-based synthetic key so distance logic can still see it
+                prim_key = matched_prim or f"ped|{stage_prefix}"
+
+                self._entity_poses[prim_key] = xyz
+                _log_debug(f'people update for {prim_key}: {xyz}')
+
         except Exception as e:
             _log_debug(f'people_cb error: {e}')
 
@@ -659,16 +717,17 @@ class DoorManager:
             if len(parts) != 2:
                 _log_warn(f'Invalid register_entity payload: {data}')
                 return
-            role, prim_path = parts[0].strip().lower(), parts[1].strip()
+            role, prim_path = parts[0], parts[1]
+            role = role.strip().lower()
+            prim_path = prim_path.strip()
             if role == 'robot':
                 self.add_robot(prim_path)
-                _log_info(f'Robot registered with DoorManager: {prim_path}')
+                _log_info(f'Registered robot: {prim_path}')
             elif role == 'pedestrian' or role == 'ped':
                 self.add_pedestrian(prim_path)
-                _log_info(f'Pedestrian registered with DoorManager: {prim_path}')
+                _log_info(f'Registered pedestrian: {prim_path}')
             else:
-                _log_warn(f'Unknown role in register_entity payload: {role}')
-                return
+                _log_warn(f'Unknown role in register_entity: {role}')
             # show current registry
             _log_debug(f'Current robots: {self._robots}, pedestrians: {self._pedestrians}')
         except Exception as e:
