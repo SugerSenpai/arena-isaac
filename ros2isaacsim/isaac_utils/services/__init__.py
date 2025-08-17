@@ -5,6 +5,7 @@ from .ImportUsds import *
 from .ImportYaml import *
 from .MovePrim import *
 from .SpawnWall import *
+from .SpawnDoor import *
 from .UrdfToUsd import *
 from .SpawnCharacters import *
 from .MoveCharacters import *
