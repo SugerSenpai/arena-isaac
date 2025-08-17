@@ -1,4 +1,9 @@
 # fmt: off
+
+# preload attrs
+import arena_simulation_setup
+import arena_simulation_setup.utils.cattrs
+
 # Use the isaacsim to import SimulationApp
 from isaacsim import SimulationApp
 
@@ -117,26 +122,26 @@ import random
 # BACKGROUND_STAGE_PATH = "/background"
 # BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 plane_material_paths = [
-                'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/Walnut_Planks.mdl',
-                # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl',
-                # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl'
-                ]
+    'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/Walnut_Planks.mdl',
+    # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl',
+    # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl'
+]
 world = World()
 world.scene.add_ground_plane(size=100, z_position=0.0)
 _stage = omni.usd.get_context().get_stage()
 plane_mdl_path = random.choice(plane_material_paths)
-plane_mtl_name = plane_mdl_path.split('/')[-1][:-4] 
+plane_mtl_name = plane_mdl_path.split('/')[-1][:-4]
 plane_mtl_path = "/World/Looks/PlaneMaterial"
 plane_mtl = _stage.GetPrimAtPath(plane_mtl_path)
 if not (plane_mtl and plane_mtl.IsValid()):
     create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
-                                                mtl_url=plane_mdl_path,
-                                                mtl_name=plane_mtl_name,
-                                                mtl_path=plane_mtl_path)
+                                           mtl_url=plane_mdl_path,
+                                           mtl_name=plane_mtl_name,
+                                           mtl_path=plane_mtl_path)
 
     bind_res = omni.kit.commands.execute('BindMaterialCommand',
-                                            prim_path="/World/groundPlane",
-                                            material_path=plane_mtl_path)
+                                         prim_path="/World/groundPlane",
+                                         material_path=plane_mtl_path)
 simulation_app.update()  # update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0)  # currently we use 1m for simulation.
 light_1 = prims.create_prim(
