@@ -1,6 +1,8 @@
+import os
+
 import carb
 import omni.anim.navigation.core as nav
-from isaac_utils.utils.path import pedestrian_path
+from isaac_utils.utils.path import world_path
 from pedestrian.simulator.logic.people.person import Person
 from pedestrian.simulator.logic.people_manager import PeopleManager
 from rclpy.qos import QoSProfile
@@ -18,7 +20,7 @@ def move_pedestrian(request: MovePed.Request, response: MovePed.Response):
     for nav_command in request.nav_list:
         nav_command: NavPed
 
-        usd_path = pedestrian_path(nav_command.path)
+        usd_path = world_path(nav_command.path)
 
         # /Characters/D_gazebo_actor_1/ManRoot/male_adult_police_04
         person = PeopleManager.get_people_manager().get_person(usd_path)

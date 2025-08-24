@@ -59,7 +59,7 @@ def _log_warn(msg: str):
 @safe()
 def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
     # Get service attributes
-    prim_path = world_path('Doors', request.name)
+    prim_path = world_path(request.name)
     _log_debug(f"DEBUG SpawnDoor called for '{request.name}' -> prim_path: {prim_path}")
 
     # Ensure parent path exists so creation won't fail silently
@@ -91,7 +91,7 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
 
     # Generate unique name and check if object already exists
     unique_name = prim_path.replace('/', '_') + f"_{id(request)}"
-    
+
     # Check if an object with this name already exists and remove it
     try:
         existing_object = world.scene.get_object(unique_name)
@@ -99,7 +99,7 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
             world.scene.remove_object(unique_name)
     except Exception:
         pass  # Object doesn't exist, which is fine
-    
+
     world.scene.add(FixedCuboid(
         prim_path=prim_path,
         name=unique_name,
@@ -144,24 +144,24 @@ def door_spawner(request: SpawnDoor.Request, response: SpawnDoor.Response):
     if not (mtl and mtl.IsValid()):
         try:
             omni.kit.commands.execute('CreateAndBindMdlMaterialFromLibrary',
-                                     mdl_name='OmniPBR.mdl',
-                                     mtl_name='OmniPBR',
-                                     mtl_path=mtl_path,
-                                     select_new_prim=False)
+                                      mdl_name='OmniPBR.mdl',
+                                      mtl_name='OmniPBR',
+                                      mtl_path=mtl_path,
+                                      select_new_prim=False)
             # Set a brown/wood color for doors
             omni.kit.commands.execute('ChangeProperty',
-                                     prop_path=f"{mtl_path}/Shader.inputs:diffuse_color_constant",
-                                     value=(0.6, 0.4, 0.2),
-                                     prev=None)
-        except:
+                                      prop_path=f"{mtl_path}/Shader.inputs:diffuse_color_constant",
+                                      value=(0.6, 0.4, 0.2),
+                                      prev=None)
+        except BaseException:
             # Fallback: create basic material without external dependencies
             pass
 
     try:
         omni.kit.commands.execute('BindMaterialCommand',
-                                 prim_path=prim_path,
-                                 material_path=mtl_path)
-    except:
+                                  prim_path=prim_path,
+                                  material_path=mtl_path)
+    except BaseException:
         pass  # Material binding failed, continue without material
 
     # Register the actual prim path with DoorManager

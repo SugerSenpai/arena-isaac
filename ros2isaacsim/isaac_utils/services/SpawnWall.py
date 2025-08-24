@@ -20,7 +20,7 @@ profile = QoSProfile(depth=2000)
 @safe()
 def wall_spawner(request, response):
     # Get service attributes
-    prim_path = world_path('Walls', request.name)
+    prim_path = world_path(request.name)
     height = request.height
     material = request.material
     if not material:
@@ -58,24 +58,24 @@ def wall_spawner(request, response):
     if not (mtl and mtl.IsValid()):
         try:
             omni.kit.commands.execute('CreateAndBindMdlMaterialFromLibrary',
-                                     mdl_name='OmniPBR.mdl',
-                                     mtl_name='OmniPBR',
-                                     mtl_path=mtl_path,
-                                     select_new_prim=False)
+                                      mdl_name='OmniPBR.mdl',
+                                      mtl_name='OmniPBR',
+                                      mtl_path=mtl_path,
+                                      select_new_prim=False)
             # Set a gray/concrete color for walls
             omni.kit.commands.execute('ChangeProperty',
-                                     prop_path=f"{mtl_path}/Shader.inputs:diffuse_color_constant",
-                                     value=(0.7, 0.7, 0.7),
-                                     prev=None)
-        except:
+                                      prop_path=f"{mtl_path}/Shader.inputs:diffuse_color_constant",
+                                      value=(0.7, 0.7, 0.7),
+                                      prev=None)
+        except BaseException:
             # Fallback: create basic material without external dependencies
             pass
 
     try:
         omni.kit.commands.execute('BindMaterialCommand',
-                                 prim_path=prim_path,
-                                 material_path=mtl_path)
-    except:
+                                  prim_path=prim_path,
+                                  material_path=mtl_path)
+    except BaseException:
         pass  # Material binding failed, continue without material
 
     response.ret = True

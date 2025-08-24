@@ -1,5 +1,5 @@
 import os
-from isaac_utils.utils.path import pedestrian_path
+from isaac_utils.utils.path import world_path
 from isaac_utils.utils.prim import ensure_path
 from omni.isaac.core import World
 from pedestrian.simulator.logic.people.person import Person
@@ -49,13 +49,13 @@ def pedestrian_spawn(request, response):
     people = request.people
 
     for person in people:
-        usd_path = pedestrian_path(person.stage_prefix)
+        usd_path = world_path(person.stage_prefix)
         ensure_path(os.path.dirname(usd_path))
         if not person.controller_stats:
-            p = Person(world, usd_path, person.character_name, person.initial_pose, person.orientation)
+            Person(world, usd_path, person.character_name, person.initial_pose, person.orientation)
         else:
-            p = Person(world, usd_path, person.character_name, person.initial_pose, person.orientation, person.controller_name)
-        
+            Person(world, usd_path, person.character_name, person.initial_pose, person.orientation, person.controller_name)
+
         # Register the pedestrian root prim for door checks
         door_manager.add_pedestrian(usd_path)
 
