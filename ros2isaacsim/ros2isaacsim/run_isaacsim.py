@@ -22,7 +22,7 @@ sys.path.insert(0,str(parent_dir))
 import carb
 import omni.usd
 import omni.timeline
-from omni.isaac.core.world import World
+from omni.isaac.core import World, SimulationContext
 from omni.isaac.core.utils import prims
 from omni.isaac.core import SimulationContext
 from pxr import Sdf, Gf, UsdLux
@@ -368,6 +368,7 @@ def create_controller(time=120):
 
 # ======================================main=======================================
 
+
 def main(args=None):
     """
     Main function to initialize the simulation, create the ROS 2 node,
@@ -375,6 +376,9 @@ def main(args=None):
     """
     # Create the ROS 2 controller node. This also calls rclpy.init().
     controller = create_controller()
+
+    world.reset()
+    SimulationContext().play()
 
     try:
         # Main simulation loop
@@ -396,6 +400,7 @@ def main(args=None):
         controller.destroy_node()
         rclpy.shutdown()
         simulation_app.close()
+
 
 # =================================================================================
 if __name__ == "__main__":
