@@ -15,7 +15,12 @@ def prim_deleter(request, response):
     prim_path = world_path(request.name)
     if prim_path == "/World/pedestrians":
         door_manager.reset()
-        
+    try:
+        if prim_path == "/World/Doors" or prim_path.startswith("/World/Doors/"):
+            door_manager.remove_all_doors()
+    except Exception as e:
+        _LOGGER and _LOGGER.warn(f"Failed to remove doors on delete: {e}")
+
     commands.execute(
         "IsaacSimDestroyPrim",
         prim_path=prim_path,
