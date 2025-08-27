@@ -1,8 +1,8 @@
 import omni.kit.commands as commands
-from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile
-from isaac_utils.managers.door_manager import door_manager
 
+from isaac_utils.managers.door_manager import door_manager
+from isaac_utils.utils.path import world_path
 from isaacsim_msgs.srv import DeletePrim
 
 from .utils import safe
@@ -13,13 +13,12 @@ profile = QoSProfile(depth=2000)
 @safe()
 def prim_deleter(request, response):
     prim_path = world_path(request.name)
-    if prim_path == "/World/pedestrians":
-        door_manager.reset()
     try:
-        if prim_path == "/World/Doors" or prim_path.startswith("/World/Doors/"):
+        if prim_path == (doors_path := world_path("Doors")) or prim_path.startswith(doors_path + "/"):
             door_manager.remove_all_doors()
     except Exception as e:
-        _LOGGER and _LOGGER.warn(f"Failed to remove doors on delete: {e}")
+        pass
+        # _LOGGER and _LOGGER.warn(f"Failed to remove doors on delete: {e}")
 
     commands.execute(
         "IsaacSimDestroyPrim",
