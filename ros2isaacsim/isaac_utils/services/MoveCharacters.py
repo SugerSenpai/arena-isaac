@@ -35,7 +35,8 @@ def move_pedestrian(request: MovePed.Request, response: MovePed.Response):
                 path_points = navmesh_path.get_points()
                 person.update_target_position(path_points, nav_command.velocity)
             else:
-                carb.log_error(f"NavMesh could not query points")
+                pass
+                # carb.log_error(f"NavMesh could not query points")
 
     response.ret = True
     return response
