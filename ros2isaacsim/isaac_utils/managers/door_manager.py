@@ -97,6 +97,18 @@ class DoorManager:
         # Useful for debugging and avoids moving shared ancestors (walls).
         self._use_visibility_toggle: bool = True
 
+        self._debug_rate_limit = 1.0
+        self._last_debug_time = 0.0
+
+    def _rate_limited_debug(self, msg: str):
+        try:
+            now = time.time()
+            if now - self._last_debug_time >= float(self._debug_rate_limit):
+                _log_debug(msg)
+                self._last_debug_time = now
+        except Exception:
+            _log_debug(msg)
+
     def register_node(self, controller):
         """Attach rclpy subscriptions to the provided controller node so DoorManager
         receives live poses for pedestrians and robots published by the task_generator.
@@ -341,9 +353,8 @@ class DoorManager:
                 continue
 
             door_pos = self._get_prim_position(door_prim)
-            # Optionally print door world position every tick
             if self._log_every_tick:
-                _log_info(f"DOOR_POS: {door_path} = ({door_pos[0]:.3f}, {door_pos[1]:.3f}, {door_pos[2]:.3f})")
+                self._rate_limited_debug(f"[DOOR_POS] {door_path} -> {door_pos.tolist()}")
 
             if entities_to_check:
                 # Compute positions for all entities and their distances to the door
