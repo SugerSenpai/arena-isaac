@@ -106,6 +106,7 @@ from isaac_utils.services import delete_all_characters
 from isaac_utils.services import spawn_floor
 from isaac_utils.services import spawn_door
 from isaac_utils.managers.door_manager import door_manager
+from isaac_utils.services.SpawnElevator import spawn_elevator
 #Import sensors
 from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
@@ -349,6 +350,7 @@ def create_controller(time=120):
     delete_all_characters(controller)
     spawn_floor(controller)
     spawn_door(controller)
+    spawn_elevator(controller)
     # Let the DoorManager subscribe to ROS topics on this controller node
     try:
         door_manager.register_node(controller)
