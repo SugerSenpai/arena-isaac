@@ -127,15 +127,15 @@ plane_mdl_path = random.choice(plane_material_paths)
 plane_mtl_name = plane_mdl_path.split('/')[-1][:-4] 
 plane_mtl_path = "/World/Looks/PlaneMaterial"
 plane_mtl = _stage.GetPrimAtPath(plane_mtl_path)
-if not (plane_mtl and plane_mtl.IsValid()):
-    create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
-                                                mtl_url=plane_mdl_path,
-                                                mtl_name=plane_mtl_name,
-                                                mtl_path=plane_mtl_path)
+# if not (plane_mtl and plane_mtl.IsValid()):
+#     create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
+#                                                 mtl_url=plane_mdl_path,
+#                                                 mtl_name=plane_mtl_name,
+#                                                 mtl_path=plane_mtl_path)
 
-    bind_res = omni.kit.commands.execute('BindMaterialCommand',
-                                            prim_path="/World/groundPlane",
-                                            material_path=plane_mtl_path)
+#     bind_res = omni.kit.commands.execute('BindMaterialCommand',
+#                                             prim_path="/World/groundPlane",
+#                                             material_path=plane_mtl_path)
 simulation_app.update()  # update the simulation once for update ros2_bridge.
 simulation_context = SimulationContext(stage_units_in_meters=1.0)  # currently we use 1m for simulation.
 light_1 = prims.create_prim(
