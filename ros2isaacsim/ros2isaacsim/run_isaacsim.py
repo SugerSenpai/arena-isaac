@@ -1,5 +1,9 @@
-
 # fmt: off
+
+# preload attrs
+import arena_simulation_setup
+import arena_simulation_setup.utils.cattrs
+
 # Use the isaacsim to import SimulationApp
 from isaacsim import SimulationApp
 
@@ -18,7 +22,7 @@ sys.path.insert(0,str(parent_dir))
 import carb
 import omni.usd
 import omni.timeline
-from omni.isaac.core.world import World
+from omni.isaac.core import World, SimulationContext
 from omni.isaac.core.utils import prims
 from omni.isaac.core import SimulationContext
 from pxr import Sdf, Gf, UsdLux
@@ -100,6 +104,8 @@ from isaac_utils.services import spawn_ped
 from isaac_utils.services import move_ped
 from isaac_utils.services import delete_all_characters
 from isaac_utils.services import spawn_floor
+from isaac_utils.services import spawn_door
+from isaac_utils.managers.door_manager import door_manager
 #Import sensors
 from isaac_utils.sensors import imu_setup,publish_imu, contact_sensor_setup, publish_contact_sensor_info, camera_set_up,publish_camera_tf,publish_depth,publish_camera_info,publish_pointcloud_from_depth,publish_rgb, lidar_setup,publish_lidar 
 
@@ -116,15 +122,15 @@ import random
 # BACKGROUND_STAGE_PATH = "/background"
 # BACKGROUND_USD_PATH = "/Isaac/Environments/Simple_Warehouse/warehouse_with_forklifts.usd"
 plane_material_paths = [
-                'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/Walnut_Planks.mdl',
-                # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl',
-                # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl'
-                ]
+    'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/Walnut_Planks.mdl',
+    # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl',
+    # 'https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/vMaterials_2/Ceramic/Ceramic_Tiles_Glazed_Diamond.mdl'
+]
 world = World()
 world.scene.add_ground_plane(size=100, z_position=0.0)
 _stage = omni.usd.get_context().get_stage()
 plane_mdl_path = random.choice(plane_material_paths)
-plane_mtl_name = plane_mdl_path.split('/')[-1][:-4] 
+plane_mtl_name = plane_mdl_path.split('/')[-1][:-4]
 plane_mtl_path = "/World/Looks/PlaneMaterial"
 plane_mtl = _stage.GetPrimAtPath(plane_mtl_path)
 # if not (plane_mtl and plane_mtl.IsValid()):
@@ -257,6 +263,7 @@ def usd_importer(request, response):
         usd_path=usd_path,
         semantic_label=model,
     )
+    door_manager.add_robot(f"/World/{name}")
 
     response.ret = True
     if not request.control:
@@ -327,53 +334,72 @@ def time_publisher(controller):
 
 
 def create_controller(time=120):
-    # init controller.
-    controller = rclpy.create_node('controller')
-    # init services.
-    time_publisher(controller)
+    rclpy.init()
+    controller = rclpy.create_node("isaac_controller")
     import_usd(controller)
-    convert_urdf_to_usd(controller)
-    get_prim_attr(controller)
-    move_prim(controller)
-    delete_prim(controller)
-    spawn_wall(controller)
     import_yaml(controller)
+    spawn_wall(controller)
+    move_prim(controller)
+    get_prim_attr(controller)
+    delete_prim(controller)
+    convert_urdf_to_usd(controller)
     import_obstacle(controller)
     spawn_ped(controller)
     move_ped(controller)
-    spawn_floor(controller)
     delete_all_characters(controller)
-    
+    spawn_floor(controller)
+    spawn_door(controller)
+    # Let the DoorManager subscribe to ROS topics on this controller node
+    try:
+        door_manager.register_node(controller)
+    except Exception as e:
+        controller.get_logger().warning(f'Failed to register DoorManager with controller: {e}')
+    # Enable per-entity logging and filter to show only jackal-related outputs
+    try:
+        door_manager._log_every_tick = False
+        door_manager._log_entity_filter = ['jackal']
+        controller.get_logger().info('DoorManager per-tick logging enabled (filter=jackal)')
+    except Exception as e:
+        controller.get_logger().warning(f'Failed to set DoorManager logging flags: {e}')
+    time_publisher(controller)
     return controller
 
-# update the simulation.
-
-
-def run():
-    simulation_app.update()
-    simulation_context.play()
 # =================================================================================
 
 # ======================================main=======================================
 
 
-def main(arg=None):
-    rclpy.init()
+def main(args=None):
+    """
+    Main function to initialize the simulation, create the ROS 2 node,
+    and run the simulation loop.
+    """
+    # Create the ROS 2 controller node. This also calls rclpy.init().
     controller = create_controller()
-    while simulation_app.is_running():
-        try:
-            run()
+
+    world.reset()
+    SimulationContext().play()
+
+    try:
+        # Main simulation loop
+        while simulation_app.is_running():
+            # Step the simulation
+            simulation_app.update()
+
+            # Update door logic
+            door_manager.update()
+
+            # Tick the ROS 2 node
             rclpy.spin_once(controller, timeout_sec=0.0)
-        except KeyboardInterrupt:
-            controller.get_logger().warn('received KeyboardInterrupt, shutting down')
-            break
-        except BaseException as e:
-            controller.get_logger().warn(f'encountered {repr(e)}, ignoring')
-            # raise
-        simulation_app.update()
-    controller.destroy_node()
-    # rclpy.shutdown()
-    return
+
+    except KeyboardInterrupt:
+        controller.get_logger().info('Received KeyboardInterrupt, shutting down.')
+    finally:
+        # Cleanly shut down the simulation and ROS 2
+        controller.get_logger().info('Shutting down ROS 2 node and simulation.')
+        controller.destroy_node()
+        rclpy.shutdown()
+        simulation_app.close()
 
 
 # =================================================================================

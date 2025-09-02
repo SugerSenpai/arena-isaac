@@ -4,7 +4,7 @@ import os
 import numpy as np
 import omni
 from omni.isaac.core import World
-from omni.isaac.core.objects import FixedCuboid,GroundPlane
+from omni.isaac.core.objects import FixedCuboid, GroundPlane
 from omni.isaac.core.utils.rotations import (euler_angles_to_quat)
 from pxr import Gf
 
@@ -18,10 +18,11 @@ from pathlib import Path
 
 profile = QoSProfile(depth=2000)
 
+
 @safe()
 def floor_spawner(request, response):
     # Get service attributes
-    prim_path = world_path('Floors', request.name)
+    prim_path = world_path(request.name)
     x_len = request.x_length
     y_len = request.y_length
     pos = Gf.Vec3d(*np.append(np.array(request.pos),0.0))
@@ -32,7 +33,7 @@ def floor_spawner(request, response):
 
     stage = omni.usd.get_context().get_stage()
     world = World.instance()
-    scale = Gf.Vec3f(*[x_len,y_len,0.01])
+    scale = Gf.Vec3f(*[x_len, y_len, 0.01])
     world.scene.add(FixedCuboid(
         prim_path=prim_path,
         name=os.path.basename(prim_path),

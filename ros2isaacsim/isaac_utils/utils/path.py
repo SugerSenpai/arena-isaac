@@ -9,11 +9,6 @@ def sanitize_path_component(component: str) -> str:
 
 
 def world_path(*path: str) -> str:
+    if len(path) == 1:
+        path = path[0].split(os.sep)
     return os.path.join('/World', *map(sanitize_path_component, path))
-
-
-def pedestrian_path(name: str) -> str:
-    """
-    Returns the path to the pedestrian directory in the world.
-    """
-    return world_path('pedestrians', name)
