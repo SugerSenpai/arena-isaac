@@ -13,7 +13,7 @@ from isaacsim_msgs.srv import SpawnFloor
 from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile
 from .utils import safe
-import yaml 
+import yaml
 from pathlib import Path
 
 profile = QoSProfile(depth=2000)
@@ -25,11 +25,9 @@ def floor_spawner(request, response):
     prim_path = world_path(request.name)
     x_len = request.x_length
     y_len = request.y_length
-    pos = Gf.Vec3d(*np.append(np.array(request.pos),0.0))
+    pos = Gf.Vec3d(*np.append(np.array(request.pos), 0.0))
     floor_material = request.material
-
-    materials_path = os.path.join(os.environ['ARENA_WS_DIR'],f'src/arena/simulation-setup/entities/materials/materials.yaml')
-    materials_data = yaml.safe_load(Path(materials_path).read_text())
+    floor_material_name = request.material_name
 
     stage = omni.usd.get_context().get_stage()
     world = World.instance()
@@ -40,23 +38,21 @@ def floor_spawner(request, response):
         scale=scale,
         position=pos,
     ))
-    
+
     if floor_material != '':
-        for material in materials_data.get("floor_mat",[]):
-            if material.get('material') == floor_material:
-                mdl_path = material.get('url')
-                mtl_name = material.get('material_name')
+        mdl_path = floor_material
+        mtl_name = floor_material_name
         mtl_path = "/World/Looks/FloorMaterial"
         mtl = stage.GetPrimAtPath(mtl_path)
         if not (mtl and mtl.IsValid()):
             create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
-                                                mtl_url=mdl_path,
-                                                mtl_name=mtl_name,
-                                                mtl_path=mtl_path)
+                                                   mtl_url=mdl_path,
+                                                   mtl_name=mtl_name,
+                                                   mtl_path=mtl_path)
 
         bind_res = omni.kit.commands.execute('BindMaterialCommand',
-                                            prim_path=prim_path,
-                                            material_path=mtl_path)
+                                             prim_path=prim_path,
+                                             material_path=mtl_path)
 
     response.ret = True
     return response
