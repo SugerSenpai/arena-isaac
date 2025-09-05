@@ -64,20 +64,21 @@ def urdf_to_usd(request, response):
         odom.odom(
             os.path.join(prim_path, 'odom_publisher'),
             prim_path=os.path.join(prim_path, request.base_frame),
-            base_frame_id=os.path.join(name, request.base_frame),
-            odom_frame_id=os.path.join(name, request.odom_frame),
+            base_frame_id=os.path.join(request.tf_prefix, request.base_frame),
+            odom_frame_id=os.path.join(request.tf_prefix, request.odom_frame),
         )
 
     tf.tf(
         os.path.join(prim_path, 'tf_publisher'),
         prim_path=os.path.join(prim_path, request.base_frame),
-        tf_prefix=name,
+        tf_prefix=request.tf_prefix,
     )
 
     joint_states.joint_states(
         os.path.join(prim_path, 'joint_states_publisher'),
         prim_path=os.path.join(prim_path, request.base_frame),
-        joint_states_topic=f"/task_generator_node/{name}/joint_states",
+        # joint_states_topic=f"/task_generator_node/{name}/joint_states",
+        joint_states_topic=request.joint_states_topic,
     )
 
     if request.cmd_vel_topic:

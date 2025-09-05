@@ -13,6 +13,8 @@ from isaacsim_msgs.srv import SpawnFloor
 from isaac_utils.utils.path import world_path
 from rclpy.qos import QoSProfile
 from .utils import safe
+import yaml
+from pathlib import Path
 
 profile = QoSProfile(depth=2000)
 
@@ -24,7 +26,8 @@ def floor_spawner(request, response):
     x_len = request.x_length
     y_len = request.y_length
     pos = Gf.Vec3d(*np.append(np.array(request.pos), 0.0))
-    material = request.material
+    floor_material = request.material.url
+    floor_material_name = request.material.name
 
     stage = omni.usd.get_context().get_stage()
     world = World.instance()
@@ -36,19 +39,20 @@ def floor_spawner(request, response):
         position=pos,
     ))
 
-    mdl_path = "https://omniverse-content-production.s3.us-west-2.amazonaws.com/Materials/2023_1/Base/Wood/Mahogany.mdl"
-    mtl_path = "/World/Looks/FloorMaterial"
-    mtl = stage.GetPrimAtPath(mtl_path)
-    mtl_name = mdl_path.split('/')[-1][:-4]
-    if not (mtl and mtl.IsValid()):
-        create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
-                                               mtl_url=mdl_path,
-                                               mtl_name=mtl_name,
-                                               mtl_path=mtl_path)
+    if floor_material != '':
+        mdl_path = floor_material
+        mtl_name = floor_material_name
+        mtl_path = "/World/Looks/FloorMaterial"
+        mtl = stage.GetPrimAtPath(mtl_path)
+        if not (mtl and mtl.IsValid()):
+            create_res = omni.kit.commands.execute('CreateMdlMaterialPrimCommand',
+                                                   mtl_url=mdl_path,
+                                                   mtl_name=mtl_name,
+                                                   mtl_path=mtl_path)
 
-    bind_res = omni.kit.commands.execute('BindMaterialCommand',
-                                         prim_path=prim_path,
-                                         material_path=mtl_path)
+        bind_res = omni.kit.commands.execute('BindMaterialCommand',
+                                             prim_path=prim_path,
+                                             material_path=mtl_path)
 
     response.ret = True
     return response

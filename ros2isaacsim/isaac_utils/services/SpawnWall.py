@@ -9,6 +9,8 @@ from omni.isaac.core.objects import FixedCuboid
 from omni.isaac.core.utils.rotations import euler_angles_to_quat
 from pxr import Gf
 from rclpy.qos import QoSProfile
+from pathlib import Path
+import yaml
 
 from isaacsim_msgs.srv import SpawnWall
 
@@ -21,14 +23,15 @@ profile = QoSProfile(depth=2000)
 def wall_spawner(request, response):
     # Get service attributes
     prim_path = world_path(request.name)
+    # asset_prim_path = world_path('Walls',request.name + "_part")
     height = request.height
-    material = request.material
-    if not material:
-        material = "Adobe_Bricks_01"
-    # start = np.append(np.array(request.start), height / 2 + 0.1)
-    # end = np.append(np.array(request.end), height / 2 + 0.1)
-    start = np.append(np.array(request.start), height / 2)
-    end = np.append(np.array(request.end), height / 2)
+    width = request.width
+    wall_material = request.material.url
+    wall_material_name = request.material.name
+    z_offset = request.z_offset
+
+    start = np.append(np.array(request.start[:2]), z_offset + height / 2)
+    end = np.append(np.array(request.end[:2]), z_offset + height / 2)
 
     start_vec = Gf.Vec3d(*start)
     end_vec = Gf.Vec3d(*end)
@@ -36,9 +39,11 @@ def wall_spawner(request, response):
     vector_ab = end - start
 
     center = (start_vec + end_vec) / 2
+
     length = np.linalg.norm(vector_ab[:2])
     angle = math.atan2(vector_ab[1], vector_ab[0])
-    scale = Gf.Vec3f(*[length, 0.05, height])
+    # print("wall angle", angle)
+    scale = Gf.Vec3f(*[length, width, height])
 
     # create wall
     stage = omni.usd.get_context().get_stage()
@@ -51,32 +56,22 @@ def wall_spawner(request, response):
         scale=scale,
         orientation=euler_angles_to_quat([0, 0, angle]),
     ))
+    if wall_material != '':
+        mdl_path = wall_material
+        mtl_path = f"/World/Looks/Wall_{request.name}_Material"
+        mtl = stage.GetPrimAtPath(mtl_path)
 
-    # Create a simple material using OmniPBR instead of external URLs
-    mtl_path = "/World/Looks/WallMaterial"
-    mtl = stage.GetPrimAtPath(mtl_path)
-    if not (mtl and mtl.IsValid()):
-        try:
-            omni.kit.commands.execute('CreateAndBindMdlMaterialFromLibrary',
-                                      mdl_name='OmniPBR.mdl',
-                                      mtl_name='OmniPBR',
-                                      mtl_path=mtl_path,
-                                      select_new_prim=False)
-            # Set a gray/concrete color for walls
-            omni.kit.commands.execute('ChangeProperty',
-                                      prop_path=f"{mtl_path}/Shader.inputs:diffuse_color_constant",
-                                      value=(0.7, 0.7, 0.7),
-                                      prev=None)
-        except BaseException:
-            # Fallback: create basic material without external dependencies
-            pass
+        if not (mtl and mtl.IsValid()):
+            create_res = omni.kit.commands.execute(
+                'CreateMdlMaterialPrimCommand',
+                mtl_url=mdl_path,
+                mtl_name=wall_material_name,
+                mtl_path=mtl_path)
 
-    try:
-        omni.kit.commands.execute('BindMaterialCommand',
-                                  prim_path=prim_path,
-                                  material_path=mtl_path)
-    except BaseException:
-        pass  # Material binding failed, continue without material
+            bind_res = omni.kit.commands.execute(
+                'BindMaterialCommand',
+                prim_path=prim_path,
+                material_path=mtl_path)
 
     response.ret = True
     return response
