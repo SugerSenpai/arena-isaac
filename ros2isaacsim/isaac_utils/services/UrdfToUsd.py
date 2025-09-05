@@ -77,7 +77,6 @@ def urdf_to_usd(request, response):
     joint_states.joint_states(
         os.path.join(prim_path, 'joint_states_publisher'),
         prim_path=os.path.join(prim_path, request.base_frame),
-        # joint_states_topic=f"/task_generator_node/{name}/joint_states",
         joint_states_topic=request.joint_states_topic,
     )
 
@@ -92,6 +91,7 @@ def urdf_to_usd(request, response):
     with open(request.urdf_path, 'r') as f:
         sensors.Sensors(
             prim_path=prim_path,
+            base_frame=request.tf_prefix,
             base_topic=os.path.dirname(request.cmd_vel_topic)
         ).parse_gazebo(f.read())
 
