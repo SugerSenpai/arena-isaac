@@ -22,11 +22,12 @@ profile = QoSProfile(depth=2000)
 @safe()
 def wall_spawner(request, response):
     # Get service attributes
-    prim_path = world_path('Walls', request.name)
+    prim_path = world_path(request.name)
     # asset_prim_path = world_path('Walls',request.name + "_part")
     height = request.height
     width = request.width
-    wall_material = request.material
+    wall_material = request.material.url
+    wall_material_name = request.material.name
     z_offset = request.z_offset
 
     start = np.append(np.array(request.start[:2]), z_offset + height / 2)
@@ -57,7 +58,6 @@ def wall_spawner(request, response):
     ))
     if wall_material != '':
         mdl_path = wall_material
-        material_name = request.material_name
         mtl_path = f"/World/Looks/Wall_{request.name}_Material"
         mtl = stage.GetPrimAtPath(mtl_path)
 
@@ -65,7 +65,7 @@ def wall_spawner(request, response):
             create_res = omni.kit.commands.execute(
                 'CreateMdlMaterialPrimCommand',
                 mtl_url=mdl_path,
-                mtl_name=material_name,
+                mtl_name=wall_material_name,
                 mtl_path=mtl_path)
 
             bind_res = omni.kit.commands.execute(

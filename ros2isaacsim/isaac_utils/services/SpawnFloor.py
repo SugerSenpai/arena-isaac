@@ -26,8 +26,8 @@ def floor_spawner(request, response):
     x_len = request.x_length
     y_len = request.y_length
     pos = Gf.Vec3d(*np.append(np.array(request.pos), 0.0))
-    floor_material = request.material
-    floor_material_name = request.material_name
+    floor_material = request.material.url
+    floor_material_name = request.material.name
 
     stage = omni.usd.get_context().get_stage()
     world = World.instance()

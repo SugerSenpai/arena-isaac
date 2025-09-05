@@ -15,21 +15,14 @@ profile = QoSProfile(depth=2000)
 def obstacle_importer(request, response):
     name = request.name
     usd_path = request.usd_path
-    type_ = request.type
-    if type_ == 'Obstacle':
-        model_prim = prim.create_prim_safe(
-            prim_path=world_path('obstacles', name),
-            position=np.array(geom.Translation.parse(request.pose.position).tuple()),
-            orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
-            usd_path=os.path.abspath(usd_path),
-        )
-    elif type_ == "Wall":
-        model_prim = prim.create_prim_safe(
-            prim_path=world_path('Walls', name),
-            position=np.array(geom.Translation.parse(request.pose.position).tuple()),
-            orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
-            usd_path=os.path.abspath(usd_path),
-        )
+    import sys
+    print(f"Importing obstacle '{name}' from '{usd_path}' quat {request.pose.orientation} yaw {geom.Rotation.parse(request.pose.orientation).euler()[2]}", file=sys.stderr)
+    model_prim = prim.create_prim_safe(
+        prim_path=world_path(name),
+        position=np.array(geom.Translation.parse(request.pose.position).tuple()),
+        orientation=np.array(geom.Rotation.parse(request.pose.orientation).quat()),
+        usd_path=usd_path,
+    )
 
     response.ret = True
 

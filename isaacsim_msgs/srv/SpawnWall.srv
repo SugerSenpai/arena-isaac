@@ -4,7 +4,6 @@ float32[] end
 float32 height
 float32 width
 float32 z_offset
-string material
-string material_name
+Material material
 ---
 bool ret

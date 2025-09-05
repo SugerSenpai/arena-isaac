@@ -1,6 +1,5 @@
 string name
 string usd_path
-string type
 geometry_msgs/Pose pose
 ---
 bool ret
