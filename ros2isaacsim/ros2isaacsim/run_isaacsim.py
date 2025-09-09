@@ -84,7 +84,7 @@ import omni.syntheticdata._syntheticdata as sd
 import rclpy
 
 # graphs
-from isaacsim_msgs.srv import ImportUsd, ImportYaml
+from isaacsim_msgs.srv import ImportYaml
 from isaacsim_msgs.srv import Pedestrian
 from pedestrian.simulator.logic.people_manager import PeopleManager
 
